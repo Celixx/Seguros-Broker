@@ -3,8 +3,8 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="urn:fluent-ribbon"
                      Title="Broker" 
-                     Width="800" 
-                     Height="600">
+                     Width="1280" 
+                     Height="720">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,32 +23,39 @@
             <Fluent:RibbonTabItem Header="Maestros">
                 <!--SubTab 1 Persona-->
                 <Fluent:RibbonGroupBox Header="Persona">
-                    <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click"/>
-                    <Fluent:Button Header="Socio"/>
-                    <Fluent:Button Header="Gestor"/>
-                    <Fluent:Button Header="Abogado"/>
-                    <Fluent:Button Header="Liquidador"/>
-                    <Fluent:Button Header="Perfil"/>
+                    <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click" Icon="{StaticResource ejecutivo_icon}" />
+                    <Fluent:Button Header="Socio" Icon="{StaticResource socio_icono}"/>
+                    <Fluent:Button Header="Gestor" Icon="{StaticResource gestor_icono}"/>
+                    <Fluent:Button Header="Abogado" Icon="{StaticResource abogado_icono}"/>
+                    <Fluent:Button Header="Liquidador" Icon="{StaticResource liquidador_icono}"/>
+                    <Fluent:Button Header="Perfil" Icon="{StaticResource perfil_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 2 Carteras-->
                 <Fluent:RibbonGroupBox Header="Carteras">
-                    <Fluent:Button Header="Cliente"/>
-                    <Fluent:Button Header="Compañía"/>
+                    <Fluent:Button Header="Cliente" Icon="{StaticResource cliente_icono}"/>
+                    <Fluent:Button Header="Compañía" Icon="{StaticResource compania_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 3 Cobertura y Ramo-->
                 <Fluent:RibbonGroupBox Header="Cobertura y Ramo">
-
+                    <Fluent:Button Header="Productos" Icon="{StaticResource producto_icono}"/>
+                    <Fluent:Button Header="Cobertura" Icon="{StaticResource cobertura_icono}"/>
+                    <Fluent:Button Header="Ramos" Icon="{StaticResource ramos_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 4 Siniestro-->
+                <Fluent:RibbonGroupBox Header="Siniestro">
+                    <Fluent:Button Header="Siniestro" Icon="{StaticResource siniestro_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 5 Lugar-->
                 <Fluent:RibbonGroupBox Header="Lugar">
-
+                    <Fluent:Button Header="Ciudad" Icon="{StaticResource ciudad_icono}"/>
+                    <Fluent:Button Header="País" Icon="{StaticResource pais_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 6 Otros-->
                 <Fluent:RibbonGroupBox Header="Otros">
-                    <Fluent:Button Header="Cuenta Corriente"/>
-                    <Fluent:Button Header="Moneda"/>
-                    <Fluent:Button Header="Valores"/>
-                    <Fluent:Button Header="Acción Bitácora"/>
+                    <Fluent:Button Header="Cuenta Corriente" Icon="{StaticResource tarjeta_icono}"/>
+                    <Fluent:Button Header="Moneda" Icon="{StaticResource moneda_icono}"/>
+                    <Fluent:Button Header="Valores" Icon="{StaticResource valores_icono}"/>
+                    <Fluent:Button Header="Acción Bitácora" Icon="{StaticResource accion_bitacora_icono}"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Tab Cotizaciones-->
@@ -65,7 +72,7 @@
                     <Fluent:Button Header="Grey"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-            <!--Tab Informers-->
+            <!--Tab Informes-->
             <Fluent:RibbonTabItem Header="Informes">
                 <Fluent:RibbonGroupBox Header="Group">
                     <Fluent:Button Header="Green"/>
