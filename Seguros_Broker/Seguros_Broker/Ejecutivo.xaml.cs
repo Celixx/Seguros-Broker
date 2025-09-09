@@ -15,19 +15,13 @@ using System.Windows.Shapes;
 namespace Seguros_Broker
 {
     /// <summary>
-    /// Interaction logic for VentanaPrincipal.xaml
+    /// Interaction logic for Ejecutivo.xaml
     /// </summary>
-    public partial class VentanaPrincipal
+    public partial class Ejecutivo : Window
     {
-        public VentanaPrincipal()
+        public Ejecutivo()
         {
             InitializeComponent();
-        }
-
-        private void Ejecutivo_Click(object sender, RoutedEventArgs e)
-        {
-            var VentanaEjecutivo = new Ejecutivo();
-            VentanaEjecutivo.ShowDialog();
         }
     }
 }

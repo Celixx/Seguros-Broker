@@ -1,12 +1,88 @@
-﻿<Window x:Class="Seguros_Broker.VentanaPrincipal"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Seguros_Broker"
-        mc:Ignorable="d"
-        Title="VentanaPrincipal" Height="450" Width="800">
+﻿<Fluent:RibbonWindow x:Class="Seguros_Broker.VentanaPrincipal"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:Fluent="urn:fluent-ribbon"
+                     Title="Broker" 
+                     Width="800" 
+                     Height="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Fluent:Ribbon Grid.Row="0">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
+
+            <!--Tabs-->
+            <!--Tab Maestros-->
+            <Fluent:RibbonTabItem Header="Maestros">
+                <!--SubTab 1 Persona-->
+                <Fluent:RibbonGroupBox Header="Persona">
+                    <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click"/>
+                    <Fluent:Button Header="Socio"/>
+                    <Fluent:Button Header="Gestor"/>
+                    <Fluent:Button Header="Abogado"/>
+                    <Fluent:Button Header="Liquidador"/>
+                    <Fluent:Button Header="Perfil"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 2 Carteras-->
+                <Fluent:RibbonGroupBox Header="Carteras">
+                    <Fluent:Button Header="Cliente"/>
+                    <Fluent:Button Header="Compañía"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 3 Cobertura y Ramo-->
+                <Fluent:RibbonGroupBox Header="Cobertura y Ramo">
+
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 5 Lugar-->
+                <Fluent:RibbonGroupBox Header="Lugar">
+
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 6 Otros-->
+                <Fluent:RibbonGroupBox Header="Otros">
+                    <Fluent:Button Header="Cuenta Corriente"/>
+                    <Fluent:Button Header="Moneda"/>
+                    <Fluent:Button Header="Valores"/>
+                    <Fluent:Button Header="Acción Bitácora"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Tab Cotizaciones-->
+            <Fluent:RibbonTabItem Header="Cotizaciones">
+                <Fluent:RibbonGroupBox Header="Group">
+                    <Fluent:Button Header="Green"/>
+                    <Fluent:Button Header="Grey"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Tab Cotizaciones-->
+            <Fluent:RibbonTabItem Header="Producción">
+                <Fluent:RibbonGroupBox Header="Group">
+                    <Fluent:Button Header="Green"/>
+                    <Fluent:Button Header="Grey"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Tab Informers-->
+            <Fluent:RibbonTabItem Header="Informes">
+                <Fluent:RibbonGroupBox Header="Group">
+                    <Fluent:Button Header="Green"/>
+                    <Fluent:Button Header="Grey"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Tab Carga Masiva-->
+            <Fluent:RibbonTabItem Header="Carga Masiva">
+                <Fluent:RibbonGroupBox Header="Group">
+                    <Fluent:Button Header="Green"/>
+                    <Fluent:Button Header="Grey"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+
+        <Grid Grid.Row="1">
+            <TextBlock>My first window containing a Ribbon and something else.</TextBlock>
+        </Grid>
     </Grid>
-</Window>
+</Fluent:RibbonWindow>
