@@ -1,0 +1,48 @@
+﻿<Fluent:RibbonWindow x:Class="Seguros_Broker.NuevaPropuestaCaratula"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:Fluent="urn:fluent-ribbon"
+                     Title="Broker" 
+                     Width="1280" 
+                     Height="720">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Fluent:Ribbon Grid.Row="0">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
+
+            <!--Tabs-->
+            <!--Tab Carátula-->
+            <Fluent:RibbonTabItem Header="Carátula">
+                
+            </Fluent:RibbonTabItem>
+            <!--Tab Ítems-->
+            <Fluent:RibbonTabItem Header="Ítems">
+                
+            </Fluent:RibbonTabItem>
+            <!--Tab Plan de Pago-->
+            <Fluent:RibbonTabItem Header="Pago">
+                
+            </Fluent:RibbonTabItem>
+            <!--Tab Minuta de Documento-->
+            <Fluent:RibbonTabItem Header="Documento">
+                
+            </Fluent:RibbonTabItem>
+            <!--Tab Bitácora-->
+            <Fluent:RibbonTabItem Header="Bitácora">
+                
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+
+        <Grid Grid.Row="1">
+            <TextBlock>My first window containing a Ribbon and something else.</TextBlock>
+        </Grid>
+    </Grid>
+</Fluent:RibbonWindow>

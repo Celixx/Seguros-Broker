@@ -17,9 +17,9 @@ namespace Seguros_Broker
     /// <summary>
     /// Interaction logic for VentanaPrincipal.xaml
     /// </summary>
-    public partial class VentanaPrincipal
+    public partial class NuevaPropuestaCaratula
     {
-        public VentanaPrincipal()
+        public NuevaPropuestaCaratula()
         {
             InitializeComponent();
         }
@@ -28,12 +28,6 @@ namespace Seguros_Broker
         {
             var VentanaEjecutivo = new Ejecutivo();
             VentanaEjecutivo.ShowDialog();
-        }
-
-        private void NuevaPropuesta_Click(object sender, RoutedEventArgs e)
-        {
-            var NuevaPropuestaCaratula = new NuevaPropuestaCaratula();
-            NuevaPropuestaCaratula.ShowDialog();
-        }
+        }       
     }
 }

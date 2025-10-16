@@ -69,7 +69,7 @@
             <Fluent:RibbonTabItem Header="Producción">
                 <!--SubTab 1 Propuesta-->
                 <Fluent:RibbonGroupBox Header="Propuesta">
-                    <Fluent:Button Header="Nueva Propuesta" Icon="{StaticResource cobertura_icono}" />
+                    <Fluent:Button Header="Nueva Propuesta" Click="NuevaPropuesta_Click" Icon="{StaticResource cobertura_icono}" />
                     <Fluent:Button Header="Buscar Propuesta" Icon="{StaticResource lupa_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 2 Póliza-->
