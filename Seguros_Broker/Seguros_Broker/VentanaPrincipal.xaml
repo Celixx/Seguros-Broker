@@ -67,9 +67,39 @@
             </Fluent:RibbonTabItem>
             <!--Tab Cotizaciones-->
             <Fluent:RibbonTabItem Header="Producción">
-                <Fluent:RibbonGroupBox Header="Group">
-                    <Fluent:Button Header="Green"/>
-                    <Fluent:Button Header="Grey"/>
+                <!--SubTab 1 Propuesta-->
+                <Fluent:RibbonGroupBox Header="Propuesta">
+                    <Fluent:Button Header="Nueva Propuesta" Icon="{StaticResource cobertura_icono}" />
+                    <Fluent:Button Header="Buscar Propuesta" Icon="{StaticResource lupa_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 2 Póliza-->
+                <Fluent:RibbonGroupBox Header="Póliza">
+                    <Fluent:Button Header="Buscar Póliza" Icon="{StaticResource lupa_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 3 Cuentas Corrientes-->
+                <Fluent:RibbonGroupBox Header="Cuentas Corrientes">
+                    <Fluent:Button Header="Plan de Pago" Icon="{StaticResource invoice_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 4 Cobranza Comisión-->
+                <Fluent:RibbonGroupBox Header="Cobranza Comisión">
+                    <Fluent:Button Header="Liquidar Comisiones" Icon="{StaticResource file_lines_icono}"/>
+                    <Fluent:Button Header="Buscar Liquidación" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button Header="Cobrar Documentos" Icon="{StaticResource file_lines_icono}"/>
+                    <Fluent:Button Header="Cobrar Comisión Otros Conceptos" Icon="{StaticResource invoice_icono}"/>
+                    <Fluent:Button Header="Buscar Cobros" Icon="{StaticResource lupa_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 5 Pago de Comisión-->
+                <Fluent:RibbonGroupBox Header="Pago de Comisión">
+                    <Fluent:Button Header="Pago a Terceros" Icon="{StaticResource money_hand_icono}"/>
+                    <Fluent:Button Header="Buscar Pago" Icon="{StaticResource lupa_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 6 Siniestro-->
+                <Fluent:RibbonGroupBox Header="Siniestro">
+                    <Fluent:Button Header="Buscar Siniestro" Icon="{StaticResource siniestro_icono}"/>
+                </Fluent:RibbonGroupBox>
+                <!--SubTab 7 Vencimientos-->
+                <Fluent:RibbonGroupBox Header="Vencimientos">
+                    <Fluent:Button Header="Ver Vencimientos" Icon="{StaticResource vencimiento_icono}"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Tab Informes-->
