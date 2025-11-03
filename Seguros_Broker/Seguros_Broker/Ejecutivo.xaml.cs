@@ -23,5 +23,10 @@ namespace Seguros_Broker
         {
             InitializeComponent();
         }
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

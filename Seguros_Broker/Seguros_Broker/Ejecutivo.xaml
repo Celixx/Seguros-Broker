@@ -1,12 +1,183 @@
 ﻿<Window x:Class="Seguros_Broker.Ejecutivo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Seguros_Broker"
-        mc:Ignorable="d"
-        Title="Broker - Ejecutivo" Height="450" Width="800">
-    <Grid>
-        
+        Title="Ejecutivo" Height="1156" Width="1125"
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9">
+    <Window.Resources>
+        <Style x:Key="LabelRequired" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+        </Style>
+        <Style x:Key="Asterisk" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Margin" Value="0,4,0,12"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="0,4,0,12"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="MinWidth" Value="90"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Ejecutivos" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtSearch" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
+                    <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </StackPanel>
+
+                <DataGrid x:Name="dgEjecutivos" AutoGenerateColumns="False" Margin="0,12,0,0"
+                          CanUserAddRows="False" SelectionMode="Single" IsReadOnly="True" GridLinesVisibility="Horizontal">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="80"/>
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                        <DataGridTextColumn Header="Mail" Binding="{Binding Mail}" Width="*"/>
+                        <DataGridTextColumn Header="Nick" Binding="{Binding Nick}" Width="120"/>
+                        <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                    <Button Content="Nuevo" x:Name="btnNuevo"/>
+                    <Button Content="Editar" x:Name="btnEditar"/>
+                    <Button Content="Eliminar" x:Name="btnEliminar"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Registrar / Editar Ejecutivo" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Código"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtCodigo"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Tipo identificación"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <ComboBox x:Name="cbTipoIdentificacion" SelectedIndex="0">
+                            <ComboBoxItem>SELECCIONE</ComboBoxItem>
+                            <ComboBoxItem>RUT</ComboBoxItem>
+                            <ComboBoxItem>Otros</ComboBoxItem>
+                        </ComboBox>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtIdentificacion"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Nombre"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtNombre"/>
+
+                        <TextBlock Text="Apellido paterno" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <TextBox x:Name="txtApePaterno"/>
+
+                        <TextBlock Text="Apellido Materno" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <TextBox x:Name="txtApeMaterno"/>
+
+                        <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <TextBox x:Name="txtFono"/>
+
+                        <TextBlock Text="Celular" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <TextBox x:Name="txtCelular"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Mail"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtMail"/>
+                        
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Nivel de comisión"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <ComboBox x:Name="cbNivelComision" SelectedIndex="0">
+                            <ComboBoxItem>5(NIVEL POR DEFECTO)</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>15</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock Text="Porcentaje de Comision" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <TextBox x:Name="txtPorcentajeComision"/>
+
+                        <TextBlock Text="Datos para ingreso al sistema" FontWeight="Normal" RenderTransformOrigin="0.504,0.015"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Nick"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtNick"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Perfil"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <ComboBox x:Name="cbPerfil" SelectedIndex="0">
+                            <ComboBoxItem>SELECCIONE</ComboBoxItem>
+                            <ComboBoxItem>placeholder1</ComboBoxItem>
+                            <ComboBoxItem>placeholder2</ComboBoxItem>
+                        </ComboBox>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Estado"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <ComboBox x:Name="cbEstado" SelectedIndex="0">
+                            <ComboBoxItem>SELECCIONE</ComboBoxItem>
+                            <ComboBoxItem>placeholder1</ComboBoxItem>
+                            <ComboBoxItem>placeholder2</ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBlock Text="Restriccion en la busqueda de negocios" FontWeight="Normal" Margin="0,8,0,2"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Seleccione"/>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <ComboBox x:Name="cbRestricciones" SelectedIndex="0" IsEditable="False">
+                            <ComboBoxItem>SIN RESTRICCIÓN</ComboBoxItem>
+                            <ComboBoxItem>placeholder1</ComboBoxItem>
+                            <ComboBoxItem>placeholder2</ComboBoxItem>
+                        </ComboBox>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                            <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click"/>
+                            <Button x:Name="btnCancelar" Content="Cancelar"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>
+
