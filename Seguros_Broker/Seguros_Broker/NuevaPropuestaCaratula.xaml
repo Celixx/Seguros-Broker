@@ -2,7 +2,7 @@
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="urn:fluent-ribbon"
-                     Title="Broker" 
+                     Title="Nueva Propuesta" 
                      Width="1280" 
                      Height="720">
     <Grid>
@@ -21,28 +21,239 @@
             <!--Tabs-->
             <!--Tab Carátula-->
             <Fluent:RibbonTabItem Header="Carátula">
-                
+                <Fluent:RibbonGroupBox Header="">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Formato hoja" 
+                       VerticalAlignment="Center"
+                       Margin="0,0,5,0"/>
+                        <ComboBox Width="120"
+                      >
+                            <ComboBoxItem Content="Oficio"/>
+                            <ComboBoxItem Content="Carta"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Fluent:Button Header="PDF" Icon="{StaticResource pdf_icono}"/>
+                    <Fluent:Button Header="Socio" Icon="{StaticResource excel_icono}"/>
+                </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox Header="">
+                    <Fluent:Button Header="Guardar" Icon="{StaticResource guardar_icono}"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Tab Ítems-->
             <Fluent:RibbonTabItem Header="Ítems">
-                
+
             </Fluent:RibbonTabItem>
             <!--Tab Plan de Pago-->
             <Fluent:RibbonTabItem Header="Pago">
-                
+
             </Fluent:RibbonTabItem>
             <!--Tab Minuta de Documento-->
             <Fluent:RibbonTabItem Header="Documento">
-                
+
             </Fluent:RibbonTabItem>
             <!--Tab Bitácora-->
             <Fluent:RibbonTabItem Header="Bitácora">
-                
+
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
+        <!-- Formulario -->
         <Grid Grid.Row="1">
-            <TextBlock>My first window containing a Ribbon and something else.</TextBlock>
+            <Grid Grid.Row="1" Margin="20">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <!-- Recepción de Documentos -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Tipo de Póliza -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Identificación Documento -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Vigencia -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Botones -->
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Sección 1: Recepción de Documentos -->
+                        <GroupBox Header="Recepción de Documentos" Grid.Row="0" Margin="0,0,0,10">
+                            <!-- Grid con 3 filas (Nombre, RUT, Correo) y 2 columnas (label / input) -->
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Fila 0 -->
+                                <TextBlock Text="Fecha recepción de documentos en la corredora (opcional)" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,854,0" Grid.ColumnSpan="2"/>
+                                <DatePicker Grid.Row="0" Grid.Column="1" Width="200" Margin="0,2" x:Name="FechaRecepcion"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Sección 2: Tipo de Póliza -->
+                        <GroupBox Header="Tipo de Póliza" Grid.Row="1" Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal" Margin="10,5,0,5">
+                                <RadioButton Content="Póliza Convencional" GroupName="TipoPoliza" IsChecked="True" Margin="0,0,15,0" x:Name="RbConvencional"/>
+                                <RadioButton Content="Póliza Colectiva" GroupName="TipoPoliza" x:Name="RbColectiva"/>
+                            </StackPanel>
+                        </GroupBox>
+                        
+                        <!-- Sección 3: Identificación de Documento -->
+                        <GroupBox Header="Identificación de Documento" Grid.Row="2" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <!-- Fila Número Póliza -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!--  Fila Fecha -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Ramo -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Ejecutivo de Cuenta -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Ejecutivo Responsable -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Área Negocio -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Fecha de Creación -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- Fila Fecha de Creación -->
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Número Póliza -->
+                                <TextBlock Text="Número Póliza:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtNumeroPoliza"/>
+
+                                <!-- Número Póliza -->
+                                <TextBlock Text="Renueva Póliza No.:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRenuevaPoliza"/>
+
+                                <!-- Fecha Ingreso cia. -->
+                                <TextBlock Text="Fecha ingreso cia." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                <DatePicker Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaIngreso"/>
+
+                                <!-- Fecha Emisión -->
+                                <TextBlock Text="Fecha Término:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Margin="0,2"/>
+                                <DatePicker Grid.Row="2" Grid.Column="4" Width="150" Margin="0,2" x:Name="DpTermino"/>
+
+                                <!-- Ramo -->
+                                <TextBlock Text="Ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtRamo" IsReadOnly="True"/>
+
+                                <!-- Cod1 -->
+                                <TextBlock Text="Código de ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Margin="0,2"/>
+                                <TextBox Grid.Row="3" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtCodigoRamo"/>
+
+                                <!-- Ejecutivo de Cuenta -->
+                                <TextBlock Text="Ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoCuenta" IsReadOnly="True"/>
+
+                                <!-- Cod2 -->
+                                <TextBlock Text="Código de ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="3" Margin="0,2"/>
+                                <TextBox Grid.Row="4" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivo"/>
+
+                                <!-- Ejecutivo Responsable -->
+                                <TextBlock Text="Ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoResponsable" IsReadOnly="True"/>
+
+                                <!-- Cod3 -->
+                                <TextBlock Text="Código de ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" Margin="0,2"/>
+                                <TextBox Grid.Row="5" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivoResponsable"/>
+
+                                <!-- Área de negocio -->
+                                <TextBlock Text="Área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="0,2"/>
+                               <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True"/>
+
+                                <!-- Cod3 -->
+                                <TextBlock Text="Código de área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="3" Margin="0,2"/>
+                                <TextBox Grid.Row="6" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtAreaNegocio"/>
+
+                                <!-- Fecha de Creación -->
+                                <TextBlock Text="Fecha de Creación" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2"/>
+                                <DatePicker Grid.Row="7" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaCreacion"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Vigencias del Documento -->
+                        <GroupBox Header="Vigencias del Documento" Grid.Row="3" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Desde -->
+                                <TextBlock Text="Desde" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <DatePicker Grid.Row="0" Grid.Column="1" Width="100" Margin="0,2" x:Name="DpDesde"/>
+
+                                <!-- Hasta -->
+                                <TextBlock Text="Desde" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
+                                <DatePicker Grid.Row="0" Grid.Column="4" Width="100" Margin="0,2" x:Name="DpHasta"/>
+                                
+                                <!-- Ndias -->
+                                <TextBlock Text="No. Días" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Margin="0,2"/>
+                                <TextBox Grid.Row="6" Grid.Column="6" Width="150" Margin="0,2" x:Name="TxtNDias" IsReadOnly="True"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Valores" Grid.Row="4" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Moneda -->
+                                <TextBlock Text="Moneda" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <ComboBox Grid.Column="1" Width="150">
+                                    <ComboBoxItem Content="UF"/>
+                                    <ComboBoxItem Content="CLP"/>
+                                    <ComboBoxItem Content="USD"/>
+                                </ComboBox>
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Botones -->
+                        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                            <Button Content="Guardar" Width="100" Margin="0,0,10,0" Click="Guardar_Click"/>
+                            <Button Content="Cancelar" Width="100" Click="Cancelar_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+
+            </Grid>
         </Grid>
     </Grid>
 </Fluent:RibbonWindow>

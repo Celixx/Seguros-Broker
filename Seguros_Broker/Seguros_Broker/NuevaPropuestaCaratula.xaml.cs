@@ -24,10 +24,25 @@ namespace Seguros_Broker
             InitializeComponent();
         }
 
-        private void Ejecutivo_Click(object sender, RoutedEventArgs e)
+        private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            var VentanaEjecutivo = new Ejecutivo();
-            VentanaEjecutivo.ShowDialog();
-        }       
+
+        }
+
+        private void Cancelar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBuscarEjecutivoCuenta_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
+
 }
