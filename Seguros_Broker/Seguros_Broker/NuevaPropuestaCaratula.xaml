@@ -4,7 +4,7 @@
                      xmlns:Fluent="urn:fluent-ribbon"
                      Title="Nueva Propuesta" 
                      Width="1280" 
-                     Height="720">
+                     Height="912">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -76,6 +76,10 @@
                             <RowDefinition Height="Auto"/>
                             <!-- Botones -->
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Sección 1: Recepción de Documentos -->
@@ -104,7 +108,7 @@
                                 <RadioButton Content="Póliza Colectiva" GroupName="TipoPoliza" x:Name="RbColectiva"/>
                             </StackPanel>
                         </GroupBox>
-                        
+
                         <!-- Sección 3: Identificación de Documento -->
                         <GroupBox Header="Identificación de Documento" Grid.Row="2" Margin="0,0,0,10">
                             <Grid Margin="10">
@@ -176,7 +180,7 @@
 
                                 <!-- Área de negocio -->
                                 <TextBlock Text="Área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="0,2"/>
-                               <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True"/>
 
                                 <!-- Cod3 -->
                                 <TextBlock Text="Código de área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="3" Margin="0,2"/>
@@ -211,7 +215,7 @@
                                 <!-- Hasta -->
                                 <TextBlock Text="Desde" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
                                 <DatePicker Grid.Row="0" Grid.Column="4" Width="100" Margin="0,2" x:Name="DpHasta"/>
-                                
+
                                 <!-- Ndias -->
                                 <TextBlock Text="No. Días" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Margin="0,2"/>
                                 <TextBox Grid.Row="6" Grid.Column="6" Width="150" Margin="0,2" x:Name="TxtNDias" IsReadOnly="True"/>
@@ -234,7 +238,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <!-- Moneda -->
                                 <TextBlock Text="Moneda" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
                                 <ComboBox Grid.Column="1" Width="150">
@@ -242,11 +246,186 @@
                                     <ComboBoxItem Content="CLP"/>
                                     <ComboBoxItem Content="USD"/>
                                 </ComboBox>
+
+                                <!-- Prima Neta Afecta -->
+                                <TextBlock Text="Prima Neta Afecta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtPrimaNetaAfecta" IsReadOnly="True"/>
+
+                                <!-- Monto Asegurado -->
+                                <TextBlock Text="Monto asegurado" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMontoAsegurado" IsReadOnly="True"/>
+
+                                <!-- Prima Neta Exenta -->
+                                <TextBlock Text="Prima Neta Exenta" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExenta" IsReadOnly="True"/>
+
+                                <!-- Comisión Afecta -->
+                                <TextBlock Text="Comisión Afecta (%)" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisiónAfectaPorcentaje"/>
+
+                                <!-- Prima Neta Total -->
+                                <TextBlock Text="Prima Neta Total" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtPrimaNetaTotal" IsReadOnly="True"/>
+
+                                <!-- Prima Neta Exenta (%) -->
+                                <TextBlock Text="Prima Neta Exenta (%)" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExentaPorcentaje"/>
+
+                                <!-- IVA -->
+                                <TextBlock Text="IVA" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="3" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtIva" IsReadOnly="True"/>
+
+                                <!-- Comisión Total -->
+                                <TextBlock Text="Comisión total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisionTotal"/>
+
+                                <!-- Comisión Total -->
+                                <TextBlock Text="Prima Bruta Total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="4" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtPrimaBrutaTotal" IsReadOnly="True"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Identificación del Cliente" Grid.Row="5" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Facturar a -->
+                                <TextBlock Text="Facturar a" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtFacturarA" IsReadOnly="True"/>
+
+                                <!-- Rut1 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutCliente1"/>
+
+                                <!-- Contratante -->
+                                <TextBlock Text="Contratante" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtContratante" IsReadOnly="True"/>
+
+                                <!-- Rut2 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutContratante"/>
+                                
+                                <!-- Asegurado -->
+                                <TextBlock Text="Asegurado" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAsegurado" IsReadOnly="True"/>
+
+                                <!-- Rut3 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAsegurado"/>
+
+                                <!-- A favor de -->
+                                <TextBlock Text="A favor de" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAFavorDe" IsReadOnly="True"/>
+
+                                <!-- Rut4 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="5" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAFavorDe"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Identificación de Socio y Gestor" Grid.Row="6" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Socio -->
+                                <TextBlock Text="Socio" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtSocio" IsReadOnly="True"/>
+
+                                <!-- Rut1 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutSocio"/>
+
+                                <!-- Gestor -->
+                                <TextBlock Text="Gestor" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtGestor" IsReadOnly="True"/>
+
+                                <!-- Rut2 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutGestor"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Identificación de Compañía" Grid.Row="7" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Compañía -->
+                                <TextBlock Text="Compañía" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtCompania" IsReadOnly="True"/>
+
+                                <!-- Rut1 -->
+                                <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutCompania"/>
+
+                                <!-- Ejeutivo Compañía -->
+                                <TextBlock Text="Ejeutivo Compañía" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" Width="120">
+                                    <ComboBoxItem Content="CRISTINA OLGUIN"/>
+                                    <ComboBoxItem Content="placeholder"/>
+                                </ComboBox>
+
+                                <!-- Área -->
+                                <TextBlock Text="Área" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtGenerales" IsReadOnly="True"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Referencia a Materia Asegurada" Grid.Row="8" Margin="0,0,0,10">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Materia Asegurada -->
+                                <TextBlock Text="Materia asegurada" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMateriaAsegurada"/>
+                                
+                                <!-- Observación -->
+                                <TextBlock Text="Observación" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtObservacion"/>
                             </Grid>
                         </GroupBox>
 
                         <!-- Botones -->
-                        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                             <Button Content="Guardar" Width="100" Margin="0,0,10,0" Click="Guardar_Click"/>
                             <Button Content="Cancelar" Width="100" Click="Cancelar_Click"/>
                         </StackPanel>
