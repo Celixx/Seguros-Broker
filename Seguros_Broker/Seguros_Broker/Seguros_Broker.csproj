@@ -10,12 +10,22 @@
 
   <ItemGroup>
     <PackageReference Include="Fluent.Ribbon" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="Resources\Icons.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Vistas\" />
   </ItemGroup>
 
 </Project>
