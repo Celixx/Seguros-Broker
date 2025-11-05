@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Seguros_Broker.Repositorio;
 
 namespace Seguros_Broker
 {
@@ -22,6 +23,14 @@ namespace Seguros_Broker
         public NuevaPropuestaCaratula()
         {
             InitializeComponent();
+
+        }
+
+        private List<Modelo.EjecutivoM> GetEjecutivo()
+        {
+            var repo = new EjecutivoRep();
+            var ejecutivos = repo.GetEjecutivos();
+            return ejecutivos;
         }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
@@ -39,14 +48,39 @@ namespace Seguros_Broker
 
         }
 
+
         private void BtnBuscarEjecutivoCuenta_Click(object sender, RoutedEventArgs e)
         {
+            var ejecutivos = GetEjecutivo();
 
+            foreach (var ejecutivo in ejecutivos)
+            {
+                if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivo.Text)
+                {
+                    TxtEjecutivoCuenta.Visibility = Visibility.Visible;
+                    TxtEjecutivoCuenta.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
+                    return;
+                }
+            }
+
+            MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivo.Text}");
         }
 
         private void BtnBuscarEjecutivoResponsable_Click(object sender, RoutedEventArgs e)
         {
+            var ejecutivos = GetEjecutivo();
 
+            foreach (var ejecutivo in ejecutivos)
+            {
+                if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivoResponsable.Text)
+                {
+                    TxtEjecutivoResponsable.Visibility = Visibility.Visible;
+                    TxtEjecutivoResponsable.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
+                    return;                    
+                }
+            }
+
+            MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivoResponsable.Text}");
         }
         private void BtnBuscarArea_Click(object sender, RoutedEventArgs e)
         {
