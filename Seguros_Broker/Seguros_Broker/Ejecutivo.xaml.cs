@@ -44,7 +44,7 @@ namespace Seguros_Broker
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            // --- Validaciones (puedes mantener las tuyas, esto es un ejemplo) ---
+            // --- Validaciones ---
             var errores = new System.Collections.Generic.List<string>();
 
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
@@ -96,7 +96,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // --- Mapear al modelo ---
+            // --- Mapeo de modelo ---
             var nuevo = new EjecutivoM
             {
                 codigo = codigoParsed,
@@ -128,7 +128,7 @@ namespace Seguros_Broker
                 // Refrescar la grilla
                 ReadEjecutivo();
 
-                // Limpiar formulario (asegúrate de que existe el método en la clase, ver abajo si no)
+                // Limpiar formulario
                 LimpiarFormulario();
             }
             else
@@ -138,7 +138,7 @@ namespace Seguros_Broker
             }
         }
 
-        // --- Métodos auxiliares (copiar si no existen en tu clase) ---
+        // --- Métodos auxiliares ---
         private static bool IsValidEmail(string email)
         {
             try
@@ -158,7 +158,6 @@ namespace Seguros_Broker
             return 0;
         }
 
-        // Implementa o pega esto si LimpiarFormulario no existe (evita el CS0103)
         private void LimpiarFormulario()
         {
             txtCodigo.Clear();

@@ -33,7 +33,7 @@
                 <!--SubTab 2 Carteras-->
                 <Fluent:RibbonGroupBox Header="Carteras">
                     <Fluent:Button Header="Cliente" Icon="{StaticResource cliente_icono}"/>
-                    <Fluent:Button Header="Compañía" Icon="{StaticResource compania_icono}"/>
+                    <Fluent:Button Header="Compañía" Click="Compania_Click" Icon="{StaticResource compania_icono}"/>
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 3 Cobertura y Ramo-->
                 <Fluent:RibbonGroupBox Header="Cobertura y Ramo">

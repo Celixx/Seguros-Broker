@@ -35,5 +35,11 @@ namespace Seguros_Broker
             var NuevaPropuestaCaratula = new NuevaPropuestaCaratula();
             NuevaPropuestaCaratula.ShowDialog();
         }
+
+        private void Compania_Click(object sender, RoutedEventArgs e)
+        {
+            var CompaniaMantenedor = new CompaniaMantenedor();
+            CompaniaMantenedor.ShowDialog();
+        }       
     }
 }

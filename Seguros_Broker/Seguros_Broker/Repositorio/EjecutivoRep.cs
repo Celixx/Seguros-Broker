@@ -65,8 +65,6 @@ namespace Seguros_Broker.Repositorio
             return ejecutivos;
         }
 
-
-
         public EjecutivoM? GetEjecutivo(int ID)
         {
 
