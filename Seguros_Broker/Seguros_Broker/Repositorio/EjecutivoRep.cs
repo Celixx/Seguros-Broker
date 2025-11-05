@@ -117,50 +117,76 @@ namespace Seguros_Broker.Repositorio
             return null;
         }
 
-        public void CreateEjecutivo(EjecutivoM ejecutivo)
+        public async Task<(bool success, string? errorMessage)> CreateEjecutivoAsync(EjecutivoM ejecutivo)
         {
+            if (ejecutivo == null)
+                return (false, "Ejecutivo nulo.");
 
             try
             {
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    string sql = "INSERT INTO Ejecutivo " +
-                                 "(codigo, tipoId, ID, nombre, aPaterno, aMaterno, fono, celular, mail, comision, nick, perfil, estado, restricciones) VALUES " +
-                                 "(@codigo, @tipoId, @ID, @nombre, @aPaterno, @aMaterno, @fono, @celular, @mail, @comision, @nick, @perfil, @estado, @restricciones); ";
+                    await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    // 1) Verificar existencia por codigo o ID
+                    const string checkSql = "SELECT COUNT(1) FROM Ejecutivo WHERE codigo = @codigo OR ID = @ID";
+                    using (var checkCmd = new SqlCommand(checkSql, connection))
                     {
-                        command.Parameters.AddWithValue("@codigo", ejecutivo.codigo);
-                        command.Parameters.AddWithValue("@tipoId", ejecutivo.tipoId);
-                        command.Parameters.AddWithValue("@ID", ejecutivo.ID);
-                        command.Parameters.AddWithValue("@nombre", ejecutivo.nombre);
-                        command.Parameters.AddWithValue("@aPaterno", ejecutivo.aPaterno);
-                        command.Parameters.AddWithValue("@aMaterno", ejecutivo.aMaterno);
-                        command.Parameters.AddWithValue("@fono", ejecutivo.fono);
-                        command.Parameters.AddWithValue("@celular", ejecutivo.celular);
-                        command.Parameters.AddWithValue("@mail", ejecutivo.mail);
-                        command.Parameters.AddWithValue("@comision", ejecutivo.comision);
-                        command.Parameters.AddWithValue("@nick", ejecutivo.nick);
-                        command.Parameters.AddWithValue("@perfil", ejecutivo.perfil);
-                        command.Parameters.AddWithValue("@estado", ejecutivo.estado);
-                        command.Parameters.AddWithValue("@restricciones", ejecutivo.restricciones);
+                        checkCmd.Parameters.Add("@codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
+                        checkCmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ejecutivo.ID;
 
-                        command.ExecuteNonQuery();
+                        var exists = (int)await checkCmd.ExecuteScalarAsync();
+                        if (exists > 0)
+                        {
+                            return (false, "Ya existe un Ejecutivo con el mismo Código o Identificación.");
+                        }
                     }
 
+                    // 2) Insert dentro de una transacción
+                    using (var tran = connection.BeginTransaction())
+                    {
+                        const string insertSql = @"
+                    INSERT INTO Ejecutivo
+                      (codigo, tipoId, ID, nombre, aPaterno, aMaterno, fono, celular, mail, comision, nick, perfil, estado, restricciones)
+                    VALUES
+                      (@codigo, @tipoId, @ID, @nombre, @aPaterno, @aMaterno, @fono, @celular, @mail, @comision, @nick, @perfil, @estado, @restricciones);";
+
+                        using (var cmd = new SqlCommand(insertSql, connection, tran))
+                        {
+                            // Parámetros con tipos (ajusta longitudes si tu BD las requiere)
+                            cmd.Parameters.Add("@codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
+                            cmd.Parameters.Add("@tipoId", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.tipoId ?? DBNull.Value;
+                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ejecutivo.ID;
+                            cmd.Parameters.Add("@nombre", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.nombre ?? DBNull.Value;
+                            cmd.Parameters.Add("@aPaterno", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.aPaterno ?? DBNull.Value;
+                            cmd.Parameters.Add("@aMaterno", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.aMaterno ?? DBNull.Value;        
+                            cmd.Parameters.Add("@fono", System.Data.SqlDbType.Int).Value = ejecutivo.fono;
+                            cmd.Parameters.Add("@celular", System.Data.SqlDbType.Int).Value = ejecutivo.celular;
+                            cmd.Parameters.Add("@mail", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.mail ?? DBNull.Value;
+                            cmd.Parameters.Add("@comision", System.Data.SqlDbType.Int).Value = ejecutivo.comision;
+                            cmd.Parameters.Add("@nick", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.nick ?? DBNull.Value;
+                            cmd.Parameters.Add("@perfil", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.perfil ?? DBNull.Value;
+                            cmd.Parameters.Add("@estado", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.estado ?? DBNull.Value;
+                            cmd.Parameters.Add("@restricciones", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.restricciones ?? DBNull.Value;
+
+                            int rows = await cmd.ExecuteNonQueryAsync();
+                            if (rows <= 0)
+                            {
+                                await tran.RollbackAsync();
+                                return (false, "No se insertó el registro (0 filas afectadas).");
+                            }
+
+                            await tran.CommitAsync();
+                            return (true, null);
+                        }
+                    }
                 }
-
-                
-
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine("Exception: " + ex.ToString());
+                
+                return (false, ex.Message);
             }
-
         }
 
 
