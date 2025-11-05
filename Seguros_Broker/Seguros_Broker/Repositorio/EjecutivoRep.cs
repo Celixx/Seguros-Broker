@@ -11,7 +11,7 @@ namespace Seguros_Broker.Repositorio
 {
     public class EjecutivoRep
     {
-
+        //Reemplazar connectionString 
         private readonly string connectionString = "Data Source=DESKTOP-BJTLMA3;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
 
         public List<EjecutivoM> GetEjecutivos()
@@ -64,8 +64,6 @@ namespace Seguros_Broker.Repositorio
 
             return ejecutivos;
         }
-
-
 
         public EjecutivoM? GetEjecutivo(int ID)
         {
