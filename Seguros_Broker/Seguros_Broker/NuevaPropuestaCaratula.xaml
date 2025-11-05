@@ -157,7 +157,7 @@
 
                                 <!-- Ramo -->
                                 <TextBlock Text="Ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
-                                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtRamo" IsReadOnly="True"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtRamo" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
 
                                 <!-- Cod1 -->
                                 <TextBlock Text="Código de ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Margin="0,2"/>
@@ -174,7 +174,7 @@
 
                                 <!-- Ejecutivo de Cuenta -->
                                 <TextBlock Text="Ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
-                                <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoCuenta" IsReadOnly="True"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoCuenta" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
 
                                 <!-- Cod2 -->
                                 <TextBlock Text="Código de ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,2"/>
@@ -191,7 +191,7 @@
 
                                 <!-- Ejecutivo Responsable -->
                                 <TextBlock Text="Ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="0,2"/>
-                                <TextBox Grid.Row="5" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoResponsable" IsReadOnly="True"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoResponsable" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
 
                                 <!-- Cod3 -->
                                 <TextBlock Text="Código de ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
@@ -208,7 +208,7 @@
 
                                 <!-- Área de negocio -->
                                 <TextBlock Text="Área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="0,2"/>
-                                <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
 
                                 <!-- Cod3 -->
                                 <TextBlock Text="Código de área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="2" Margin="0,2"/>
@@ -554,14 +554,14 @@
                                 <!-- Materia Asegurada -->
                                 <TextBlock Text="Materia asegurada" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
                                 <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMateriaAsegurada"/>
-                                
+
                                 <!-- Observación -->
                                 <TextBlock Text="Observación" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
                                 <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtObservacion"/>
                             </Grid>
                         </GroupBox>
 
-                        
+
                         <!-- Botones -->
                         <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                             <Button Content="Guardar" Width="100" Margin="0,0,10,0" Click="Guardar_Click"/>
