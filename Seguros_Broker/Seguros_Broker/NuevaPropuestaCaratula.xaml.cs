@@ -43,6 +43,47 @@ namespace Seguros_Broker
         {
 
         }
+
+        private void BtnBuscarEjecutivoResponsable_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnBuscarArea_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnBuscarRutFacturar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnBuscarRutContratante_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void BtnBuscarRutAsegurado_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnBuscarRutAFavorDe_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void BtnBuscarRutSocio_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void BtnBuscarRutGestor_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void BtnBuscarRutCompania_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void BtnLimpiarEjecutivo_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 
 }
