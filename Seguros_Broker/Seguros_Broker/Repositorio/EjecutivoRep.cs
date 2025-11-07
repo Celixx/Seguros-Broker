@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Seguros_Broker.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Seguros_Broker.Modelo;
+using System.Windows;
 
 
 namespace Seguros_Broker.Repositorio
@@ -24,7 +25,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     connection.Open();
 
-                    string sql = "SELECT Codigo, TipoID, ID, Nombre, APaterno, AMaterno, Fono, Celular, Mail, Comision, Nick, Perfil, Estado, Restricciones FROM Ejecutivo ORDER BY ID DESC";
+                    string sql = "SELECT Codigo, TipoID, ID, Nombre, APaterno, AMaterno, Fono, Celular, Mail, Comision, PorcentajeComision, Nick, Perfil, Estado, Restricciones FROM Ejecutivo ORDER BY ID DESC";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -36,7 +37,7 @@ namespace Seguros_Broker.Repositorio
                                 
                                 ejecutivo.codigo = reader["Codigo"] != DBNull.Value ? Convert.ToInt32(reader["Codigo"]) : 0;
                                 ejecutivo.tipoId = reader["TipoID"] != DBNull.Value ? Convert.ToString(reader["TipoID"]) : "";
-                                ejecutivo.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0;
+                                ejecutivo.ID = reader["ID"] != DBNull.Value ? Convert.ToString(reader["ID"]) : "";
                                 ejecutivo.nombre = reader["Nombre"] != DBNull.Value ? Convert.ToString(reader["Nombre"]) : "";
                                 ejecutivo.aPaterno = reader["APaterno"] != DBNull.Value ? Convert.ToString(reader["APaterno"]) : "";
                                 ejecutivo.aMaterno = reader["AMaterno"] != DBNull.Value ? Convert.ToString(reader["AMaterno"]) : "";
@@ -44,6 +45,7 @@ namespace Seguros_Broker.Repositorio
                                 ejecutivo.celular = reader["Celular"] != DBNull.Value ? Convert.ToInt32(reader["Celular"]) : 0;
                                 ejecutivo.mail = reader["Mail"] != DBNull.Value ? Convert.ToString(reader["Mail"]) : "";
                                 ejecutivo.comision = reader["Comision"] != DBNull.Value ? Convert.ToInt32(reader["Comision"]) : 0;
+                                ejecutivo.porcentajeComision = reader["PorcentajeComision"] != DBNull.Value ? Convert.ToInt32(reader["PorcentajeComision"]) : 0;
                                 ejecutivo.nick = reader["Nick"] != DBNull.Value ? Convert.ToString(reader["Nick"]) : "";
                                 ejecutivo.perfil = reader["Perfil"] != DBNull.Value ? Convert.ToString(reader["Perfil"]) : "";
                                 ejecutivo.estado = reader["Estado"] != DBNull.Value ? Convert.ToString(reader["Estado"]) : "";
@@ -65,9 +67,9 @@ namespace Seguros_Broker.Repositorio
             return ejecutivos;
         }
 
-        public EjecutivoM? GetEjecutivo(int ID)
-        {
 
+        public EjecutivoM? GetEjecutivo(string ID)
+        {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -76,29 +78,32 @@ namespace Seguros_Broker.Repositorio
                     string sql = "SELECT * FROM Ejecutivo WHERE ID=@ID";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
+
                         command.Parameters.AddWithValue("@ID", ID);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
                                 EjecutivoM ejecutivo = new EjecutivoM();
-                                ejecutivo.codigo = reader.GetInt32(0);
-                                ejecutivo.tipoId = reader.GetString(1);
-                                ejecutivo.ID = reader.GetInt32(2);
-                                ejecutivo.nombre = reader.GetString(3);
-                                ejecutivo.aPaterno = reader.GetString(4);
-                                ejecutivo.aMaterno = reader.GetString(5);
-                                ejecutivo.fono = reader.GetInt32(6);
-                                ejecutivo.celular = reader.GetInt32(7);
-                                ejecutivo.mail = reader.GetString(8);
-                                ejecutivo.comision = reader.GetInt32(9);
-                                ejecutivo.nick = reader.GetString(10);
-                                ejecutivo.perfil = reader.GetString(11);
-                                ejecutivo.estado = reader.GetString(12);
-                                ejecutivo.restricciones = reader.GetString(13);
+
+                                ejecutivo.codigo = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                                ejecutivo.tipoId = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                ejecutivo.ID = reader.IsDBNull(2) ? null : reader.GetString(2);
+                                ejecutivo.nombre = reader.IsDBNull(3) ? null : reader.GetString(3);
+                                ejecutivo.aPaterno = reader.IsDBNull(4) ? null : reader.GetString(4);
+                                ejecutivo.aMaterno = reader.IsDBNull(5) ? null : reader.GetString(5);
+                                ejecutivo.fono = reader.IsDBNull(6) ? 0 : reader.GetInt32(6);
+                                ejecutivo.celular = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
+                                ejecutivo.mail = reader.IsDBNull(8) ? null : reader.GetString(8);
+                                ejecutivo.comision = reader.IsDBNull(9) ? 0 : Convert.ToInt32(reader.GetDecimal(9));
+                                ejecutivo.porcentajeComision = reader.IsDBNull(10) ? 0 : Convert.ToInt32(reader.GetDecimal(10));
+                                ejecutivo.nick = reader.IsDBNull(11) ? null : reader.GetString(11);
+                                ejecutivo.perfil = reader.IsDBNull(12) ? null : reader.GetString(12);
+                                ejecutivo.estado = reader.IsDBNull(13) ? null : reader.GetString(13);
+                                ejecutivo.restricciones = reader.IsDBNull(14) ? null : reader.GetString(14);
 
                                 return ejecutivo;
-
                             }
                         }
                     }
@@ -106,13 +111,11 @@ namespace Seguros_Broker.Repositorio
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Se encontró el ID, pero ocurrió un error al leer los datos:\n\n" + ex.Message, "Error de Lectura", MessageBoxButton.OK, MessageBoxImage.Error);
                 Console.WriteLine("Exception: " + ex.ToString());
             }
 
-
-
-            return null;
+            return null; 
         }
 
         public async Task<(bool success, string? errorMessage)> CreateEjecutivoAsync(EjecutivoM ejecutivo)
@@ -126,7 +129,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     await connection.OpenAsync();
 
-                    // 1) Verificar existencia por codigo o ID
+                    // Verificar existencia por codigo o ID
                     const string checkSql = "SELECT COUNT(1) FROM Ejecutivo WHERE codigo = @codigo OR ID = @ID";
                     using (var checkCmd = new SqlCommand(checkSql, connection))
                     {
@@ -140,18 +143,18 @@ namespace Seguros_Broker.Repositorio
                         }
                     }
 
-                    // 2) Insert dentro de una transacción
+                    // Insert dentro de una transacción
                     using (var tran = connection.BeginTransaction())
                     {
                         const string insertSql = @"
                     INSERT INTO Ejecutivo
-                      (codigo, tipoId, ID, nombre, aPaterno, aMaterno, fono, celular, mail, comision, nick, perfil, estado, restricciones)
+                      (codigo, tipoId, ID, nombre, aPaterno, aMaterno, fono, celular, mail, comision, PorcentajeComision, nick, perfil, estado, restricciones)
                     VALUES
-                      (@codigo, @tipoId, @ID, @nombre, @aPaterno, @aMaterno, @fono, @celular, @mail, @comision, @nick, @perfil, @estado, @restricciones);";
+                      (@codigo, @tipoId, @ID, @nombre, @aPaterno, @aMaterno, @fono, @celular, @mail, @comision, @PorcentajeComision, @nick, @perfil, @estado, @restricciones);";
 
                         using (var cmd = new SqlCommand(insertSql, connection, tran))
                         {
-                            // Parámetros con tipos (ajusta longitudes si tu BD las requiere)
+                            // Parámetros con tipos 
                             cmd.Parameters.Add("@codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
                             cmd.Parameters.Add("@tipoId", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.tipoId ?? DBNull.Value;
                             cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ejecutivo.ID;
@@ -162,6 +165,7 @@ namespace Seguros_Broker.Repositorio
                             cmd.Parameters.Add("@celular", System.Data.SqlDbType.Int).Value = ejecutivo.celular;
                             cmd.Parameters.Add("@mail", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.mail ?? DBNull.Value;
                             cmd.Parameters.Add("@comision", System.Data.SqlDbType.Int).Value = ejecutivo.comision;
+                            cmd.Parameters.Add("@PorcentajeComision", System.Data.SqlDbType.Int).Value = ejecutivo.porcentajeComision;
                             cmd.Parameters.Add("@nick", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.nick ?? DBNull.Value;
                             cmd.Parameters.Add("@perfil", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.perfil ?? DBNull.Value;
                             cmd.Parameters.Add("@estado", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.estado ?? DBNull.Value;

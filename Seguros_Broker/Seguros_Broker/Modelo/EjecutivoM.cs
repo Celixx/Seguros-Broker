@@ -10,7 +10,7 @@ namespace Seguros_Broker.Modelo
     {
         public int codigo { get; set; }
         public string tipoId { get; set; } = "";
-        public int ID { get; set; }
+        public string ID { get; set; } = "";
         public string nombre { get; set; } = "";
         public string aPaterno { get; set; } = "";
         public string aMaterno { get; set; } = "";
@@ -18,6 +18,7 @@ namespace Seguros_Broker.Modelo
         public int celular { get; set; }
         public string mail { get; set; } = "";
         public int comision { get; set; }
+        public int porcentajeComision { get; set; }
         public string nick { get; set; } = "";
         public string perfil { get; set; } = "";
         public string estado { get; set; } = "";

@@ -44,14 +44,15 @@ namespace Seguros_Broker
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            // --- Validaciones ---
+            // Validaciones
             var errores = new System.Collections.Generic.List<string>();
+
+            int codigoParsed = 0;
 
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
                 errores.Add("Código (obligatorio).");
 
-            if (cbTipoIdentificacion.SelectedItem == null ||
-                ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
+            if (cbTipoIdentificacion.SelectedItem == null ||((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
                 errores.Add("Tipo identificación (obligatorio).");
 
             if (string.IsNullOrWhiteSpace(txtIdentificacion.Text))
@@ -60,33 +61,15 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 errores.Add("Nombre (obligatorio).");
 
-            if (string.IsNullOrWhiteSpace(txtMail.Text))
-                errores.Add("Mail (obligatorio).");
-
-            if (cbNivelComision.SelectedItem == null)
-                errores.Add("Nivel de comisión (obligatorio).");
-
-            if (string.IsNullOrWhiteSpace(txtNick.Text))
-                errores.Add("Nick (obligatorio).");
-
-            if (cbPerfil.SelectedItem == null ||
-                ((ComboBoxItem)cbPerfil.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
-                errores.Add("Perfil (obligatorio).");
-
-            if (cbEstado.SelectedItem == null ||
-                ((ComboBoxItem)cbEstado.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
-                errores.Add("Estado (obligatorio).");
-
             if (cbRestricciones.SelectedItem == null)
                 errores.Add("Restricciones (obligatorio).");
 
-            // Email simple
             if (!string.IsNullOrWhiteSpace(txtMail.Text) && !IsValidEmail(txtMail.Text))
                 errores.Add("Mail inválido.");
 
-            if (!int.TryParse(txtCodigo.Text, out int codigoParsed))
+            if (!string.IsNullOrWhiteSpace(txtCodigo.Text) && !int.TryParse(txtCodigo.Text, out codigoParsed))
                 errores.Add("Código debe ser numérico.");
-
+         
             if (!int.TryParse(txtIdentificacion.Text, out int identificacionParsed))
                 errores.Add("Identificación debe ser numérica.");
 
@@ -96,12 +79,12 @@ namespace Seguros_Broker
                 return;
             }
 
-            // --- Mapeo de modelo ---
+            // Mapeo de modelo 
             var nuevo = new EjecutivoM
             {
-                codigo = codigoParsed,
+                codigo = codigoParsed, 
                 tipoId = ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString(),
-                ID = identificacionParsed,
+                ID = txtIdentificacion.Text.Trim(),
                 nombre = txtNombre.Text.Trim(),
                 aPaterno = txtApePaterno.Text?.Trim() ?? "",
                 aMaterno = txtApeMaterno.Text?.Trim() ?? "",
@@ -109,16 +92,17 @@ namespace Seguros_Broker
                 celular = int.TryParse(txtCelular.Text, out int c) ? c : 0,
                 mail = txtMail.Text.Trim(),
                 comision = ParseNivelComision(((ComboBoxItem)cbNivelComision.SelectedItem).Content.ToString()),
+                porcentajeComision = int.TryParse(txtPorcentajeComision.Text, out int h) ? h : 0,
                 nick = txtNick.Text.Trim(),
                 perfil = ((ComboBoxItem)cbPerfil.SelectedItem).Content.ToString(),
                 estado = ((ComboBoxItem)cbEstado.SelectedItem).Content.ToString(),
                 restricciones = ((ComboBoxItem)cbRestricciones.SelectedItem).Content.ToString()
             };
 
-            // --- Llamada async al repositorio ---
+
             var repo = new EjecutivoRep();
 
-            // Evitamos la deconstrucción; en su lugar usamos 'result'
+
             var result = await repo.CreateEjecutivoAsync(nuevo);
 
             if (result.success)
@@ -133,7 +117,7 @@ namespace Seguros_Broker
             }
             else
             {
-                // Mostrar mensaje de error proveniente del repositorio
+                // Msj de error proveniente del repositorio
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -176,6 +160,29 @@ namespace Seguros_Broker
             cbEstado.SelectedIndex = 0;
             cbRestricciones.SelectedIndex = 0;
         }
+
+        private void CargarDatosEjecutivoEnFormulario(EjecutivoM ejecutivo)
+        {
+  
+            if (ejecutivo == null) return;
+
+            txtCodigo.Text = ejecutivo.codigo.ToString();
+            txtIdentificacion.Text = ejecutivo.ID; 
+            txtNombre.Text = ejecutivo.nombre;
+            txtApePaterno.Text = ejecutivo.aPaterno;
+            txtApeMaterno.Text = ejecutivo.aMaterno;
+            txtFono.Text = ejecutivo.fono.ToString();
+            txtCelular.Text = ejecutivo.celular.ToString();
+            txtMail.Text = ejecutivo.mail;
+            txtNick.Text = ejecutivo.nick;
+            txtPorcentajeComision.Text = ejecutivo.porcentajeComision.ToString();
+            cbTipoIdentificacion.Text = ejecutivo.tipoId;
+            cbPerfil.Text = ejecutivo.perfil;
+            cbEstado.Text = ejecutivo.estado;
+            cbRestricciones.Text = ejecutivo.restricciones;
+            cbNivelComision.Text = GetTextoComision(ejecutivo.comision);
+        }
+
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
 
@@ -183,12 +190,75 @@ namespace Seguros_Broker
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var ejecutivoSeleccionado = (EjecutivoM)dataGridEjecutivo.SelectedItem;
+    
+            if (ejecutivoSeleccionado != null)
+            {
+                // 3. ¡Llamar al mismo método helper!
+                CargarDatosEjecutivoEnFormulario(ejecutivoSeleccionado);
+            }
 
         }
 
+
+
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("¿Seguro que quiere salir?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+
+        private string GetTextoComision(int comisionValor)
+        {
+            switch (comisionValor)
+            {
+                case 5:
+                    return "5(NIVEL POR DEFECTO)";
+                case 10:
+                    return "10";
+                case 15:
+                    return "15";
+                default:
+                   
+                    return "5(NIVEL POR DEFECTO)";
+            }
+        }
+
+
+        private void btnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            string idBuscado = txtSearch.Text;
+
+            if (string.IsNullOrWhiteSpace(idBuscado))
+            {
+                MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            EjecutivoRep repository = new EjecutivoRep();
+            EjecutivoM? ejecutivoEncontrado = repository.GetEjecutivo(idBuscado);
+
+            if (ejecutivoEncontrado != null)
+            {
+
+                CargarDatosEjecutivoEnFormulario(ejecutivoEncontrado);
+
+                MessageBox.Show($"Ejecutivo encontrado: {ejecutivoEncontrado.nombre} {ejecutivoEncontrado.aPaterno}", "Búsqueda Exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {idBuscado}", "No Encontrado", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarFormulario();
         }
     }
 }
