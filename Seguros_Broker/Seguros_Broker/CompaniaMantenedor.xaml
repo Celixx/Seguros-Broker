@@ -33,98 +33,209 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="16">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+    <TabControl>
 
-        <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <TextBlock Text="Compañía" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtSearch" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
-                    <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                </StackPanel>
+        <TabItem Header="Datos Compañía">
+            <Grid Margin="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
-            </DockPanel>
-        </Border>
-
-        <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock Text="Registrar / Editar Compañía" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
-
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LabelRequired}" Text="Tipo identificación"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <TextBlock Text="Compañía" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtSearch" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
+                            <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </StackPanel>
-                        <ComboBox x:Name="cbTipoIdentificacion" SelectedIndex="0">
-                            <ComboBoxItem Content="SELECCIONE"/>
-                            <ComboBoxItem Content="RUT"/>
-                            <ComboBoxItem Content="Otros"/>
-                        </ComboBox>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
+                    </DockPanel>
+                </Border>
+
+                <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="Registrar / Editar Compañía" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Tipo identificación"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <ComboBox x:Name="cbTipoIdentificacion" SelectedIndex="0">
+                                    <ComboBoxItem Content="SELECCIONE"/>
+                                    <ComboBoxItem Content="RUT"/>
+                                    <ComboBoxItem Content="Otros"/>
+                                </ComboBox>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <TextBox x:Name="txtIdentificacion"/>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Nombre"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <TextBox x:Name="txtNombre"/>
+
+                                <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtFono"/>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Grupo"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <ComboBox x:Name="cbGrupo" SelectedIndex="0">
+                                    <ComboBoxItem Content="SELECCIONE"/>
+                                    <ComboBoxItem Content="Generales"/>
+                                    <ComboBoxItem Content="Otros"/>
+                                </ComboBox>
+
+                                <TextBlock Text="Página web" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtPagina"/>
+
+                                <TextBlock Text="País" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtPais"/>
+
+                                <TextBlock Text="Ciudad" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtCiudad"/>
+
+                                <TextBlock Text="Región" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtRegion"/>
+
+                                <TextBlock Text="Comuna" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtComuna"/>
+
+                                <TextBlock Text="Dirección" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtDireccion"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                                    <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click"/>
+                                    <Button x:Name="btnCancelar" Content="Cancelar" Click="btnCancelar_Click"/>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                        <TextBox x:Name="txtIdentificacion"/>
+                    </ScrollViewer>
+                </Border>
+                <DataGrid x:Name="dataGridCompania"
+                          Margin="10,72,10,10"
+                          AutoGenerateColumns="True"
+                          HeadersVisibility="All"
+                          IsReadOnly="True"
+                          SelectionChanged="DataGrid_SelectionChanged"
+                />
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LabelRequired}" Text="Nombre"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Contactos">
+            
+        </TabItem>
+
+        <TabItem Header="Grupos">
+            <Grid Margin="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <TextBlock Text="Compañía" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtSearch_Grupo" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
+                            <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </StackPanel>
-                        <TextBox x:Name="txtNombre"/>
-                        
-                        <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtFono"/>
-                        
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LabelRequired}" Text="Grupo"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
+                    </DockPanel>
+                </Border>
+
+                <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="Registrar / Editar Compañía" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Tipo identificación"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <ComboBox x:Name="cbTipoIdentificacion_Grupo" SelectedIndex="0">
+                                    <ComboBoxItem Content="SELECCIONE"/>
+                                    <ComboBoxItem Content="RUT"/>
+                                    <ComboBoxItem Content="Otros"/>
+                                </ComboBox>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <TextBox x:Name="txtIdentificacion_Grupo"/>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Nombre"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <TextBox x:Name="txtNombre_Grupo"/>
+
+                                <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtFono_Grupo"/>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Grupo"/>
+                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                                </StackPanel>
+                                <ComboBox x:Name="cbGrupo_Grupo" SelectedIndex="0">
+                                    <ComboBoxItem Content="SELECCIONE"/>
+                                    <ComboBoxItem Content="Generales"/>
+                                    <ComboBoxItem Content="Otros"/>
+                                </ComboBox>
+
+                                <TextBlock Text="Página web" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtPagina_Grupo"/>
+
+                                <TextBlock Text="País" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtPais_Grupo"/>
+
+                                <TextBlock Text="Ciudad" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtCiudad_Grupo"/>
+
+                                <TextBlock Text="Región" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtRegion_Grupo"/>
+
+                                <TextBlock Text="Comuna" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtComuna_Grupo"/>
+
+                                <TextBlock Text="Dirección" FontWeight="Normal" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtDireccion_Grupo"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                                    <Button x:Name="btnGuardar_Grupo" Content="Guardar" Click="btnGuardar_Grupos_Click"/>
+                                    <Button x:Name="btnCancelar_Grupo" Content="Cancelar" Click="btnCancelar_Grupos_Click"/>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                        <ComboBox x:Name="cbGrupo" SelectedIndex="0">
-                            <ComboBoxItem Content="SELECCIONE"/>
-                            <ComboBoxItem Content="Generales"/>
-                            <ComboBoxItem Content="Otros"/>
-                        </ComboBox>
+                    </ScrollViewer>
+                </Border>
+                <DataGrid x:Name="dataGridGrupos"
+                          Margin="10,72,10,10"
+                          AutoGenerateColumns="True"
+                          HeadersVisibility="All"
+                          IsReadOnly="True"
+                          SelectionChanged="DataGrid_SelectionChanged"
+                            />
 
-                        <TextBlock Text="Página web" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtPagina"/>
+            </Grid>
 
-                        <TextBlock Text="País" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtPais"/>
+        </TabItem>
 
-                        <TextBlock Text="Ciudad" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtCiudad"/>
-
-                        <TextBlock Text="Región" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtRegion"/>
-
-                        <TextBlock Text="Comuna" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtComuna"/>
-
-                        <TextBlock Text="Dirección" FontWeight="Normal" Margin="0,8,0,2"/>
-                        <TextBox x:Name="txtDireccion"/>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
-                            <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click"/>
-                            <Button x:Name="btnCancelar" Content="Cancelar" Click="btnCancelar_Click"/>
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
-        </Border>
-        <DataGrid x:Name="dataGridCompania"
-          Margin="10,72,10,10"
-          AutoGenerateColumns="True"
-          HeadersVisibility="All"
-          IsReadOnly="True"
-          SelectionChanged="DataGrid_SelectionChanged"/>
-
-    </Grid>
+    </TabControl>
+    
+    
 </Window>
 

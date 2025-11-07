@@ -123,5 +123,15 @@ namespace Seguros_Broker
         {
 
         }
+
+        private void btnCancelar_Grupos_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void btnGuardar_Grupos_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
