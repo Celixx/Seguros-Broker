@@ -47,7 +47,7 @@
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
                             <TextBlock Text="Compañía" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtSearch" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
-                            <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <Button x:Name="btnBuscar" Content="Buscar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnBuscar_Click"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
@@ -136,7 +136,7 @@
             
         </TabItem>
 
-        <TabItem Header="Grupos">
+        <TabItem Header="Grupos" Height="20" VerticalAlignment="Top">
             <Grid Margin="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
@@ -146,7 +146,7 @@
                 <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <TextBlock Text="Compañía" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock Text="Grupos" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtSearch_Grupo" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
                             <Button Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </StackPanel>
@@ -158,19 +158,9 @@
                 <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <TextBlock Text="Registrar / Editar Compañía" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+                            <TextBlock Text="Registrar / Editar Grupos" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
 
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Tipo identificación"/>
-                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
-                                </StackPanel>
-                                <ComboBox x:Name="cbTipoIdentificacion_Grupo" SelectedIndex="0">
-                                    <ComboBoxItem Content="SELECCIONE"/>
-                                    <ComboBoxItem Content="RUT"/>
-                                    <ComboBoxItem Content="Otros"/>
-                                </ComboBox>
-
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
                                     <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
@@ -182,37 +172,6 @@
                                     <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
                                 </StackPanel>
                                 <TextBox x:Name="txtNombre_Grupo"/>
-
-                                <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtFono_Grupo"/>
-
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Grupo"/>
-                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
-                                </StackPanel>
-                                <ComboBox x:Name="cbGrupo_Grupo" SelectedIndex="0">
-                                    <ComboBoxItem Content="SELECCIONE"/>
-                                    <ComboBoxItem Content="Generales"/>
-                                    <ComboBoxItem Content="Otros"/>
-                                </ComboBox>
-
-                                <TextBlock Text="Página web" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtPagina_Grupo"/>
-
-                                <TextBlock Text="País" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtPais_Grupo"/>
-
-                                <TextBlock Text="Ciudad" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtCiudad_Grupo"/>
-
-                                <TextBlock Text="Región" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtRegion_Grupo"/>
-
-                                <TextBlock Text="Comuna" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtComuna_Grupo"/>
-
-                                <TextBlock Text="Dirección" FontWeight="Normal" Margin="0,8,0,2"/>
-                                <TextBox x:Name="txtDireccion_Grupo"/>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
                                     <Button x:Name="btnGuardar_Grupo" Content="Guardar" Click="btnGuardar_Grupos_Click"/>
@@ -227,7 +186,7 @@
                           AutoGenerateColumns="True"
                           HeadersVisibility="All"
                           IsReadOnly="True"
-                          SelectionChanged="DataGrid_SelectionChanged"
+                          SelectionChanged="DataGrid_SelectionChanged_Grupo"
                             />
 
             </Grid>
