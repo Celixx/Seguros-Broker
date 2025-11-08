@@ -224,6 +224,41 @@ namespace Seguros_Broker
             this.dataGridGrupos.ItemsSource = grupos;
         }
 
+        private void btnBuscar_Grupo_Click(object sender, RoutedEventArgs e)
+        {
+            string idBuscado = txtSearch_Grupo.Text;
+
+            if (string.IsNullOrWhiteSpace(idBuscado))
+            {
+                MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            GrupoRep repository = new GrupoRep();
+            Grupo? grupoEncontrado = repository.GetGrupo(idBuscado);
+
+            if (grupoEncontrado != null)
+            {
+
+                CargarDatosGrupoEnFormulario(grupoEncontrado);
+
+                MessageBox.Show($"Grupo encontrado encontrada: {grupoEncontrado.Nombre}", "Búsqueda Exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show($"No se encontró ninguna compañía con el ID: {idBuscado}", "No Encontrado", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void CargarDatosGrupoEnFormulario(Grupo grupo)
+        {
+
+            if (grupo == null) return;
+
+            txtIdentificacion_Grupo.Text = grupo.ID;
+            txtNombre_Grupo.Text = grupo.Nombre;
+        }
+
         private void LimpiarFormularioGrupo()
         {
             txtIdentificacion.Clear();
