@@ -8,10 +8,8 @@ using Microsoft.Data.SqlClient;
 
 namespace Seguros_Broker.Repositorio
 {
-    public class CompaniaRep
+    public class CompaniaRep : Repositorio
     {
-        private readonly string connectionString = "Data Source=DESKTOP-HT63IU9;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
-
         public List<Compania> GetCompanias()
         {
             var companias = new List<Compania>();
