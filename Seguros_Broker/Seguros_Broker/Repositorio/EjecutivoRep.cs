@@ -13,7 +13,7 @@ namespace Seguros_Broker.Repositorio
     public class EjecutivoRep
     {
         //Reemplazar connectionString 
-        private readonly string connectionString = "Data Source=DESKTOP-HT63IU9;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
+        private readonly string connectionString = "Data Source=;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
 
         public List<EjecutivoM> GetEjecutivos()
         {

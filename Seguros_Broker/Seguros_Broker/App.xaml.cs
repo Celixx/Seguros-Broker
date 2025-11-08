@@ -9,6 +9,7 @@ namespace Seguros_Broker
     /// </summary>
     public partial class App : Application
     {
+
     }
 
 }
