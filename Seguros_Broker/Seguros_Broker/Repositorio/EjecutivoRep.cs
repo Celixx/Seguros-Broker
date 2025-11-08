@@ -10,10 +10,8 @@ using System.Windows;
 
 namespace Seguros_Broker.Repositorio
 {
-    public class EjecutivoRep
+    public class EjecutivoRep : Repositorio
     {
-        //Reemplazar connectionString 
-        private readonly string connectionString = "Data Source=;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
 
         public List<EjecutivoM> GetEjecutivos()
         {

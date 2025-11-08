@@ -1,17 +1,16 @@
-﻿using Seguros_Broker.Modelo;
+﻿using Microsoft.Data.SqlClient;
+using Seguros_Broker.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+using System.Windows;
 
 namespace Seguros_Broker.Repositorio
 {
-    public class CompaniaRep
+    public class CompaniaRep : Repositorio
     {
-        private readonly string connectionString = "Data Source=;Initial Catalog=brokerBD;Integrated Security=True;Trust Server Certificate=True";
-
         public List<Compania> GetCompanias()
         {
             var companias = new List<Compania>();
@@ -119,6 +118,52 @@ namespace Seguros_Broker.Repositorio
 
                 return (false, ex.Message);
             }
+        }
+
+        public Compania? GetCompania(string ID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM COMPANIA WHERE ID=@ID";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@ID", ID);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Compania compania = new Compania();
+ 
+                                compania.tipoID = reader.IsDBNull(reader.GetOrdinal("TipoID")) ? null : reader.GetString(0);
+                                compania.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(1);
+                                compania.nombre = reader.IsDBNull(reader.GetOrdinal("Nombre")) ? null : reader.GetString(2);
+                                compania.grupo = reader.IsDBNull(reader.GetOrdinal("Grupo")) ? null : reader.GetString(3);
+                                compania.fono = reader.IsDBNull(reader.GetOrdinal("Fono")) ? 0 : reader.GetInt32(4);
+                                compania.paginaWeb = reader.IsDBNull(reader.GetOrdinal("Pagina_Web")) ? null : reader.GetString(5);
+                                compania.pais = reader.IsDBNull(reader.GetOrdinal("Pais")) ? null : reader.GetString(6);
+                                compania.ciudad = reader.IsDBNull(reader.GetOrdinal("Ciudad")) ? null : reader.GetString(7);
+                                compania.region = reader.IsDBNull(reader.GetOrdinal("Region")) ? null : reader.GetString(8);
+                                compania.comuna = reader.IsDBNull(reader.GetOrdinal("Comuna")) ? null : reader.GetString(9);
+                                compania.direccion = reader.IsDBNull(reader.GetOrdinal("Direccion")) ? null : reader.GetString(10);
+
+                                return compania;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se encontró el ID, pero ocurrió un error al leer los datos:\n\n" + ex.Message, "Error de Lectura", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("Exception: " + ex.ToString());
+            }
+
+            return null;
         }
     }
 }
