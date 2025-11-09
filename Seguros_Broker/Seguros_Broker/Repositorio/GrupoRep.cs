@@ -101,7 +101,7 @@ namespace Seguros_Broker.Repositorio
             }
         }
 
-        public Grupo? GetGrupo(string ID)
+        public Grupo? GetGrupo(int ID)
         {
             try
             {

@@ -145,14 +145,14 @@ namespace Seguros_Broker.Repositorio
                                 compania.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(1);
                                 compania.nombre = reader.IsDBNull(reader.GetOrdinal("Nombre")) ? null : reader.GetString(2);
                                 compania.IDGrupo = reader.IsDBNull(reader.GetOrdinal("IDGrupo")) ? 0 : reader.GetInt32(3);
-                                compania.grupoNombre = reader.IsDBNull(reader.GetOrdinal("Grupo")) ? null : reader.GetString(4);
-                                compania.fono = reader.IsDBNull(reader.GetOrdinal("Fono")) ? 0 : reader.GetInt32(5);
-                                compania.paginaWeb = reader.IsDBNull(reader.GetOrdinal("Pagina_Web")) ? null : reader.GetString(6);
-                                compania.pais = reader.IsDBNull(reader.GetOrdinal("Pais")) ? null : reader.GetString(7);
-                                compania.ciudad = reader.IsDBNull(reader.GetOrdinal("Ciudad")) ? null : reader.GetString(8);
-                                compania.region = reader.IsDBNull(reader.GetOrdinal("Region")) ? null : reader.GetString(9);
-                                compania.comuna = reader.IsDBNull(reader.GetOrdinal("Comuna")) ? null : reader.GetString(10);
-                                compania.direccion = reader.IsDBNull(reader.GetOrdinal("Direccion")) ? null : reader.GetString(11);
+                                //compania.grupoNombre = reader.IsDBNull(reader.GetOrdinal("Grupo")) ? null : reader.GetString(4);
+                                compania.fono = reader.IsDBNull(reader.GetOrdinal("Fono")) ? 0 : reader.GetInt32(4);
+                                compania.paginaWeb = reader.IsDBNull(reader.GetOrdinal("Pagina_Web")) ? null : reader.GetString(5);
+                                compania.pais = reader.IsDBNull(reader.GetOrdinal("Pais")) ? null : reader.GetString(6);
+                                compania.ciudad = reader.IsDBNull(reader.GetOrdinal("Ciudad")) ? null : reader.GetString(7);
+                                compania.region = reader.IsDBNull(reader.GetOrdinal("Region")) ? null : reader.GetString(8);
+                                compania.comuna = reader.IsDBNull(reader.GetOrdinal("Comuna")) ? null : reader.GetString(9);
+                                compania.direccion = reader.IsDBNull(reader.GetOrdinal("Direccion")) ? null : reader.GetString(10);
 
                                 return compania;
                             }

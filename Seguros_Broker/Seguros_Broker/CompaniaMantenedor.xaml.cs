@@ -22,9 +22,14 @@ namespace Seguros_Broker
     /// </summary>
     public partial class CompaniaMantenedor : Window
     {
+        private List<Grupo> grupos;
+        private GrupoRep grupoRep = new GrupoRep();
+
         public CompaniaMantenedor()
         {
             InitializeComponent();
+            
+            this.grupos = grupoRep.GetGrupos();
 
             ReadCompania();
 
@@ -137,9 +142,10 @@ namespace Seguros_Broker
 
             if (compania == null) return;
 
+            cbTipoIdentificacion.Text = compania.tipoID;
             txtIdentificacion.Text = compania.ID;
             txtNombre.Text = compania.nombre;
-            cbGrupo.Text = compania.grupoNombre;
+            cbGrupo.SelectedItem = grupos.Find(grupo => grupo.ID == compania.IDGrupo);
             txtFono.Text = compania.fono.ToString();
             txtPagina.Text = compania.paginaWeb;
             txtPais.Text = compania.pais;
@@ -166,10 +172,8 @@ namespace Seguros_Broker
         private void ReadCompania()
         {
             var repo = new CompaniaRep();
-            var repoGrupos = new GrupoRep();
 
             var companias = repo.GetCompanias();
-            var grupos = repoGrupos.GetGrupos();
 
             cbGrupo.ItemsSource = grupos;
 
@@ -178,7 +182,13 @@ namespace Seguros_Broker
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var companiaSleccionado = (Compania)dataGridCompania.SelectedItem;
 
+            if (companiaSleccionado != null)
+            {
+                // 3. ¡Llamar al mismo método helper!
+                CargarDatosCompaniaEnFormulario(companiaSleccionado);
+            }
         }
 
         private void btnCancelar_Grupos_Click(object sender, RoutedEventArgs e)
@@ -233,22 +243,19 @@ namespace Seguros_Broker
         }
 
         private void ReadGrupo()
-        {
-            var repo = new GrupoRep();
-            var grupos = repo.GetGrupos();
-
+        {         
             this.dataGridGrupos.ItemsSource = grupos;
         }
 
         private void btnBuscar_Grupo_Click(object sender, RoutedEventArgs e)
         {
-            string idBuscado = txtSearch_Grupo.Text;
+            int idBuscado = int.Parse(txtSearch_Grupo.Text);
 
-            if (string.IsNullOrWhiteSpace(idBuscado))
-            {
-                MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            //if (string.IsNullOrWhiteSpace(idBuscado))
+            //{
+            //    MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    return;
+            //}
 
             GrupoRep repository = new GrupoRep();
             Grupo? grupoEncontrado = repository.GetGrupo(idBuscado);
