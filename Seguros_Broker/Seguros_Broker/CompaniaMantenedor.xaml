@@ -110,7 +110,7 @@
                                 <TextBlock Text="Dirección" FontWeight="Normal" Margin="0,8,0,2"/>
                                 <TextBox x:Name="txtDireccion"/>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0" Width="456">
                                     <StackPanel Orientation="Horizontal" Width="280">
                                         <Button x:Name="btnLimpiar" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
                                     </StackPanel>
@@ -168,8 +168,12 @@
                                 </StackPanel>
                                 <TextBox x:Name="txtNombre_Grupo"/>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0" Width="463">
+                                    <StackPanel Orientation="Horizontal" Width="280">
+                                        <Button x:Name="btnLimpiar_Grupo" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
+                                    </StackPanel>
                                     <Button x:Name="btnGuardar_Grupo" Content="Guardar" Click="btnGuardar_Grupos_Click"/>
+                                    <Button x:Name="btnActualizar_Grupo" Content="Actualizar" Click="btnActualizar_Grupo_Click"/>
                                     <Button x:Name="btnCancelar_Grupo" Content="Cancelar" Click="btnCancelar_Grupos_Click"/>
                                 </StackPanel>
                             </StackPanel>

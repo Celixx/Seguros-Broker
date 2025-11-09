@@ -298,12 +298,30 @@ namespace Seguros_Broker
 
         private void DataGrid_SelectionChanged_Grupo(object sender, SelectionChangedEventArgs e)
         {
+            var companiaSleccionado = (Compania)dataGridCompania.SelectedItem;
 
+            if (companiaSleccionado != null)
+            {
+                // 3. ¡Llamar al mismo método helper!
+                CargarDatosCompaniaEnFormulario(companiaSleccionado);
+            }
+
+            var grupoSeleccionado = (Grupo)dataGridGrupos.SelectedItem;
+
+            if (grupoSeleccionado != null)
+            {
+                CargarDatosGrupoEnFormulario(grupoSeleccionado);
+            }
         }
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             LimpiarFormulario();
         }
+        private void btnLimpiar_Grupo_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarFomularioGrupo();
+        }
+        
         private async void btnActualizar_Click(object sender, RoutedEventArgs e)
         {
             var errores = new System.Collections.Generic.List<string>();
@@ -361,6 +379,47 @@ namespace Seguros_Broker
                 //Mostrar mensaje de error del repo
                 MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }     
+        }
+
+        private async void btnActualizar_Grupo_Click(object sender, RoutedEventArgs e)
+        {
+            var errores = new System.Collections.Generic.List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtNombre_Grupo.Text))
+                errores.Add("Nombre (obligatorio).");
+
+            if (errores.Any())
+            {
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var grupoSeleccionado =  (Grupo)dataGridGrupos.SelectedItem;
+
+            var nuevoGrupo = new Grupo
+            {
+                ID = grupoSeleccionado.ID,
+                Nombre = txtNombre_Grupo.Text,
+            };
+
+            var result = await grupoRep.UpdateGrupoAsync(nuevoGrupo);
+
+            if (result.success)
+            {
+                MessageBox.Show("Grupo actualizado correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Refrescar Grid
+                grupos = grupoRep.GetGrupos();
+                ReadGrupo();
+
+                //Limpiar Form
+                LimpiarFomularioGrupo();
+            }
+            else
+            {
+                //Mostrar mensaje de error del repo
+                MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

@@ -136,5 +136,43 @@ namespace Seguros_Broker.Repositorio
 
             return null;
         }
+
+        public async Task<(bool success, string? errorMessage)> UpdateGrupoAsync(Grupo grupo)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var tran = connection.BeginTransaction())
+                    {
+                        const string insertSql = @"UPDATE GRUPO
+                                                    SET Nombre=@Nombre
+                                                    WHERE ID=@ID;";
+                        using (var cmd = new SqlCommand(insertSql, connection, tran))
+                        {
+                            cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 50).Value = (object)grupo.Nombre ?? DBNull.Value;
+                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = (object)grupo.ID ?? DBNull.Value;
+
+                            int rows = await cmd.ExecuteNonQueryAsync();
+
+                            if (rows <= 0)
+                            {
+                                await tran.RollbackAsync();
+                                return (false, "No se actualizó el registro (0 filas afectadas).");
+                            }
+
+                            await tran.CommitAsync();
+                            return (true, null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return (false, ex.Message);
+            }
+        }
     }
 }

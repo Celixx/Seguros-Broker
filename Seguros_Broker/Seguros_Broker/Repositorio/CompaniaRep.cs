@@ -173,10 +173,10 @@ namespace Seguros_Broker.Repositorio
         {
             try
             {
-                var connection = new SqlConnection(connectionString);
+                using (var connection = new SqlConnection(connectionString)){
+                    await connection.OpenAsync();
                     using (var tran = connection.BeginTransaction())
-                    {
-                        await connection.OpenAsync();
+                    {                        
                         const string insertSql = @"UPDATE COMPANIA
                                                     SET TipoID=@TipoID, Nombre=@Nombre, IDGrupo=@IDGrupo, Fono=@Fono, Pagina_Web=@Pagina_Web,
                                                         Pais=@Pais, Ciudad=@Ciudad, Region=@Region, Comuna=@Comuna, Direccion=@Direccion
@@ -193,6 +193,7 @@ namespace Seguros_Broker.Repositorio
                             cmd.Parameters.Add("@Region", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.region ?? DBNull.Value;
                             cmd.Parameters.Add("@Comuna", System.Data.SqlDbType.NVarChar, 25).Value = (object)compania.comuna ?? DBNull.Value;
                             cmd.Parameters.Add("@Direccion", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.direccion ?? DBNull.Value;
+                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar, 10).Value = (object)compania.ID ?? DBNull.Value;
 
                             int rows = await cmd.ExecuteNonQueryAsync();
 
@@ -206,7 +207,7 @@ namespace Seguros_Broker.Repositorio
                             return (true, null);
                         }
                     }
-                
+                }
             }
             catch (Exception ex)
             {
@@ -214,5 +215,7 @@ namespace Seguros_Broker.Repositorio
                 return (false, ex.Message);
             }
         }
+
+
     }
 }
