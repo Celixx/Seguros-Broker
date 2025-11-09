@@ -194,7 +194,7 @@ namespace Seguros_Broker
     
             if (ejecutivoSeleccionado != null)
             {
-                // 3. ¡Llamar al mismo método helper!
+                
                 CargarDatosEjecutivoEnFormulario(ejecutivoSeleccionado);
             }
 

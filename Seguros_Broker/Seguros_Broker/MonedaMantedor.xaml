@@ -1,0 +1,103 @@
+﻿<Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.MonedaMantedor"
+        Title="MonedaMantenedor" Height="684" Width="1280"
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9">
+    <Window.Resources>
+        <Style x:Key="LabelRequired" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+        </Style>
+        <Style x:Key="Asterisk" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Margin" Value="0,4,0,12"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="0,4,0,12"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="MinWidth" Value="90"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" CornerRadius="8" Background="White" Padding="12" BorderBrush="#E0E0E0" BorderThickness="1">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Moneda" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtBuscar" Width="260" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Buscar por nombre, código o nick"/>
+                    <Button x:Name="btnBuscar" Content="Buscar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnBuscar_Click"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Column="1" CornerRadius="8" Background="White" Padding="16" BorderBrush="#E0E0E0" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Registrar Moneda" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}"><Run Language="es-mx" Text="Nombre"/></TextBlock>
+                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtNombreMoneda"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Simbolo"/>
+                            <TextBlock Style="{StaticResource Asterisk}" />
+                        </StackPanel>
+                        <TextBox x:Name="txtSimboloMoneda"/>
+
+
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Es pesos"/>
+                            <TextBlock Style="{StaticResource Asterisk}" />
+                        </StackPanel>
+                        <CheckBox x:Name="chkPesos"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LabelRequired}" Text="Es UF"/>
+                            <TextBlock Style="{StaticResource Asterisk}" />
+                        </StackPanel>
+                        <CheckBox x:Name="chkUf"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                            <StackPanel Orientation="Horizontal" Width="280">
+                                <Button x:Name="btnLimpiar" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
+                            </StackPanel>
+                            <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="88"/>
+                            <Button x:Name="btnCancelar" Content="Cancelar" Click="btnCancelar_Click"/>
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <DataGrid x:Name="dataGridMoneda" Margin="10,72,10,10" AutoGenerateColumns="True" HeadersVisibility="All" IsReadOnly="True" SelectionChanged="DataGrid_SelectionChanged" SelectionMode="Single"/>
+
+    </Grid>
+</Window>

@@ -40,6 +40,13 @@ namespace Seguros_Broker
         {
             var CompaniaMantenedor = new CompaniaMantenedor();
             CompaniaMantenedor.ShowDialog();
-        }       
+        }
+
+        private void Moneda_Click(object sender, RoutedEventArgs e)
+        {
+            var VentanaMoneda = new MonedaMantedor();
+            VentanaMoneda.ShowDialog();
+
+        }
     }
 }

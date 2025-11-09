@@ -53,7 +53,7 @@
                 <!--SubTab 6 Otros-->
                 <Fluent:RibbonGroupBox Header="Otros">
                     <Fluent:Button Header="Cuenta Corriente" Icon="{StaticResource tarjeta_icono}"/>
-                    <Fluent:Button Header="Moneda" Icon="{StaticResource moneda_icono}"/>
+                    <Fluent:Button Header="Moneda" Icon="{StaticResource moneda_icono}" Click="Moneda_Click"/>
                     <Fluent:Button Header="Valores" Icon="{StaticResource valores_icono}"/>
                     <Fluent:Button Header="Acción Bitácora" Icon="{StaticResource accion_bitacora_icono}"/>
                 </Fluent:RibbonGroupBox>
