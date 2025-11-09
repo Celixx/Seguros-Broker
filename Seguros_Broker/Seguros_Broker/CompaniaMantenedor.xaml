@@ -33,7 +33,7 @@
         </Style>
     </Window.Resources>
 
-    <TabControl>
+    <TabControl Margin="0,0,0,-281">
 
         <TabItem Header="Datos Compañía">
             <Grid Margin="16">
@@ -111,8 +111,12 @@
                                 <TextBox x:Name="txtDireccion"/>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                                    <StackPanel Orientation="Horizontal" Width="280">
+                                        <Button x:Name="btnLimpiar" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
+                                    </StackPanel>
                                     <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click"/>
                                     <Button x:Name="btnCancelar" Content="Cancelar" Click="btnCancelar_Click"/>
+                                    <Button x:Name="btnActualizar" Content="Actualizar" Click="btnActualizar_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

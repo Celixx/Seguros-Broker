@@ -167,7 +167,7 @@ namespace Seguros_Broker
             txtRegion.Clear();
             txtComuna.Clear();
             txtDireccion.Clear();
-        }
+        }  
 
         private void ReadCompania()
         {
@@ -234,6 +234,10 @@ namespace Seguros_Broker
 
                 //Limpiar Form
                 LimpiarFormulario();
+
+                grupos.Clear();
+                this.grupos = grupoRep.GetGrupos();
+                ReadCompania();
             }
             else
             {
@@ -241,9 +245,14 @@ namespace Seguros_Broker
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void LimpiarFomularioGrupo()
+        {
+            txtNombre_Grupo.Clear();
+            
+        }
 
         private void ReadGrupo()
-        {         
+        {   
             this.dataGridGrupos.ItemsSource = grupos;
         }
 
@@ -291,5 +300,67 @@ namespace Seguros_Broker
         {
 
         }
+        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarFormulario();
+        }
+        private async void btnActualizar_Click(object sender, RoutedEventArgs e)
+        {
+            var errores = new System.Collections.Generic.List<string>();
+
+            if (cbTipoIdentificacion.SelectedItem == null ||
+                ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
+                errores.Add("Tipo identificación (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(txtIdentificacion.Text))
+                errores.Add("Identificación (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+                errores.Add("Nombre (obligatorio).");
+
+            if (errores.Any())
+            {
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var selectedGrupo = cbGrupo.SelectedItem as Grupo;
+
+            var nuevaCompania = new Compania
+            {
+                tipoID = ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString(),
+                ID = txtIdentificacion.Text.Trim(),
+                nombre = txtNombre.Text.Trim(),
+                IDGrupo = selectedGrupo.ID,
+                grupoNombre = selectedGrupo.Nombre,
+                fono = int.TryParse(txtFono.Text, out int f) ? f : 0,
+                paginaWeb = txtPagina.Text?.Trim() ?? "",
+                pais = txtPais.Text?.Trim() ?? "",
+                ciudad = txtCiudad.Text?.Trim() ?? "",
+                region = txtRegion.Text?.Trim() ?? "",
+                comuna = txtComuna.Text?.Trim() ?? "",
+                direccion = txtDireccion.Text?.Trim() ?? ""
+            };
+
+            var repo = new CompaniaRep();
+
+            var result = await repo.UpdateCompaniaAsync(nuevaCompania);
+
+            if (result.success)
+            {
+                MessageBox.Show("Compañía actualizada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Refrescar Grid
+                ReadCompania();
+
+                //Limpiar Form
+                LimpiarFormulario();
+            }
+            else
+            {
+                //Mostrar mensaje de error del repo
+                MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }     
     }
 }

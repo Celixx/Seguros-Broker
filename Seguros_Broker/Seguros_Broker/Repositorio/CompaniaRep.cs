@@ -168,5 +168,51 @@ namespace Seguros_Broker.Repositorio
 
             return null;
         }
+
+        public async Task<(bool success, string? errorMessage)> UpdateCompaniaAsync(Compania compania)
+        {
+            try
+            {
+                var connection = new SqlConnection(connectionString);
+                    using (var tran = connection.BeginTransaction())
+                    {
+                        await connection.OpenAsync();
+                        const string insertSql = @"UPDATE COMPANIA
+                                                    SET TipoID=@TipoID, Nombre=@Nombre, IDGrupo=@IDGrupo, Fono=@Fono, Pagina_Web=@Pagina_Web,
+                                                        Pais=@Pais, Ciudad=@Ciudad, Region=@Region, Comuna=@Comuna, Direccion=@Direccion
+                                                    WHERE ID=@ID;";
+                        using (var cmd = new SqlCommand(insertSql, connection, tran))
+                        {
+                            cmd.Parameters.Add("@TipoId", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.tipoID ?? DBNull.Value;
+                            cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.nombre ?? DBNull.Value;
+                            cmd.Parameters.Add("@IDGrupo", System.Data.SqlDbType.Int).Value = compania.IDGrupo;
+                            cmd.Parameters.Add("@Fono", System.Data.SqlDbType.Int).Value = compania.fono;
+                            cmd.Parameters.Add("@Pagina_Web", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.paginaWeb ?? DBNull.Value;
+                            cmd.Parameters.Add("@Pais", System.Data.SqlDbType.NVarChar, 15).Value = (object)compania.pais ?? DBNull.Value;
+                            cmd.Parameters.Add("@Ciudad", System.Data.SqlDbType.NVarChar, 25).Value = (object)compania.ciudad ?? DBNull.Value;
+                            cmd.Parameters.Add("@Region", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.region ?? DBNull.Value;
+                            cmd.Parameters.Add("@Comuna", System.Data.SqlDbType.NVarChar, 25).Value = (object)compania.comuna ?? DBNull.Value;
+                            cmd.Parameters.Add("@Direccion", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.direccion ?? DBNull.Value;
+
+                            int rows = await cmd.ExecuteNonQueryAsync();
+
+                            if (rows <= 0)
+                            {
+                                await tran.RollbackAsync();
+                                return (false, "No se actualizó el registro (0 filas afectadas).");
+                            }
+
+                            await tran.CommitAsync();
+                            return (true, null);
+                        }
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+
+                return (false, ex.Message);
+            }
+        }
     }
 }
