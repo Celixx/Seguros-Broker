@@ -11,7 +11,8 @@ namespace Seguros_Broker.Modelo
         public string tipoID { get; set; } = "";
         public string ID { get; set; } = "";
         public string nombre { get; set; } = "";
-        public string grupo { get; set; } = "";
+        public int IDGrupo { get; set; } = 0;
+        public string grupoNombre { get; set; } = "";
         public int fono {  get; set; }
         public string paginaWeb { get; set; } = "";
         public string pais { get; set; } = "";

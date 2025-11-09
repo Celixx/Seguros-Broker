@@ -2,10 +2,12 @@
 using Seguros_Broker.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Seguros_Broker.Repositorio
 {
@@ -21,7 +23,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     connection.Open();
 
-                    string sql = "SELECT TipoID, ID, Nombre, Grupo, Fono, Pagina_Web, Pais, Ciudad, Region, Comuna, Direccion FROM COMPANIA ORDER BY ID DESC";
+                    string sql = "SELECT COMPANIA.TipoID AS TipoID,COMPANIA.ID AS CompaniaID,COMPANIA.Nombre AS CompaniaNombre,GRUPO.ID AS GrupoID,GRUPO.Nombre AS GrupoNombre,COMPANIA.Fono,COMPANIA.Pagina_Web,COMPANIA.Pais,COMPANIA.Ciudad,COMPANIA.Region,COMPANIA.Comuna,COMPANIA.Direccion FROM COMPANIA JOIN GRUPO ON COMPANIA.IDGrupo = GRUPO.ID ORDER BY COMPANIA.ID DESC";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -30,18 +32,18 @@ namespace Seguros_Broker.Repositorio
                             {
                                 var compania = new Compania();
 
-                                compania.tipoID = reader["TipoID"] != DBNull.Value ? Convert.ToString(reader["TipoID"]) : "";
-                                compania.ID = reader["ID"] != DBNull.Value ? Convert.ToString(reader["ID"]) : "";
-                                compania.nombre = reader["Nombre"] != DBNull.Value ? Convert.ToString(reader["Nombre"]) : "";
-                                compania.grupo = reader["Grupo"] != DBNull.Value ? Convert.ToString(reader["Grupo"]) : "";
+                                compania.tipoID = reader["TipoID"] != DBNull.Value ? reader["TipoID"].ToString() : "";
+                                compania.ID = reader["CompaniaID"] != DBNull.Value ? reader["CompaniaID"].ToString() : "";
+                                compania.nombre = reader["CompaniaNombre"] != DBNull.Value ? reader["CompaniaNombre"].ToString() : "";
+                                compania.IDGrupo = reader["GrupoID"] != DBNull.Value ? Convert.ToInt32(reader["GrupoID"]) : 0;
+                                compania.grupoNombre = reader["GrupoNombre"] != DBNull.Value ? reader["GrupoNombre"].ToString() : "";
                                 compania.fono = reader["Fono"] != DBNull.Value ? Convert.ToInt32(reader["Fono"]) : 0;
-                                compania.paginaWeb = reader["Pagina_Web"] != DBNull.Value ? Convert.ToString(reader["Pagina_Web"]) : "";
-                                compania.pais = reader["Pais"] != DBNull.Value ? Convert.ToString(reader["Pais"]) : "";
-                                compania.ciudad = reader["Ciudad"] != DBNull.Value ? Convert.ToString(reader["Ciudad"]) : "";
-                                compania.region = reader["Region"] != DBNull.Value ? Convert.ToString(reader["Region"]) : "";
-                                compania.comuna = reader["Comuna"] != DBNull.Value ? Convert.ToString(reader["Comuna"]) : "";
-                                compania.direccion = reader["Direccion"] != DBNull.Value ? Convert.ToString(reader["Direccion"]) : "";
-
+                                compania.paginaWeb = reader["Pagina_Web"] != DBNull.Value ? reader["Pagina_Web"].ToString() : "";
+                                compania.pais = reader["Pais"] != DBNull.Value ? reader["Pais"].ToString() : "";
+                                compania.ciudad = reader["Ciudad"] != DBNull.Value ? reader["Ciudad"].ToString() : "";
+                                compania.region = reader["Region"] != DBNull.Value ? reader["Region"].ToString() : "";
+                                compania.comuna = reader["Comuna"] != DBNull.Value ? reader["Comuna"].ToString() : "";
+                                compania.direccion = reader["Direccion"] != DBNull.Value ? reader["Direccion"].ToString() : "";
                                 companias.Add(compania);
                             }
                         }
@@ -82,15 +84,15 @@ namespace Seguros_Broker.Repositorio
                     using (var tran = connection.BeginTransaction())
                     {
                         const string insertSql = @"INSERT INTO COMPANIA
-                                                    (TipoID, ID, Nombre, Grupo, Fono, Pagina_Web, Pais, Ciudad, Region, Comuna, Direccion)
+                                                    (TipoID, ID, Nombre, IDGrupo, Fono, Pagina_Web, Pais, Ciudad, Region, Comuna, Direccion)
                                                     VALUES
-                                                    (@TipoID, @ID, @Nombre, @Grupo, @Fono, @Pagina_Web, @Pais, @Ciudad, @Region, @Comuna, @Direccion);";
+                                                    (@TipoID, @ID, @Nombre, @IDGrupo, @Fono, @Pagina_Web, @Pais, @Ciudad, @Region, @Comuna, @Direccion);";
                         using (var cmd = new SqlCommand(insertSql, connection, tran))
                         {
                             cmd.Parameters.Add("@TipoId", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.tipoID ?? DBNull.Value;
                             cmd.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar, 10).Value = (object)compania.ID ?? DBNull.Value;
                             cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.nombre ?? DBNull.Value;
-                            cmd.Parameters.Add("@Grupo", System.Data.SqlDbType.NVarChar, 15).Value = (object)compania.grupo ?? DBNull.Value;
+                            cmd.Parameters.Add("@IDGrupo", System.Data.SqlDbType.Int).Value = compania.IDGrupo;
                             cmd.Parameters.Add("@Fono", System.Data.SqlDbType.Int).Value = compania.fono;
                             cmd.Parameters.Add("@Pagina_Web", System.Data.SqlDbType.NVarChar, 50).Value = (object)compania.paginaWeb ?? DBNull.Value;
                             cmd.Parameters.Add("@Pais", System.Data.SqlDbType.NVarChar, 15).Value = (object)compania.pais ?? DBNull.Value;
@@ -142,7 +144,8 @@ namespace Seguros_Broker.Repositorio
                                 compania.tipoID = reader.IsDBNull(reader.GetOrdinal("TipoID")) ? null : reader.GetString(0);
                                 compania.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(1);
                                 compania.nombre = reader.IsDBNull(reader.GetOrdinal("Nombre")) ? null : reader.GetString(2);
-                                compania.grupo = reader.IsDBNull(reader.GetOrdinal("Grupo")) ? null : reader.GetString(3);
+                                compania.IDGrupo = reader.IsDBNull(reader.GetOrdinal("IDGrupo")) ? 0 : reader.GetInt32(3);
+                                //compania.grupoNombre = reader.IsDBNull(reader.GetOrdinal("Grupo")) ? null : reader.GetString(4);
                                 compania.fono = reader.IsDBNull(reader.GetOrdinal("Fono")) ? 0 : reader.GetInt32(4);
                                 compania.paginaWeb = reader.IsDBNull(reader.GetOrdinal("Pagina_Web")) ? null : reader.GetString(5);
                                 compania.pais = reader.IsDBNull(reader.GetOrdinal("Pais")) ? null : reader.GetString(6);
