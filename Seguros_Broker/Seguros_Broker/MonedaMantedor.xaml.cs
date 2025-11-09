@@ -62,7 +62,7 @@ namespace Seguros_Broker
 
         private void btnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            //string idBuscado = txtBuscar.Text;
+            int idBuscado = int.Parse(txtBuscar.Text);
 
             //if (string.IsNullOrWhiteSpace(idBuscado))
             //{
@@ -70,20 +70,20 @@ namespace Seguros_Broker
             //    return;
             //}
 
-            //MonedaRep repository = new MonedaRep();
-            //Moneda? monedaEncontrada = repository.GetMoneda(idBuscado);
+            MonedaRep repository = new MonedaRep();
+            Moneda? monedaEncontrada = repository.GetMoneda(idBuscado);
 
-            //if (monedaEncontrada != null)
-            //{
+            if (monedaEncontrada != null)
+            {
 
-            //    CargarDatosMonedaEnFormulario(monedaEncontrada);
+                CargarDatosMonedaEnFormulario(monedaEncontrada);
 
-            //    MessageBox.Show($"Ejecutivo encontrado: {monedaEncontrada.nombre} ", "Búsqueda Exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //else
-            //{
-            //    MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {idBuscado}", "No Encontrado", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
+                MessageBox.Show($"Ejecutivo encontrado: {monedaEncontrada.nombre} ", "Búsqueda Exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {idBuscado}", "No Encontrado", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void LimpiarFormulario()
@@ -99,8 +99,47 @@ namespace Seguros_Broker
             LimpiarFormulario();
         }
 
-        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
+          var errores = new System.Collections.Generic.List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtNombreMoneda.Text))
+                errores.Add("Nombre Obligatorio");
+
+            else if (txtNombreMoneda.Text.Any(char.IsDigit))
+            {
+                errores.Add("El nombre no puede contener números.");
+            }
+
+            if (errores.Any())
+            {
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var nuevaMoneda = new Moneda
+            {
+                monedaId = 0,
+                nombre = txtNombreMoneda.Text.Trim(),
+                simbolo = txtSimboloMoneda.Text.Trim()
+            };
+
+            var repo = new MonedaRep();
+
+            var result = await repo.CreateMonedaAsync(nuevaMoneda);
+
+            if (result.success)
+            {
+                MessageBox.Show("Moneda guardada correctamente. ", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                ReadMoneda();
+
+                LimpiarFormulario();
+            }
+            else 
+            {
+                MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 

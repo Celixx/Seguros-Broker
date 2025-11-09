@@ -91,78 +91,63 @@ namespace Seguros_Broker.Repositorio
             return null;
         }
 
-        //public async Task<(bool success, string? errorMessage)> CreateEjecutivoAsync(EjecutivoM ejecutivo)
-        //{
-        //    if (ejecutivo == null)
-        //        return (false, "Ejecutivo nulo.");
+        public async Task<(bool success, string? errorMessage)> CreateMonedaAsync(Moneda moneda)
+        {
+            if (moneda == null)
+                return (false, "Moneda nula.");
 
-        //    try
-        //    {
-        //        using (var connection = new SqlConnection(connectionString))
-        //        {
-        //            await connection.OpenAsync();
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+        
+                    const string checkSql = "SELECT COUNT(1) FROM MONEDA WHERE Nombre = @Nombre";
+                    using (var checkCmd = new SqlCommand(checkSql, connection))
+                    {
+                        checkCmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar).Value = moneda.nombre;
+                        checkCmd.Parameters.Add("@Simbolo", System.Data.SqlDbType.NVarChar).Value = moneda.simbolo;
 
-        //            Verificar existencia por codigo o ID
-        //            const string checkSql = "SELECT COUNT(1) FROM Ejecutivo WHERE codigo = @codigo OR ID = @ID";
-        //            using (var checkCmd = new SqlCommand(checkSql, connection))
-        //            {
-        //                checkCmd.Parameters.Add("@codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
-        //                checkCmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ejecutivo.ID;
+                        var exists = (int)await checkCmd.ExecuteScalarAsync();
+                        if (exists > 0)
+                        {
+                            return (false, "Ya existe una Moneda con el mismo nombre.");
+                        }
+                    }
 
-        //                var exists = (int)await checkCmd.ExecuteScalarAsync();
-        //                if (exists > 0)
-        //                {
-        //                    return (false, "Ya existe un Ejecutivo con el mismo Código o Identificación.");
-        //                }
-        //            }
+                    using (var tran = connection.BeginTransaction())
+                    {
+                        const string insertSql = @"INSERT INTO Moneda
+                                                    (Nombre, Simbolo)
+                                                VALUES
+                                                    (@Nombre, @Simbolo);";
 
-        //            Insert dentro de una transacción
-        //            using (var tran = connection.BeginTransaction())
-        //            {
-        //                const string insertSql = @"
-        //            INSERT INTO Ejecutivo
-        //              (codigo, tipoId, ID, nombre, aPaterno, aMaterno, fono, celular, mail, comision, PorcentajeComision, nick, perfil, estado, restricciones)
-        //            VALUES
-        //              (@codigo, @tipoId, @ID, @nombre, @aPaterno, @aMaterno, @fono, @celular, @mail, @comision, @PorcentajeComision, @nick, @perfil, @estado, @restricciones);";
+                        using (var cmd = new SqlCommand(insertSql, connection, tran))
+                        {
 
-        //                using (var cmd = new SqlCommand(insertSql, connection, tran))
-        //                {
-        //                    Parámetros con tipos
-        //                    cmd.Parameters.Add("@codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
-        //                    cmd.Parameters.Add("@tipoId", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.tipoId ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = ejecutivo.ID;
-        //                    cmd.Parameters.Add("@nombre", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.nombre ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@aPaterno", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.aPaterno ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@aMaterno", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.aMaterno ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@fono", System.Data.SqlDbType.Int).Value = ejecutivo.fono;
-        //                    cmd.Parameters.Add("@celular", System.Data.SqlDbType.Int).Value = ejecutivo.celular;
-        //                    cmd.Parameters.Add("@mail", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.mail ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@comision", System.Data.SqlDbType.Int).Value = ejecutivo.comision;
-        //                    cmd.Parameters.Add("@PorcentajeComision", System.Data.SqlDbType.Int).Value = ejecutivo.porcentajeComision;
-        //                    cmd.Parameters.Add("@nick", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.nick ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@perfil", System.Data.SqlDbType.NVarChar, 100).Value = (object)ejecutivo.perfil ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@estado", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.estado ?? DBNull.Value;
-        //                    cmd.Parameters.Add("@restricciones", System.Data.SqlDbType.NVarChar, 200).Value = (object)ejecutivo.restricciones ?? DBNull.Value;
+                            cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar).Value = moneda.nombre;
+                            cmd.Parameters.Add("@Simbolo", System.Data.SqlDbType.NVarChar).Value = moneda.simbolo;
 
-        //                    int rows = await cmd.ExecuteNonQueryAsync();
-        //                    if (rows <= 0)
-        //                    {
-        //                        await tran.RollbackAsync();
-        //                        return (false, "No se insertó el registro (0 filas afectadas).");
-        //                    }
 
-        //                    await tran.CommitAsync();
-        //                    return (true, null);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
+                            int rows = await cmd.ExecuteNonQueryAsync();
+                            if (rows <= 0)
+                            {
+                                await tran.RollbackAsync();
+                                return (false, "No se insertó el registro (0 filas afectadas).");
+                            }
 
-        //        return (false, ex.Message);
-        //    }
-        //}
+                            await tran.CommitAsync();
+                            return (true, null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return (false, ex.Message);
+            }
+        }
 
 
     }
