@@ -21,7 +21,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     connection.Open();
 
-                    string sql = "SELECT ID, Nombre FROM GRUPO ORDER BY ID DESC";
+                    string sql = "SELECT ID, Nombre FROM GRUPO ORDER BY ID ASC";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -30,7 +30,7 @@ namespace Seguros_Broker.Repositorio
                             {
                                 var grupo = new Grupo();
 
-                                grupo.ID = reader["ID"] != DBNull.Value ? Convert.ToString(reader["ID"]) : "";
+                                grupo.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0; 
                                 grupo.Nombre = reader["Nombre"] != DBNull.Value ? Convert.ToString(reader["Nombre"]) : "";                                
 
                                 grupos.Add(grupo);
@@ -58,27 +58,26 @@ namespace Seguros_Broker.Repositorio
                 {
                     await connection.OpenAsync();
 
-                    const string checkSql = "SELECT COUNT(1) FROM GRUPO WHERE ID = @ID";
+                    const string checkSql = "SELECT COUNT(1) FROM GRUPO WHERE Nombre = @Nombre";
                     using (var checkCmd = new SqlCommand(checkSql, connection))
                     {
-                        checkCmd.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar).Value = grupo.ID;
+                        checkCmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar).Value = grupo.Nombre;
 
                         var exists = (int)await checkCmd.ExecuteScalarAsync();
                         if (exists > 0)
                         {
-                            return (false, "Ya existe una Grupo con el mismo ID");
+                            return (false, "Ya existe una Grupo con el mismo Nombre");
                         }
                     }
 
                     using (var tran = connection.BeginTransaction())
                     {
                         const string insertSql = @"INSERT INTO GRUPO
-                                                    (ID, Nombre)
+                                                    (Nombre)
                                                     VALUES
-                                                    (@ID, @Nombre);";
+                                                    (@Nombre);";
                         using (var cmd = new SqlCommand(insertSql, connection, tran))
                         {
-                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar, 10).Value = (object)grupo.ID ?? DBNull.Value;
                             cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 50).Value = (object)grupo.Nombre ?? DBNull.Value;
 
                             int rows = await cmd.ExecuteNonQueryAsync();
@@ -121,7 +120,6 @@ namespace Seguros_Broker.Repositorio
                             {
                                 Grupo grupo = new Grupo();
 
-                                grupo.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(0);
                                 grupo.Nombre = reader.IsDBNull(reader.GetOrdinal("Nombre")) ? null : reader.GetString(1);                                
 
                                 return grupo;

@@ -8,7 +8,7 @@ namespace Seguros_Broker.Modelo
 {
     public class Grupo
     {
-        public string ID { get; set; } = "";
+        public int ID { get; set; } = 0;
         public string Nombre { get; set; } = "";
     }
 }

@@ -89,10 +89,7 @@
                                     <TextBlock Style="{StaticResource LabelRequired}" Text="Grupo"/>
                                     <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
                                 </StackPanel>
-                                <ComboBox x:Name="cbGrupo" SelectedIndex="0">
-                                    <ComboBoxItem Content="SELECCIONE"/>
-                                    <ComboBoxItem Content="Generales"/>
-                                    <ComboBoxItem Content="Otros"/>
+                                <ComboBox x:Name="cbGrupo" SelectedValuePath="ID" DisplayMemberPath="Nombre">
                                 </ComboBox>
 
                                 <TextBlock Text="Página web" FontWeight="Normal" Margin="0,8,0,2"/>
@@ -161,12 +158,6 @@
                             <TextBlock Text="Registrar / Editar Grupos" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
 
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Style="{StaticResource LabelRequired}" Text="Identificación"/>
-                                    <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
-                                </StackPanel>
-                                <TextBox x:Name="txtIdentificacion_Grupo"/>
-
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <TextBlock Style="{StaticResource LabelRequired}" Text="Nombre"/>
                                     <TextBlock Style="{StaticResource Asterisk}" Text="*"/>

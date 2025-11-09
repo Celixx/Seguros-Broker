@@ -33,7 +33,12 @@ namespace Seguros_Broker
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("¿Seguro que quiere salir?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
@@ -51,9 +56,9 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 errores.Add("Nombre (obligatorio).");
 
-            if (cbGrupo.SelectedItem == null ||
-                ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
-                errores.Add("Tipo identificación (obligatorio).");
+            //if (cbGrupo.SelectedItem == null ||
+            //    ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
+            //    errores.Add("Tipo identificación (obligatorio).");
 
             if (errores.Any())
             {
@@ -62,11 +67,15 @@ namespace Seguros_Broker
             }
 
             // Mapeo
+
+            var selectedGrupo = cbGrupo.SelectedItem as Grupo;
+
             var nuevaCompania = new Compania{
                 tipoID = ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString(),
                 ID = txtIdentificacion.Text.Trim(),
                 nombre = txtNombre.Text.Trim(),
-                grupo = ((ComboBoxItem)cbGrupo.SelectedItem).Content.ToString(),
+                IDGrupo = selectedGrupo.ID,
+                grupoNombre = selectedGrupo.Nombre,
                 fono = int.TryParse(txtFono.Text, out int f) ? f : 0,
                 paginaWeb = txtPagina.Text?.Trim() ?? "",
                 pais = txtPais.Text?.Trim() ?? "",
@@ -130,7 +139,7 @@ namespace Seguros_Broker
 
             txtIdentificacion.Text = compania.ID;
             txtNombre.Text = compania.nombre;
-            cbGrupo.Text = compania.grupo;
+            cbGrupo.Text = compania.grupoNombre;
             txtFono.Text = compania.fono.ToString();
             txtPagina.Text = compania.paginaWeb;
             txtPais.Text = compania.pais;
@@ -157,7 +166,12 @@ namespace Seguros_Broker
         private void ReadCompania()
         {
             var repo = new CompaniaRep();
+            var repoGrupos = new GrupoRep();
+
             var companias = repo.GetCompanias();
+            var grupos = repoGrupos.GetGrupos();
+
+            cbGrupo.ItemsSource = grupos;
 
             this.dataGridCompania.ItemsSource = companias;
         }
@@ -169,15 +183,17 @@ namespace Seguros_Broker
 
         private void btnCancelar_Grupos_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("¿Seguro que quiere salir?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private async void btnGuardar_Grupos_Click(object sender, RoutedEventArgs e)
         {
             var errores = new System.Collections.Generic.List<string>();
-
-            if (string.IsNullOrWhiteSpace(txtIdentificacion_Grupo.Text))
-                errores.Add("Identificación (obligatorio).");
 
             if (string.IsNullOrWhiteSpace(txtNombre_Grupo.Text))
                 errores.Add("Nombre (obligatorio).");
@@ -191,8 +207,8 @@ namespace Seguros_Broker
             // Mapeo
             var nuevoGrupo = new Grupo
             {
-                ID = txtIdentificacion_Grupo.Text.Trim(),
-                Nombre = txtNombre_Grupo.Text.Trim(),
+                ID = 0,
+                Nombre = txtNombre_Grupo.Text.Trim()
             };
 
             var repo = new GrupoRep();
@@ -255,7 +271,6 @@ namespace Seguros_Broker
 
             if (grupo == null) return;
 
-            txtIdentificacion_Grupo.Text = grupo.ID;
             txtNombre_Grupo.Text = grupo.Nombre;
         }
 
