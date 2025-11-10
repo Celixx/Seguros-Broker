@@ -123,6 +123,21 @@ namespace Seguros_Broker
         {
 
         }
+
+        private void cbFormatoHoja_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BtnPdf_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnExcel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 }

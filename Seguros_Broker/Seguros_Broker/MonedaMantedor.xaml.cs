@@ -34,7 +34,6 @@ namespace Seguros_Broker
             var repo = new MonedaRep();
             var monedas = repo.GetMonedas();
 
-            MessageBox.Show($"Monedas Obtenidas: {monedas?.Count ?? 0}");
             this.dataGridMoneda.ItemsSource = monedas;
             
 
