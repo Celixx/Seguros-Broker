@@ -58,10 +58,6 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(txtIdentificacion.Text))
                 errores.Add("Identificación (obligatorio).");
 
-            else if (txtIdentificacion.Text.Any(char.IsDigit))
-            {
-                errores.Add("La identificacion no puede contener números.");
-            }
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 errores.Add("Nombre (obligatorio).");

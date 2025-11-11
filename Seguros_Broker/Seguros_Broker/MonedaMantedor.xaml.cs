@@ -46,7 +46,7 @@ namespace Seguros_Broker
             if (moneda == null) return;
 
             txtNombreMoneda.Text = moneda.nombre.ToString();
-            txtSimboloMoneda.Text = moneda.monedaId.ToString();
+            txtSimboloMoneda.Text = moneda.simbolo.ToString();
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
