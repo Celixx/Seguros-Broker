@@ -121,7 +121,8 @@ namespace Seguros_Broker
 
         private void BtnAgregarItem(object sender, RoutedEventArgs e)
         {
-
+            var VentanaAgregarNuevoItem = new VentanaAgregarNuevoItem();
+            VentanaAgregarNuevoItem.ShowDialog();
         }
 
         private void cbFormatoHoja_SelectionChanged(object sender, SelectionChangedEventArgs e)
