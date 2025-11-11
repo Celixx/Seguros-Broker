@@ -36,7 +36,6 @@ namespace Seguros_Broker
             var repo = new EjecutivoRep();
             var ejecutivos = repo.GetEjecutivos();
 
-            MessageBox.Show($"Ejecutivos obtenidos: {ejecutivos?.Count ?? 0}");
             this.dataGridEjecutivo.ItemsSource = ejecutivos;
         }
 

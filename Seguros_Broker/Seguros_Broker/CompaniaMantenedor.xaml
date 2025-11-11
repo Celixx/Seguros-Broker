@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.CompaniaMantenedor"
         Title="Mantenedor Compañía" Height="733" Width="1280"
-        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9">
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9"
+        WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="LabelRequired" TargetType="{x:Type TextBlock}">
             <Setter Property="FontWeight" Value="SemiBold"/>

@@ -48,5 +48,10 @@ namespace Seguros_Broker
             VentanaMoneda.ShowDialog();
 
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

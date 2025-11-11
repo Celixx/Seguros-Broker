@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.NuevaPropuestaCaratula"
         Title="Nueva Propuesta" Height="733" Width="1280"
-        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9">
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9"
+        WindowState="Maximized">
 
 
     <TabControl Margin="0,0,0,-281">
@@ -12,521 +13,819 @@
                 <!-- Formulario -->
                 <Grid Grid.Row="1">
                     <Grid Grid.Row="1" Margin="20">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <Grid Margin="20">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <!-- Recepción de Documentos -->
-                                    <RowDefinition Height="Auto"/>
-                                    <!-- Tipo de Póliza -->
-                                    <RowDefinition Height="Auto"/>
-                                    <!-- Identificación Documento -->
-                                    <RowDefinition Height="Auto"/>
-                                    <!-- Vigencia -->
-                                    <RowDefinition Height="Auto"/>
+                        <DockPanel LastChildFill="True">
+
+                            <!-- NAV BAR -->
+                            <StackPanel DockPanel.Dock="Top"
+                                        Orientation="Horizontal"
+                                        Background="#E6E6E6"
+                                        Margin="0,0,0,5"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center">
+
+                                <TextBlock Text="Formato hoja:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <ComboBox x:Name="cbFormatoHoja" Width="180" Margin="0,0,15,0" SelectionChanged="cbFormatoHoja_SelectionChanged">
+                                    <ComboBoxItem Content="Carta"/>
+                                    <ComboBoxItem Content="Oficio"/>
+                                </ComboBox>
+
+                                <Button Width="32" Height="32" Margin="0,0,8,0" Click="BtnPdf_Click">
+                                    <Image Source="{StaticResource pdf_icono}" Width="20" Height="20"/>
+                                </Button>
+
+                                <Button Width="32" Height="32" Click="BtnExcel_Click">
+                                    <Image Source="{StaticResource excel_icono}" Width="20" Height="20"/>
+                                </Button>
+                            </StackPanel>
+
+                            <!-- FORM CONTENT -->
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <Grid Margin="20">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Recepción de Documentos -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Tipo de Póliza -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Identificación Documento -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Vigencia -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Botones -->
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Sección 1: Recepción de Documentos -->
+                                    <GroupBox Header="Recepción de Documentos" Grid.Row="0" Margin="0,0,0,10">
+                                        <!-- Grid con 3 filas (Nombre, RUT, Correo) y 2 columnas (label / input) -->
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Fila 0 -->
+                                            <TextBlock Text="Fecha recepción de documentos en la corredora (opcional)" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,854,0" Grid.ColumnSpan="2"/>
+                                            <DatePicker Grid.Row="0" Grid.Column="1" Width="200" Margin="0,2" x:Name="FechaRecepcion"/>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <!-- Sección 2: Tipo de Póliza -->
+                                    <GroupBox Header="Tipo de Póliza" Grid.Row="1" Margin="0,0,0,10">
+                                        <StackPanel Orientation="Horizontal" Margin="10,5,0,5">
+                                            <RadioButton Content="Póliza Convencional" GroupName="TipoPoliza" IsChecked="True" Margin="0,0,15,0" x:Name="RbConvencional"/>
+                                            <RadioButton Content="Póliza Colectiva" GroupName="TipoPoliza" x:Name="RbColectiva"/>
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <!-- Sección 3: Identificación de Documento -->
+                                    <GroupBox Header="Identificación de Documento" Grid.Row="2" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <!-- Fila Número Póliza -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!--  Fila Fecha -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Ramo -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Ejecutivo de Cuenta -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Ejecutivo Responsable -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Área Negocio -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Fecha de Creación -->
+                                                <RowDefinition Height="Auto"/>
+                                                <!-- Fila Fecha de Creación -->
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Número Póliza -->
+                                            <TextBlock Text="Número Póliza:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtNumeroPoliza"/>
+
+                                            <!-- Número Póliza -->
+                                            <TextBlock Text="Renueva Póliza No.:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRenuevaPoliza"/>
+
+                                            <!-- Fecha Ingreso cia. -->
+                                            <TextBlock Text="Fecha ingreso cia." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                            <DatePicker Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaIngreso"/>
+
+                                            <!-- Fecha Emisión -->
+                                            <TextBlock Text="Fecha Término:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
+                                            <DatePicker Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="DpTermino"/>
+
+                                            <!-- Ramo -->
+                                            <TextBlock Text="Ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtRamo" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
+
+                                            <!-- Cod1 -->
+                                            <TextBlock Text="Código de ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="3" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoRamo"/>
+                                            <Button Grid.Row="3" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar cliente"
+                                                    Click="BtnBuscarRamo_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Ejecutivo de Cuenta -->
+                                            <TextBlock Text="Ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoCuenta" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
+
+                                            <!-- Cod2 -->
+                                            <TextBlock Text="Código de ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="4" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivo"/>
+                                            <Button Grid.Row="4" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar cliente"
+                                                    Click="BtnBuscarEjecutivoCuenta_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Ejecutivo Responsable -->
+                                            <TextBlock Text="Ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="5" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoResponsable" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
+
+                                            <!-- Cod3 -->
+                                            <TextBlock Text="Código de ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="5" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivoResponsable"/>
+                                            <Button Grid.Row="5" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar cliente"
+                                                    Click="BtnBuscarEjecutivoResponsable_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Área de negocio -->
+                                            <TextBlock Text="Área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
+
+                                            <!-- Cod3 -->
+                                            <TextBlock Text="Código de área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="6" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtAreaNegocio"/>
+                                            <Button Grid.Row="6" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar cliente"
+                                                    Click="BtnBuscarArea_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Fecha de Creación -->
+                                            <TextBlock Text="Fecha de Creación" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2"/>
+                                            <DatePicker Grid.Row="7" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaCreacion"/>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <!-- Vigencias del Documento -->
+                                    <GroupBox Header="Vigencias del Documento" Grid.Row="3" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Desde -->
+                                            <TextBlock Text="Desde" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <DatePicker Grid.Row="0" Grid.Column="1" Width="100" Margin="0,2" x:Name="DpDesde"/>
+                                            <TextBox x:Name="TxtHoraDesde"
+                                                     Grid.Column="2"
+                                                     Width="40"
+                                                     Margin="5,2"
+                                                     Text="00:00"
+                                                     ToolTip="Ingrese hora en formato HH:mm" />
+
+                                            <!-- Hasta -->
+                                            <TextBlock Text="Hasta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
+                                            <DatePicker Grid.Row="0" Grid.Column="4" Width="100" Margin="0,2" x:Name="DpHasta"/>
+                                            <TextBox x:Name="TxtHoraHasta"
+                                                     Grid.Column="5"
+                                                     Width="40"
+                                                     Margin="5,2"
+                                                     Text="00:00"
+                                                     ToolTip="Ingrese hora en formato HH:mm" />
+
+                                            <!-- Ndias -->
+                                            <TextBlock Text="No. Días" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="6" Width="150" Margin="0,2" x:Name="TxtNDias" IsReadOnly="True"/>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Header="Valores" Grid.Row="4" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Moneda -->
+                                            <TextBlock Text="Moneda" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <ComboBox Grid.Column="1" Width="150">
+                                                <ComboBoxItem Content="UF"/>
+                                                <ComboBoxItem Content="CLP"/>
+                                                <ComboBoxItem Content="USD"/>
+                                            </ComboBox>
+                                            <Button Grid.Row="0" Grid.Column="2"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar moneda"
+                                                    Click="BtnBuscarRamo_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Prima Neta Afecta -->
+                                            <TextBlock Text="Prima Neta Afecta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaAfecta" IsReadOnly="True"/>
+
+                                            <!-- Monto Asegurado -->
+                                            <TextBlock Text="Monto asegurado" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMontoAsegurado" IsReadOnly="True"/>
+
+                                            <!-- Prima Neta Exenta -->
+                                            <TextBlock Text="Prima Neta Exenta" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExenta" IsReadOnly="True"/>
+
+                                            <!-- Comisión Afecta -->
+                                            <TextBlock Text="Comisión Afecta (%)" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisiónAfectaPorcentaje"/>
+
+                                            <!-- Prima Neta Total -->
+                                            <TextBlock Text="Prima Neta Total" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="2" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaTotal" IsReadOnly="True"/>
+
+                                            <!-- Prima Neta Exenta (%) -->
+                                            <TextBlock Text="Prima Neta Exenta (%)" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExentaPorcentaje"/>
+
+                                            <!-- IVA -->
+                                            <TextBlock Text="IVA" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="3" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtIva" IsReadOnly="True"/>
+
+                                            <!-- Comisión Total -->
+                                            <TextBlock Text="Comisión total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisionTotal"/>
+
+                                            <!-- Comisión Total -->
+                                            <TextBlock Text="Prima Bruta Total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="4" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaBrutaTotal" IsReadOnly="True"/>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Header="Identificación del Cliente" Grid.Row="5" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Facturar a -->
+                                            <TextBlock Text="Facturar a" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtFacturarA" IsReadOnly="True"/>
+
+                                            <!-- Rut1 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutCliente1"/>
+                                            <Button Grid.Row="0" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar Rut a facturar"
+                                                    Click="BtnBuscarRutFacturar_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Contratante -->
+                                            <TextBlock Text="Contratante" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtContratante" IsReadOnly="True"/>
+
+                                            <!-- Rut2 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutContratante"/>
+                                            <Button Grid.Row="1" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar contratante"
+                                                    Click="BtnBuscarRutContratante_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Asegurado -->
+                                            <TextBlock Text="Asegurado" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAsegurado" IsReadOnly="True"/>
+
+                                            <!-- Rut3 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAsegurado"/>
+                                            <Button Grid.Row="2" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar Rut asegurado"
+                                                    Click="BtnBuscarRutAsegurado_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- A favor de -->
+                                            <TextBlock Text="A favor de" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAFavorDe" IsReadOnly="True"/>
+
+                                            <!-- Rut4 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="5" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAFavorDe"/>
+                                            <Button Grid.Row="5" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar a favor de"
+                                                    Click="BtnBuscarRutAFavorDe_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Header="Identificación de Socio y Gestor" Grid.Row="6" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Socio -->
+                                            <TextBlock Text="Socio" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtSocio" IsReadOnly="True"/>
+
+                                            <!-- Rut1 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutSocio"/>
+                                            <Button Grid.Row="0" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar Socio"
+                                                    Click="BtnBuscarRutSocio_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Gestor -->
+                                            <TextBlock Text="Gestor" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtGestor" IsReadOnly="True"/>
+
+                                            <!-- Rut2 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutGestor"/>
+                                            <Button Grid.Row="1" Grid.Column="4"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar Gestor"
+                                                    Click="BtnBuscarRutGestor_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Header="Identificación de Compañía" Grid.Row="7" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Compañía -->
+                                            <TextBlock Text="Compañía" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtCompania" IsReadOnly="True"/>
+
+                                            <!-- Rut1 -->
+                                            <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtRutCompania"/>
+                                            <Button Grid.Row="0" Grid.Column="5"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Buscar Compañía"
+                                                    Click="BtnBuscarRutCompania_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Ejeutivo Compañía -->
+                                            <TextBlock Text="Ejeutivo Compañía" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <ComboBox Grid.Row="1" Grid.Column="1" Width="120">
+                                                <ComboBoxItem Content="CRISTINA OLGUIN"/>
+                                                <ComboBoxItem Content="placeholder"/>
+                                            </ComboBox>
+                                            <Button Grid.Row="1" Grid.Column="2"
+                                                    Width="28"
+                                                    Height="28"
+                                                    ToolTip="Limpiar campo"
+                                                    Click="BtnLimpiarEjecutivo_Click">
+                                                <Button.Content>
+                                                    <Image Source="{StaticResource borrar_icono}" Width="16" Height="16"/>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <!-- Área -->
+                                            <TextBlock Text="Área" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtGenerales" IsReadOnly="True"/>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Header="Referencia a Materia Asegurada" Grid.Row="8" Margin="0,0,0,10">
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Materia Asegurada -->
+                                            <TextBlock Text="Materia asegurada" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMateriaAsegurada"/>
+
+                                            <!-- Observación -->
+                                            <TextBlock Text="Observación" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtObservacion"/>
+                                        </Grid>
+                                    </GroupBox>
+
+
                                     <!-- Botones -->
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <!-- Sección 1: Recepción de Documentos -->
-                                <GroupBox Header="Recepción de Documentos" Grid.Row="0" Margin="0,0,0,10">
-                                    <!-- Grid con 3 filas (Nombre, RUT, Correo) y 2 columnas (label / input) -->
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Fila 0 -->
-                                        <TextBlock Text="Fecha recepción de documentos en la corredora (opcional)" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,854,0" Grid.ColumnSpan="2"/>
-                                        <DatePicker Grid.Row="0" Grid.Column="1" Width="200" Margin="0,2" x:Name="FechaRecepcion"/>
-                                    </Grid>
-                                </GroupBox>
-
-                                <!-- Sección 2: Tipo de Póliza -->
-                                <GroupBox Header="Tipo de Póliza" Grid.Row="1" Margin="0,0,0,10">
-                                    <StackPanel Orientation="Horizontal" Margin="10,5,0,5">
-                                        <RadioButton Content="Póliza Convencional" GroupName="TipoPoliza" IsChecked="True" Margin="0,0,15,0" x:Name="RbConvencional"/>
-                                        <RadioButton Content="Póliza Colectiva" GroupName="TipoPoliza" x:Name="RbColectiva"/>
+                                    <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                                        <Button Content="Guardar" Width="100" Margin="0,0,10,0" Click="Guardar_Click"/>
+                                        <Button Content="Cancelar" Width="100" Click="Cancelar_Click"/>
                                     </StackPanel>
-                                </GroupBox>
+                                </Grid>
+                            </ScrollViewer>
 
-                                <!-- Sección 3: Identificación de Documento -->
-                                <GroupBox Header="Identificación de Documento" Grid.Row="2" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <!-- Fila Número Póliza -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!--  Fila Fecha -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Ramo -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Ejecutivo de Cuenta -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Ejecutivo Responsable -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Área Negocio -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Fecha de Creación -->
-                                            <RowDefinition Height="Auto"/>
-                                            <!-- Fila Fecha de Creación -->
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Número Póliza -->
-                                        <TextBlock Text="Número Póliza:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtNumeroPoliza"/>
-
-                                        <!-- Número Póliza -->
-                                        <TextBlock Text="Renueva Póliza No.:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRenuevaPoliza"/>
-
-                                        <!-- Fecha Ingreso cia. -->
-                                        <TextBlock Text="Fecha ingreso cia." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
-                                        <DatePicker Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaIngreso"/>
-
-                                        <!-- Fecha Emisión -->
-                                        <TextBlock Text="Fecha Término:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
-                                        <DatePicker Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="DpTermino"/>
-
-                                        <!-- Ramo -->
-                                        <TextBlock Text="Ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtRamo" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
-
-                                        <!-- Cod1 -->
-                                        <TextBlock Text="Código de ramo" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="3" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoRamo"/>
-                                        <Button Grid.Row="3" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar cliente"
-                                    Click="BtnBuscarRamo_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Ejecutivo de Cuenta -->
-                                        <TextBlock Text="Ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoCuenta" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
-
-                                        <!-- Cod2 -->
-                                        <TextBlock Text="Código de ejecutivo de cuenta" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="4" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivo"/>
-                                        <Button Grid.Row="4" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar cliente"
-                                    Click="BtnBuscarEjecutivoCuenta_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Ejecutivo Responsable -->
-                                        <TextBlock Text="Ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="5" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtEjecutivoResponsable" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
-
-                                        <!-- Cod3 -->
-                                        <TextBlock Text="Código de ejecutivo responsable" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="5" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtCodigoEjecutivoResponsable"/>
-                                        <Button Grid.Row="5" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar cliente"
-                                    Click="BtnBuscarEjecutivoResponsable_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Área de negocio -->
-                                        <TextBlock Text="Área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="6" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAreanNegocio" IsReadOnly="True" IsEnabled="False" Visibility="Collapsed"/>
-
-                                        <!-- Cod3 -->
-                                        <TextBlock Text="Código de área de negocio" VerticalAlignment="Center" Grid.Row="6" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="6" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtAreaNegocio"/>
-                                        <Button Grid.Row="6" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar cliente"
-                                    Click="BtnBuscarArea_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Fecha de Creación -->
-                                        <TextBlock Text="Fecha de Creación" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2"/>
-                                        <DatePicker Grid.Row="7" Grid.Column="1" Width="150" Margin="0,2" x:Name="DpFechaCreacion"/>
-                                    </Grid>
-                                </GroupBox>
-
-                                <!-- Vigencias del Documento -->
-                                <GroupBox Header="Vigencias del Documento" Grid.Row="3" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Desde -->
-                                        <TextBlock Text="Desde" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <DatePicker Grid.Row="0" Grid.Column="1" Width="100" Margin="0,2" x:Name="DpDesde"/>
-                                        <TextBox x:Name="TxtHoraDesde"
-                                     Grid.Column="2"
-                                     Width="40"
-                                     Margin="5,2"
-                                     Text="00:00"
-                                     ToolTip="Ingrese hora en formato HH:mm" />
-
-                                        <!-- Hasta -->
-                                        <TextBlock Text="Hasta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
-                                        <DatePicker Grid.Row="0" Grid.Column="4" Width="100" Margin="0,2" x:Name="DpHasta"/>
-                                        <TextBox x:Name="TxtHoraHasta"
-                                     Grid.Column="5"
-                                     Width="40"
-                                     Margin="5,2"
-                                     Text="00:00"
-                                     ToolTip="Ingrese hora en formato HH:mm" />
-
-                                        <!-- Ndias -->
-                                        <TextBlock Text="No. Días" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="6" Width="150" Margin="0,2" x:Name="TxtNDias" IsReadOnly="True"/>
-                                    </Grid>
-                                </GroupBox>
-
-                                <GroupBox Header="Valores" Grid.Row="4" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Moneda -->
-                                        <TextBlock Text="Moneda" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <ComboBox Grid.Column="1" Width="150">
-                                            <ComboBoxItem Content="UF"/>
-                                            <ComboBoxItem Content="CLP"/>
-                                            <ComboBoxItem Content="USD"/>
-                                        </ComboBox>
-                                        <Button Grid.Row="0" Grid.Column="2"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar moneda"
-                                    Click="BtnBuscarRamo_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Prima Neta Afecta -->
-                                        <TextBlock Text="Prima Neta Afecta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaAfecta" IsReadOnly="True"/>
-
-                                        <!-- Monto Asegurado -->
-                                        <TextBlock Text="Monto asegurado" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMontoAsegurado" IsReadOnly="True"/>
-
-                                        <!-- Prima Neta Exenta -->
-                                        <TextBlock Text="Prima Neta Exenta" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExenta" IsReadOnly="True"/>
-
-                                        <!-- Comisión Afecta -->
-                                        <TextBlock Text="Comisión Afecta (%)" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisiónAfectaPorcentaje"/>
-
-                                        <!-- Prima Neta Total -->
-                                        <TextBlock Text="Prima Neta Total" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="2" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaNetaTotal" IsReadOnly="True"/>
-
-                                        <!-- Prima Neta Exenta (%) -->
-                                        <TextBlock Text="Prima Neta Exenta (%)" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="3" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtPrimaNetaExentaPorcentaje"/>
-
-                                        <!-- IVA -->
-                                        <TextBlock Text="IVA" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="3" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtIva" IsReadOnly="True"/>
-
-                                        <!-- Comisión Total -->
-                                        <TextBlock Text="Comisión total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtComisionTotal"/>
-
-                                        <!-- Comisión Total -->
-                                        <TextBlock Text="Prima Bruta Total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="4" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtPrimaBrutaTotal" IsReadOnly="True"/>
-                                    </Grid>
-                                </GroupBox>
-
-                                <GroupBox Header="Identificación del Cliente" Grid.Row="5" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Facturar a -->
-                                        <TextBlock Text="Facturar a" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtFacturarA" IsReadOnly="True"/>
-
-                                        <!-- Rut1 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutCliente1"/>
-                                        <Button Grid.Row="0" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar Rut a facturar"
-                                    Click="BtnBuscarRutFacturar_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Contratante -->
-                                        <TextBlock Text="Contratante" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtContratante" IsReadOnly="True"/>
-
-                                        <!-- Rut2 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutContratante"/>
-                                        <Button Grid.Row="1" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar contratante"
-                                    Click="BtnBuscarRutContratante_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Asegurado -->
-                                        <TextBlock Text="Asegurado" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="2" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAsegurado" IsReadOnly="True"/>
-
-                                        <!-- Rut3 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="2" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAsegurado"/>
-                                        <Button Grid.Row="2" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar Rut asegurado"
-                                    Click="BtnBuscarRutAsegurado_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- A favor de -->
-                                        <TextBlock Text="A favor de" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="4" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtAFavorDe" IsReadOnly="True"/>
-
-                                        <!-- Rut4 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="5" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutAFavorDe"/>
-                                        <Button Grid.Row="5" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar a favor de"
-                                    Click="BtnBuscarRutAFavorDe_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-                                    </Grid>
-                                </GroupBox>
-
-                                <GroupBox Header="Identificación de Socio y Gestor" Grid.Row="6" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Socio -->
-                                        <TextBlock Text="Socio" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtSocio" IsReadOnly="True"/>
-
-                                        <!-- Rut1 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutSocio"/>
-                                        <Button Grid.Row="0" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar Socio"
-                                    Click="BtnBuscarRutSocio_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Gestor -->
-                                        <TextBlock Text="Gestor" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtGestor" IsReadOnly="True"/>
-
-                                        <!-- Rut2 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="3" Width="150" Margin="0,2" x:Name="TxtRutGestor"/>
-                                        <Button Grid.Row="1" Grid.Column="4"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar Gestor"
-                                    Click="BtnBuscarRutGestor_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-                                    </Grid>
-                                </GroupBox>
-
-                                <GroupBox Header="Identificación de Compañía" Grid.Row="7" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Compañía -->
-                                        <TextBlock Text="Compañía" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtCompania" IsReadOnly="True"/>
-
-                                        <!-- Rut1 -->
-                                        <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtRutCompania"/>
-                                        <Button Grid.Row="0" Grid.Column="5"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Buscar Compañía"
-                                    Click="BtnBuscarRutCompania_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Ejeutivo Compañía -->
-                                        <TextBlock Text="Ejeutivo Compañía" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <ComboBox Grid.Row="1" Grid.Column="1" Width="120">
-                                            <ComboBoxItem Content="CRISTINA OLGUIN"/>
-                                            <ComboBoxItem Content="placeholder"/>
-                                        </ComboBox>
-                                        <Button Grid.Row="1" Grid.Column="2"
-                                    Width="28"
-                                    Height="28"
-                                    ToolTip="Limpiar campo"
-                                    Click="BtnLimpiarEjecutivo_Click">
-                                            <Button.Content>
-                                                <Image Source="{StaticResource borrar_icono}" Width="16" Height="16"/>
-                                            </Button.Content>
-                                        </Button>
-
-                                        <!-- Área -->
-                                        <TextBlock Text="Área" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="4" Width="150" Margin="0,2" x:Name="TxtGenerales" IsReadOnly="True"/>
-                                    </Grid>
-                                </GroupBox>
-
-                                <GroupBox Header="Referencia a Materia Asegurada" Grid.Row="8" Margin="0,0,0,10">
-                                    <Grid Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Materia Asegurada -->
-                                        <TextBlock Text="Materia asegurada" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtMateriaAsegurada"/>
-
-                                        <!-- Observación -->
-                                        <TextBlock Text="Observación" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Margin="0,2" x:Name="TxtObservacion"/>
-                                    </Grid>
-                                </GroupBox>
-
-
-                                <!-- Botones -->
-                                <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                                    <Button Content="Guardar" Width="100" Margin="0,0,10,0" Click="Guardar_Click"/>
-                                    <Button Content="Cancelar" Width="100" Click="Cancelar_Click"/>
-                                </StackPanel>
-                            </Grid>
-                        </ScrollViewer>
-
+                        </DockPanel>
                     </Grid>
                 </Grid>
             </Grid>
         </TabItem>
 
         <TabItem Header="Items">
-            
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+                <!-- Grid Principal que divide la ventana en 3 secciones:
+             Fila 0: Detalle del Item
+             Fila 1: Coberturas
+             Fila 2: Pie de página con totales
+        -->
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- SECCIÓN 1: ITEMS Y DETALLE DEL ITEM (Grid.Row="0") -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna 0: Lista de Items -->
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <ToolBar Height="28">
+                                <Button Content="Agregar" Click="BtnAgregarItem"/>
+                                <Button Content="Eliminar"/>
+                                <Button Content="Copiar"/>
+                            </ToolBar>
+                            <DataGrid AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Número Item" Binding="{Binding Numero}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima neta" Binding="{Binding PrimaNeta}" Width="auto"/>
+                                </DataGrid.Columns>
+                                <!-- Aquí iría el ItemsSource="{Binding ListaItems}" -->
+                            </DataGrid>
+                        </StackPanel>
+
+                        <!-- Columna 1: Detalle del Item -->
+                        <GroupBox Grid.Column="1" Header="Detalle del Item" Padding="10">
+                            <StackPanel>
+                                <!-- Grid para el formulario principal de detalles -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Label -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Input -->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Label -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Input -->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Label -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Input -->
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Fila 0 -->
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Número Item:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Carrocería:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="0" Grid.Column="3" Margin="5"/>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Chasis:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="0" Grid.Column="5" Margin="5"/>
+
+                                    <!-- Fila 1 -->
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Materia Asegurada:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Propietario:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="1" Grid.Column="3" Margin="5"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="4" Text="Valor Comercial:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="1" Grid.Column="5" Margin="5"/>
+
+                                    <!-- Fila 2 -->
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Año:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text="Tipo:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="2" Grid.Column="3" Margin="5"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="4" Text="Modelo:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="2" Grid.Column="5" Margin="5"/>
+
+                                    <!-- Fila 3 -->
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Patente:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="Número Motor:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="3" Grid.Column="3" Margin="5"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="4" Text="Número Chasis:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="3" Grid.Column="5" Margin="5"/>
+
+                                    <!-- Fila 4 -->
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Minuta de Item:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Text="Color:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="4" Grid.Column="3" Margin="5"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="4" Text="Uso:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="4" Grid.Column="5" Margin="5"/>
+
+                                    <!-- Fila 5 -->
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="A favor de:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="5" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="5" Grid.Column="2" Text="Rut:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="5" Grid.Column="3" Margin="5"/>
+
+                                    <!-- Fila 6 -->
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Asegurado:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="6" Grid.Column="1" Margin="5"/>
+
+                                    <TextBlock Grid.Row="6" Grid.Column="2" Text="Rut:" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox Grid.Row="6" Grid.Column="3" Margin="5"/>
+                                </Grid>
+
+                                <Separator Margin="0,10,0,10"/>
+
+                                <!-- Grid para la Vigencia -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Vigencia" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                                    <TextBlock Grid.Column="1" Text="Desde:" VerticalAlignment="Center" Margin="15,5,5,5"/>
+                                    <DatePicker Grid.Column="2" Width="120" Margin="5"/>
+                                    <TextBox Grid.Column="3" Text="00:00" Width="40" Margin="5"/>
+                                    <TextBlock Grid.Column="4" Text="Hasta:" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                                    <DatePicker Grid.Column="5" Width="120" Margin="5"/>
+                                    <TextBox Grid.Column="6" Text="00:00" Width="40" Margin="5"/>
+                                    <TextBlock Grid.Column="7" Text="Días:" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                                    <TextBox Grid.Column="8" Width="50" Margin="5"/>
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+
+                    <!-- SECCIÓN 2: COBERTURAS (Grid.Row="1") -->
+                    <GroupBox Grid.Row="1" Header="Coberturas" Padding="10" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <!-- Formulario de coberturas -->
+                                <RowDefinition Height="Auto"/>
+                                <!-- Grilla de coberturas -->
+                            </Grid.RowDefinitions>
+
+                            <!-- Formulario de Coberturas -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Fila 0 -->
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Código:" VerticalAlignment="Center" Margin="5"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Nombre:" VerticalAlignment="Center" Margin="5"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3"/>
+                                <!-- Ocupa más espacio -->
+
+                                <TextBlock Grid.Row="0" Grid.Column="6" Text="Tipo de tasa:" VerticalAlignment="Center" Margin="5"/>
+                                <ComboBox Grid.Row="0" Grid.Column="7" Margin="5"/>
+
+                                <!-- Fila 1 -->
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Monto:" VerticalAlignment="Center" Margin="5"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Tasa (%):" VerticalAlignment="Center" Margin="5"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Margin="5"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="4" Text="Prima neta:" VerticalAlignment="Center" Margin="5"/>
+                                <TextBox Grid.Row="1" Grid.Column="5" Margin="5"/>
+
+                                <!-- Fila 2 -->
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Prima Afecta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="Prima Exenta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="4" Text="Prima Bruta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                                <TextBox Grid.Row="2" Grid.Column="5" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
+
+                            </Grid>
+
+                            <!-- Grilla de Coberturas -->
+                            <DataGrid Grid.Row="1" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Código" Width="Auto"/>
+                                    <DataGridTextColumn Header="Nombre" Width="auto "/>
+                                    <DataGridTextColumn Header="Monto" Width="Auto"/>
+                                    <DataGridTextColumn Header="Tasa" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima neta" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima Afecta" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima Exenta" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima Bruta" Width="Auto"/>
+                                    <DataGridTextColumn Header="DESDE" Width="Auto"/>
+                                    <DataGridTextColumn Header="HASTA" Width="Auto"/>
+                                    <DataGridTextColumn Header="DIAS" Width="Auto"/>
+                                </DataGrid.Columns>
+                                <!-- Aquí iría el ItemsSource="{Binding CoberturasDelItem}" -->
+                            </DataGrid>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- SECCIÓN 3: PIE DE PÁGINA (Grid.Row="2") -->
+                    <Grid Grid.Row="2" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Nota al pie -->
+                        <TextBlock Grid.Column="0" Text="* Nota - Las tasas estan representadas en fracción de 2000 (%o)" VerticalAlignment="Center" FontStyle="Italic"/>
+
+                        <!-- Totales -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="Monto asegurado:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                            <TextBox Text="0,00" Width="80" Margin="5" IsReadOnly="True" Background="#EEEEEE" TextAlignment="Right"/>
+
+                            <TextBlock Text="Prima Total:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                            <TextBox Text="0,00" Width="80" Margin="5" IsReadOnly="True" Background="#EEEEEE" TextAlignment="Right"/>
+
+                            <TextBlock Text="Prima Exenta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                            <TextBox Text="0,00" Width="80" Margin="5" IsReadOnly="True" Background="#EEEEEE" TextAlignment="Right"/>
+
+                            <TextBlock Text="Prima Bruta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
+                            <TextBox Text="0,00" Width="80" Margin="5" IsReadOnly="True" Background="#EEEEEE" TextAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+            </ScrollViewer>
         </TabItem>
 
         <TabItem Header="Plan de Pago">
