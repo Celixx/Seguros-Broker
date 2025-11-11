@@ -29,6 +29,11 @@ namespace Seguros_Broker
             var VentanaEjecutivo = new Ejecutivo();
             VentanaEjecutivo.ShowDialog();
         }
+        private void Socio_Click(object sender, RoutedEventArgs e)
+        {
+            var VentanaSocio = new SocioMantenedor();
+            VentanaSocio.ShowDialog();
+        }       
 
         private void NuevaPropuesta_Click(object sender, RoutedEventArgs e)
         {

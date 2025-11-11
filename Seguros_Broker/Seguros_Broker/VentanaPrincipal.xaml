@@ -25,7 +25,7 @@
                 <!--SubTab 1 Persona-->
                 <Fluent:RibbonGroupBox Header="Persona">
                     <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click" Icon="{StaticResource ejecutivo_icon}" />
-                    <Fluent:Button Header="Socio" Icon="{StaticResource socio_icono}"/>
+                    <Fluent:Button Header="Socio" Click="Socio_Click" Icon="{StaticResource socio_icono}"/>
                     <Fluent:Button Header="Gestor" Icon="{StaticResource gestor_icono}"/>
                     <Fluent:Button Header="Abogado" Icon="{StaticResource abogado_icono}"/>
                     <Fluent:Button Header="Liquidador" Icon="{StaticResource liquidador_icono}"/>
@@ -120,7 +120,7 @@
         </Fluent:Ribbon>
 
         <Grid Grid.Row="1">
-            <TextBlock Text="Pólizas vencias y pólizas por vencer" FontSize="18" FontWeight="Bold" VerticalAlignment="Top"/>
+            <TextBlock Text="Pólizas vencidas y pólizas por vencer" FontSize="18" FontWeight="Bold" VerticalAlignment="Top"/>
             <DataGrid x:Name="dataGridPropuestas" Margin="10,30,10,10" AutoGenerateColumns="True" HeadersVisibility="All" IsReadOnly="True" SelectionChanged="DataGrid_SelectionChanged" SelectionMode="Single"/>
         </Grid>
     </Grid>

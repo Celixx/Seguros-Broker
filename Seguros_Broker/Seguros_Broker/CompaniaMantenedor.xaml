@@ -112,7 +112,7 @@
                                 <TextBox x:Name="txtDireccion"/>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0" Width="456">
-                                    <StackPanel Orientation="Horizontal" Width="280">
+                                    <StackPanel Orientation="Horizontal">
                                         <Button x:Name="btnLimpiar" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
                                     </StackPanel>
                                     <Button x:Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click"/>
@@ -135,7 +135,7 @@
         </TabItem>
 
         <TabItem Header="Contactos">
-            
+
         </TabItem>
 
         <TabItem Header="Grupos" Height="20" VerticalAlignment="Top">
@@ -170,7 +170,7 @@
                                 <TextBox x:Name="txtNombre_Grupo"/>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0" Width="463">
-                                    <StackPanel Orientation="Horizontal" Width="280">
+                                    <StackPanel Orientation="Horizontal">
                                         <Button x:Name="btnLimpiar_Grupo" Content="Limpiar" VerticalAlignment="Center" Margin="8,0,0,0" Click="btnLimpiar_Click"/>
                                     </StackPanel>
                                     <Button x:Name="btnGuardar_Grupo" Content="Guardar" Click="btnGuardar_Grupos_Click"/>
@@ -194,7 +194,6 @@
         </TabItem>
 
     </TabControl>
-    
-    
-</Window>
 
+
+</Window>
