@@ -1,0 +1,87 @@
+﻿<Window x:Class="Seguros_Broker.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Inicio de Sesión"
+        Height="693" Width="574"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F2F2F2">
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- LOGO -->
+        <Border Grid.Row="0" Height="150" VerticalAlignment="Center" Margin="0,0,0,20">
+            <Image Source="/Resources/logo broker.png"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Center"
+                   Width="400" Height="150"
+                   ToolTip="Logo de la aplicación"/>
+        </Border>
+
+        <!-- FORMULARIO -->
+        <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="40" 
+                HorizontalAlignment="Center" Width="400" 
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Iniciar Sesión" 
+                           FontSize="22" FontWeight="Bold" 
+                           Margin="0,0,0,25" HorizontalAlignment="Center"/>
+
+                <!-- Usuario -->
+                <TextBlock Text="Usuario" FontWeight="SemiBold"/>
+                <Grid Margin="0,5,0,15">
+                    <TextBox x:Name="TxtUsuario"
+                             Height="30"
+                             Padding="5"
+                             TextChanged="TxtUsuario_TextChanged"/>
+                    <TextBlock x:Name="PlaceholderUsuario"
+                               Text="Ingresa tu usuario"
+                               Foreground="Gray"
+                               Margin="8,4,0,0"
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Visibility="Visible"/>
+                </Grid>
+
+                <!-- Contraseña -->
+                <TextBlock Text="Contraseña" FontWeight="SemiBold"/>
+                <PasswordBox x:Name="TxtPassword"
+                             Margin="0,5,0,10"
+                             Height="30"
+                             Padding="5"/>
+
+                <!-- Olvidaste tu contraseña? -->
+                <TextBlock Text="¿Olvidaste tu contraseña?"
+                           Foreground="Blue"
+                           FontSize="12"
+                           Margin="0,0,0,20"
+                           HorizontalAlignment="Right"
+                           Cursor="Hand"
+                           MouseLeftButtonUp="OlvidoContrasena_Click"/>
+
+                <!-- Botón Ingresar -->
+                <Button x:Name="BtnLogin"
+                        Content="Ingresar"
+                        Height="35"
+                        Background="#0078D7"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="BtnLogin_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- SALIR -->
+        <Button Grid.Row="2"
+                Content="Salir"
+                Width="80"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Center"
+                Click="BtnSalir_Click"/>
+    </Grid>
+</Window>
