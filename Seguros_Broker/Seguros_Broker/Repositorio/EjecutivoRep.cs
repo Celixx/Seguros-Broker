@@ -94,8 +94,8 @@ namespace Seguros_Broker.Repositorio
                                 ejecutivo.fono = reader.IsDBNull(6) ? 0 : reader.GetInt32(6);
                                 ejecutivo.celular = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                                 ejecutivo.mail = reader.IsDBNull(8) ? null : reader.GetString(8);
-                                ejecutivo.comision = reader.IsDBNull(9) ? 0 : Convert.ToInt32(reader.GetDecimal(9));
-                                ejecutivo.porcentajeComision = reader.IsDBNull(10) ? 0 : Convert.ToInt32(reader.GetDecimal(10));
+                                ejecutivo.comision = reader.IsDBNull(9) ? 0 : Convert.ToInt32(reader.GetInt32(9));
+                                ejecutivo.porcentajeComision = reader.IsDBNull(10) ? 0 : Convert.ToInt32(reader.GetInt32(10));
                                 ejecutivo.nick = reader.IsDBNull(11) ? null : reader.GetString(11);
                                 ejecutivo.perfil = reader.IsDBNull(12) ? null : reader.GetString(12);
                                 ejecutivo.estado = reader.IsDBNull(13) ? null : reader.GetString(13);
@@ -178,6 +178,66 @@ namespace Seguros_Broker.Repositorio
 
                             await tran.CommitAsync();
                             return (true, null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                return (false, ex.Message);
+            }
+        }
+
+
+        public async Task<(bool success, string? errorMessage)> UpdateEjecutivoAsync(EjecutivoM ejecutivo)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var tran = connection.BeginTransaction())
+                    {
+
+                        const string updateSql = @"UPDATE Ejecutivo
+                                                   SET Codigo=@Codigo, TipoID=@TipoID, Nombre=@Nombre, APaterno=@APaterno,
+                                                   AMaterno=@AMaterno, Fono=@Fono, Celular=@Celular, Mail=@Mail, Comision=@Comision,
+                                                   PorcentajeComision=@PorcentajeComision, Nick=@Nick, Perfil=@Perfil, Estado=@Estado,
+                                                   Restricciones=@Restricciones
+                                                  WHERE 
+                                                   ID=@ID;";
+
+                        using (var cmd = new SqlCommand(updateSql, connection, tran))
+                        {
+                            
+                            cmd.Parameters.Add("@Codigo", System.Data.SqlDbType.Int).Value = ejecutivo.codigo;
+                            cmd.Parameters.Add("@TipoID", System.Data.SqlDbType.NVarChar, 15).Value = (object)ejecutivo.tipoId ?? DBNull.Value;
+                            cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 25).Value = (object)ejecutivo.nombre ?? DBNull.Value;
+                            cmd.Parameters.Add("@APaterno", System.Data.SqlDbType.NVarChar, 25).Value = (object)ejecutivo.aPaterno ?? DBNull.Value;
+                            cmd.Parameters.Add("@AMaterno", System.Data.SqlDbType.NVarChar, 25).Value = (object)ejecutivo.aMaterno ?? DBNull.Value;
+                            cmd.Parameters.Add("@Fono", System.Data.SqlDbType.Int).Value = ejecutivo.fono;
+                            cmd.Parameters.Add("@Celular", System.Data.SqlDbType.Int).Value = ejecutivo.celular;
+                            cmd.Parameters.Add("@Mail", System.Data.SqlDbType.NVarChar, 50).Value = (object)ejecutivo.mail ?? DBNull.Value;
+                            cmd.Parameters.Add("@Comision", System.Data.SqlDbType.Int).Value = ejecutivo.comision;
+                            cmd.Parameters.Add("@PorcentajeComision", System.Data.SqlDbType.Int).Value = ejecutivo.porcentajeComision;
+                            cmd.Parameters.Add("@Nick", System.Data.SqlDbType.NVarChar, 15).Value = (object)ejecutivo.nick ?? DBNull.Value;
+                            cmd.Parameters.Add("@Perfil", System.Data.SqlDbType.NVarChar, 30).Value = (object)ejecutivo.perfil ?? DBNull.Value;
+                            cmd.Parameters.Add("@Estado", System.Data.SqlDbType.NVarChar, 15).Value = (object)ejecutivo.estado ?? DBNull.Value;
+                            cmd.Parameters.Add("@Restricciones", System.Data.SqlDbType.NVarChar, 30).Value = (object)ejecutivo.restricciones ?? DBNull.Value;
+                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar, 10).Value = (object)ejecutivo.ID ?? DBNull.Value;
+                            
+                            int rows = await cmd.ExecuteNonQueryAsync();
+
+                            if (rows <= 0)
+                            {
+                                
+                                await tran.RollbackAsync();
+                                return (false, "No se actualizó el registro (0 filas afectadas). El ID del Ejecutivo podría no existir.");
+                            }
+
+                            await tran.CommitAsync();
+                            return (true, null); 
                         }
                     }
                 }

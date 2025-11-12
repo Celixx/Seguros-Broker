@@ -188,9 +188,66 @@ namespace Seguros_Broker
             cbNivelComision.Text = GetTextoComision(ejecutivo.comision);
         }
 
-        private void btnEditar_Click(object sender, RoutedEventArgs e)
+        private async void btnEditar_Click(object sender, RoutedEventArgs e)
         {
 
+            var errores = new System.Collections.Generic.List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+                errores.Add("Código (obligatorio).");
+
+            if (cbTipoIdentificacion.SelectedItem == null || ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
+                errores.Add("Tipo identificación (obligatorio).");
+
+
+            if (string.IsNullOrWhiteSpace(txtIdentificacion.Text))
+                errores.Add("Identificación (obligatorio).");
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+                errores.Add("Nombre (obligatorio).");
+
+
+            if (errores.Any())
+            {
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+
+            var nuevoEjecutivo = new EjecutivoM
+            {
+                
+                ID = txtIdentificacion.Text.Trim(),
+                codigo = int.TryParse(txtCodigo.Text, out int f) ? f : 0,
+                nombre = txtNombre.Text.Trim(),
+                aPaterno = txtApePaterno.Text.Trim(),
+                aMaterno = txtApeMaterno.Text.Trim(),
+                fono = int.TryParse(txtFono.Text, out int g) ? g : 0,
+                celular = int.TryParse(txtCelular.Text, out int h) ? h : 0,
+                mail = txtMail.Text.Trim(),
+                nick = txtNick.Text.Trim(),
+                porcentajeComision = int.TryParse(txtPorcentajeComision.Text, out int j) ? j : 0,
+                tipoId = cbTipoIdentificacion.Text,
+                comision = ParseNivelComision(cbNivelComision.Text),
+                perfil = cbPerfil.Text,
+                estado = cbEstado.Text,
+                restricciones = cbRestricciones.Text
+            };
+
+            var repo = new EjecutivoRep();
+
+            // Llamada al método Update
+            var result = await repo.UpdateEjecutivoAsync(nuevoEjecutivo);
+
+            if (result.success)
+            {
+                MessageBox.Show("Ejecutivo actualizado correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                ReadEjecutivo();
+                LimpiarFormulario();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

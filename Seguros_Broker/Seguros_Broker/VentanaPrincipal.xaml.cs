@@ -53,5 +53,11 @@ namespace Seguros_Broker
         {
 
         }
+
+        private void Cliente_Click(object sender, RoutedEventArgs e)
+        {
+            var ClienteMantenedor = new ClienteMantenedor();
+            ClienteMantenedor.ShowDialog();
+        }
     }
 }

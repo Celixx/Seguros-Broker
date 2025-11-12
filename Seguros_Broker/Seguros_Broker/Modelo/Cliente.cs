@@ -8,31 +8,35 @@ namespace Seguros_Broker.Modelo
 {
     public class Cliente
     {
-        // Identificación
-        public string tipoIdentificacion { get; set; } = "";
-        public string ID { get; set; } = ""; 
-        public string nombre { get; set; } = "";
-        public string aPaterno { get; set; } = "";
-        public string aMaterno { get; set; } = "";
-        public string holding { get; set; } = "";
-        public string ejecutivoID { get; set; } = ""; 
-        public string fonos { get; set; } = "";
-        public string paginaWeb { get; set; } = "";
-        public string nombreCorto { get; set; } = "";
-        public string referencia { get; set; } = "";
+        public string TipoIdentificacion { get; set; } = "";
+        public string ID { get; set; } = "";
+        public string Nombre { get; set; } = "";
+        public string ApellidoPaterno { get; set; } = "";
+        public string ApellidoMaterno { get; set; } = "";
 
-        // Particular
-        public string particularPais { get; set; } = "";
-        public string particularRegion { get; set; } = "";
-        public string particularCiudad { get; set; } = "";
-        public string particularComuna { get; set; } = "";
-        public string particularDireccion { get; set; } = "";
+        public int HoldingID { get; set; } = 0;
+        public string HoldingNombre { get; set; } = "";
 
-        // Comercial
-        public string comercialPais { get; set; } = "";
-        public string comercialRegion { get; set; } = "";
-        public string comercialCiudad { get; set; } = "";
-        public string comercialComuna { get; set; } = "";
-        public string comercialDireccion { get; set; } = "";
+        public string EjecutivoID { get; set; } = "";
+        public string EjecutivoNombre { get; set; } = "";
+
+        public string Fonos { get; set; } = "";
+        public string PaginaWeb { get; set; } = "";
+        public string NombreCorto { get; set; } = "";
+        public string Referencia { get; set; } = "";
+
+        // Dirección Particular
+        public string Particular_Pais { get; set; } = "DESCONOCIDO";
+        public string Particular_Region { get; set; } = "";
+        public string Particular_Ciudad { get; set; } = "";
+        public string Particular_Comuna { get; set; } = "";
+        public string Particular_Direccion { get; set; } = "";
+
+        // Dirección Comercial
+        public string Comercial_Pais { get; set; } = "DESCONOCIDO";
+        public string Comercial_Region { get; set; } = "";
+        public string Comercial_Ciudad { get; set; } = "";
+        public string Comercial_Comuna { get; set; } = "";
+        public string Comercial_Direccion { get; set; } = "";
     }
 }
