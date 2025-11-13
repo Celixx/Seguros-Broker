@@ -322,5 +322,10 @@ namespace Seguros_Broker
         {
             LimpiarFormulario();
         }
+
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

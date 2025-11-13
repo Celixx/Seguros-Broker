@@ -38,7 +38,7 @@
                 </Fluent:RibbonGroupBox>
                 <!--SubTab 3 Cobertura y Ramo-->
                 <Fluent:RibbonGroupBox Header="Cobertura y Ramo">
-                    <Fluent:Button Header="Productos" Icon="{StaticResource producto_icono}"/>
+                    <Fluent:Button Header="Productos" Icon="{StaticResource producto_icono}" Click="Producto_Click"/>
                     <Fluent:Button Header="Cobertura" Icon="{StaticResource cobertura_icono}"/>
                     <Fluent:Button Header="Ramos" Icon="{StaticResource ramos_icono}"/>
                 </Fluent:RibbonGroupBox>
