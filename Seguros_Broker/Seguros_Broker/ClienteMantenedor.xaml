@@ -108,10 +108,13 @@
                                     <TextBlock Style="{StaticResource LabelRequired}" Text="Director Comercial"/>
                                     <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
                                 </StackPanel>
+                                
+                                <!-- Ejecutivo combo box-->
+
                                 <ComboBox x:Name="cbEjecutivo" SelectedValuePath="ID" DisplayMemberPath="Nombre">
                                 </ComboBox>
 
-                                <!-- Ejecutivo combo box-->
+                                
                                 <TextBlock Text="Fono" FontWeight="Normal" Margin="0,8,0,2"/>
                                 <TextBox x:Name="txtFono"/>
 
