@@ -53,7 +53,12 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0"/>
             </DockPanel>
         </Border>
-        <DataGrid x:Name="dataGridEjecutivo" Margin="10,72,10,10" AutoGenerateColumns="True" HeadersVisibility="All" IsReadOnly="True" SelectionChanged="DataGrid_SelectionChanged" SelectionMode="Single" Grid.ColumnSpan="2"/>
-
+        <DataGrid x:Name="dataGridCoberturasSeleccion" AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2" Margin="0,62,10,0">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Seleccionar" Binding="{Binding IsSelected}" Width="80"/>
+                <DataGridTextColumn Header="Código" Binding="{Binding codigo}" />
+                <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

@@ -67,18 +67,15 @@
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource LabelRequired}" Text="Ramo Preferencia"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
                         </StackPanel>
-                        
-                        <ComboBox x:Name="cbRamo" SelectedValuePath="ID" DisplayMemberPath="Nombre">
-                        </ComboBox>
+
+                        <ComboBox x:Name="cbRamo" SelectedValuePath="ID" DisplayMemberPath="nombre" />
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource LabelRequired}" Text="Compañia"/>
-                            <TextBlock Style="{StaticResource Asterisk}" Text="*"/>
                         </StackPanel>
-                        <ComboBox x:Name="cbCompania" SelectedValuePath="ID" DisplayMemberPath="Nombre">
-                        </ComboBox>
+                        
+                        <ComboBox x:Name="cbCompania" SelectedValuePath="ID" DisplayMemberPath="nombre" />
 
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
@@ -93,7 +90,7 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <DataGrid x:Name="dataGridEjecutivo" Margin="10,72,10,10" AutoGenerateColumns="True" HeadersVisibility="All" IsReadOnly="True" SelectionChanged="DataGrid_SelectionChanged" SelectionMode="Single"/>
+        <DataGrid x:Name="dataGridCoberturas" Margin="10,72,10,19" AutoGenerateColumns="True" HeadersVisibility="All" IsReadOnly="True" SelectionChanged="DataGrid_SelectionChanged" SelectionMode="Single"/>
 
     </Grid>
 </Window>

@@ -47,6 +47,8 @@ namespace Seguros_Broker
             ReadEjecutivo();
         }
 
+
+
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("¿Seguro que quiere salir?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -338,6 +340,7 @@ namespace Seguros_Broker
         {
             // Si EjecutivoRep no existe o su GetEjecutivos falla, la lista estará vacía (manejado en ctor)
             this.cbEjecutivo.ItemsSource = ejecutivos;
+            this.cbEjecutivo.DisplayMemberPath = "nombre";
         }
 
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
