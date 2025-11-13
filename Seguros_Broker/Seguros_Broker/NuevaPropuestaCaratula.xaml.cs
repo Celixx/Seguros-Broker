@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Seguros_Broker.Modelo;
+using Seguros_Broker.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Seguros_Broker.Repositorio;
 
 namespace Seguros_Broker
 {
@@ -20,10 +21,17 @@ namespace Seguros_Broker
     /// </summary>
     public partial class NuevaPropuestaCaratula
     {
+
+        private List<Moneda> monedas;
+        private MonedaRep monedaRep= new MonedaRep();
+
         public NuevaPropuestaCaratula()
         {
             InitializeComponent();
 
+            this.monedas = monedaRep.GetMonedas();
+
+            cbMonedas.ItemsSource = monedas;
         }
 
         private List<Modelo.EjecutivoM> GetEjecutivo()
@@ -45,7 +53,12 @@ namespace Seguros_Broker
 
         private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
         {
+            var ramoRep = new RamoRep();
+            var ramoBuscado =  ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
 
+            TxtRamo.Visibility = Visibility.Visible;
+            TxtRamo.Text = ramoBuscado.Nombre;
+            return;
         }
 
 
@@ -138,6 +151,25 @@ namespace Seguros_Broker
         private void BtnExcel_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void TxtCodigoRamo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void BtnBuscarMoneda_Click(object sender, RoutedEventArgs e)
+        {
+            TxtMontoAsegurado.Text = "0,00";
+            TxtComisionTotal.Text = "379,80";
+            if (TxtComisiónAfectaPorcentaje.Text == "")
+            {
+                TxtMontoAsegurado.Text = "0,00";
+            }
+            else
+            {
+                TxtMontoAsegurado.Text = "1,00";
+            }
         }
     }
 
