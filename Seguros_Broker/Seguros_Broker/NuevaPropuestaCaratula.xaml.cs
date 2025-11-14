@@ -216,6 +216,7 @@ namespace Seguros_Broker
                 TxtPrimaBrutaTotal.Visibility= Visibility.Visible;
                 TxtPrimaNetaTotal.Text = "3.013,08";
                 TxtComisionExentaPorcentaje.IsEnabled = false;
+                //s
             }
         }
     }
