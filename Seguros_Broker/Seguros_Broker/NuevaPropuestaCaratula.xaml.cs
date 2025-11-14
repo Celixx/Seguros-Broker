@@ -57,7 +57,7 @@ namespace Seguros_Broker
             var ramoBuscado =  ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
 
             TxtRamo.Visibility = Visibility.Visible;
-            TxtRamo.Text = ramoBuscado.Nombre;
+            TxtRamo.Text = ramoBuscado.nombre;
             return;
         }
 
@@ -170,6 +170,12 @@ namespace Seguros_Broker
             {
                 TxtMontoAsegurado.Text = "1,00";
             }
+        }
+
+        private void BtnAgregarCobertura(object sender, RoutedEventArgs e)
+        {
+            var VentanaAgregarCobertura = new VentanaAgregarCobertura();
+            VentanaAgregarCobertura.ShowDialog();
         }
     }
 

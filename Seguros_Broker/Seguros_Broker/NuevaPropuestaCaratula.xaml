@@ -567,13 +567,19 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
+                                <!-- Fila para el nuevo botón -->
+                                <RowDefinition Height="Auto"/>
                                 <!-- Formulario de coberturas -->
                                 <RowDefinition Height="Auto"/>
                                 <!-- Grilla de coberturas -->
                             </Grid.RowDefinitions>
 
+                            <!-- Botón "Agregar cobertura" en la parte superior derecha -->
+                            <Button Grid.Row="0" Content="Agregar cobertura" HorizontalAlignment="Right" Margin="0,0,5,5" Click="BtnAgregarCobertura" />
+
                             <!-- Formulario de Coberturas -->
-                            <Grid Grid.Row="0">
+                            <!-- Se movió de Grid.Row="0" a Grid.Row="1" -->
+                            <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -624,7 +630,8 @@
                             </Grid>
 
                             <!-- Grilla de Coberturas -->
-                            <DataGrid Grid.Row="1" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
+                            <!-- Se movió de Grid.Row="1" a Grid.Row="2" -->
+                            <DataGrid Grid.Row="2" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Código" Width="Auto"/>
                                     <DataGridTextColumn Header="Nombre" Width="auto "/>
