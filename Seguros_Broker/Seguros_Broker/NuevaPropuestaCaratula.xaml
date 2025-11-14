@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.NuevaPropuestaCaratula"
         Title="Nueva Propuesta" Height="733" Width="1280"
-        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9" >
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9" WindowState="Maximized">
 
 
     <TabControl Margin="0,0,0,0">
@@ -188,19 +188,19 @@
                                                     </Button.Content>
                                                 </Button>
                                                 <TextBlock Text="Prima Neta Afecta" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="0" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaAfecta" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="0" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaAfecta" IsEnabled="False" Visibility="Collapsed" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
 
                                                 <TextBlock Text="Monto asegurado" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,2,10,2" x:Name="TxtMontoAsegurado" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,2,10,2" IsEnabled="False" Visibility="Collapsed" x:Name="TxtMontoAsegurado" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
                                                 <TextBlock Text="Prima Neta Exenta" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="1" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaExenta" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="1" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaExenta" IsEnabled="False" Visibility="Collapsed" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
 
                                                 <TextBlock Text="Comisión Afecta (%)" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="2" Grid.Column="1" Margin="0,2,5,2" x:Name="TxtComisiónAfectaPorcentaje" HorizontalAlignment="Stretch"/>
-                                                <TextBox Grid.Row="2" Grid.Column="2" Margin="0,2,10,2" x:Name="TxtComisiónAfectaTexto" RenderTransformOrigin="0.5,0.5" Width="75" HorizontalAlignment="Left">
+                                                <TextBox Grid.Row="2" Grid.Column="1" Margin="0,2,5,2" x:Name="TxtComisionAfectaPorcentaje" HorizontalAlignment="Stretch"/>
+                                                <TextBox Grid.Row="2" Grid.Column="2" Margin="0,2,10,2" x:Name="TxtComisionAfectaTexto" IsEnabled="False" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5" Width="75" HorizontalAlignment="Left">
                                                     <TextBox.RenderTransform>
                                                         <TransformGroup>
-                                                            <ScaleTransform ScaleX="-1"/>
+                                                            <ScaleTransform ScaleX="1"/>
                                                             <SkewTransform/>
                                                             <RotateTransform/>
                                                             <TranslateTransform/>
@@ -208,14 +208,14 @@
                                                     </TextBox.RenderTransform>
                                                 </TextBox>
                                                 <TextBlock Text="Prima Neta Total" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="2" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaTotal" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="2" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaNetaTotal" IsEnabled="False" Visibility="Collapsed" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
 
-                                                <TextBlock Text="Prima Neta Exenta (%)" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="3" Grid.Column="1" Margin="0,2,5,2" x:Name="TxtPrimaNetaExentaPorcentaje" HorizontalAlignment="Stretch"/>
-                                                <TextBox Grid.Row="3" Grid.Column="2" Margin="0,2,10,2" x:Name="TxtPrimaNetaExentaPorcentajeTexto" RenderTransformOrigin="0.5,0.5" Width="75" HorizontalAlignment="Left">
+                                                <TextBlock Text="Comisión Exenta (%)" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="0,2,10,2"/>
+                                                <TextBox Grid.Row="3" Grid.Column="1" Margin="0,2,5,2" x:Name="TxtComisionExentaPorcentaje" HorizontalAlignment="Stretch"/>
+                                                <TextBox Grid.Row="3" Grid.Column="2" Margin="0,2,10,2" x:Name="TxtComisionExentaTexto" IsEnabled="False" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5" Width="75" HorizontalAlignment="Left">
                                                     <TextBox.RenderTransform>
                                                         <TransformGroup>
-                                                            <ScaleTransform ScaleX="-1"/>
+                                                            <ScaleTransform ScaleX="1"/>
                                                             <SkewTransform/>
                                                             <RotateTransform/>
                                                             <TranslateTransform/>
@@ -223,12 +223,12 @@
                                                     </TextBox.RenderTransform>
                                                 </TextBox>
                                                 <TextBlock Text="IVA" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="3" Grid.Column="4" Margin="0,2" x:Name="TxtIva" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="3" Grid.Column="4" Margin="0,2" x:Name="TxtIva" IsEnabled="False" Visibility="Collapsed" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
 
                                                 <TextBlock Text="Comisión total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="4" Grid.Column="1" Margin="0,2,10,2" x:Name="TxtComisionTotal" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="4" Grid.Column="1" Margin="0,2,10,2" x:Name="TxtComisionTotal" IsEnabled="False" Visibility="Collapsed" HorizontalAlignment="Left" Width="150"/>
                                                 <TextBlock Text="Prima Bruta Total" VerticalAlignment="Center" Grid.Row="4" Grid.Column="3" Margin="0,2,10,2"/>
-                                                <TextBox Grid.Row="4" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaBrutaTotal" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
+                                                <TextBox Grid.Row="4" Grid.Column="4" Margin="0,2" x:Name="TxtPrimaBrutaTotal" IsEnabled="False" Visibility="Collapsed" IsReadOnly="True" HorizontalAlignment="Left" Width="150"/>
                                             </Grid>
                                         </GroupBox>
 

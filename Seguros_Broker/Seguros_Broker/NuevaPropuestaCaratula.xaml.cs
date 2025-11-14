@@ -160,15 +160,63 @@ namespace Seguros_Broker
 
         private void BtnBuscarMoneda_Click(object sender, RoutedEventArgs e)
         {
-            TxtMontoAsegurado.Text = "0,00";
-            TxtComisionTotal.Text = "379,80";
-            if (TxtComisiónAfectaPorcentaje.Text == "")
+
+            if (TxtComisionAfectaPorcentaje.Text == "")
             {
+                TxtComisionAfectaTexto.Visibility = Visibility.Visible;
+                TxtComisionExentaTexto.Visibility = Visibility.Visible;
+                TxtMontoAsegurado.Visibility = Visibility.Visible;
                 TxtMontoAsegurado.Text = "0,00";
+                TxtRamo.Visibility = Visibility.Visible;
+                TxtMontoAsegurado.Text = "0,00";
+                TxtComisionExentaTexto.Text = "759.60";
+                TxtComisionAfectaTexto.Text = "0,00";
+                TxtPrimaNetaAfecta.IsEnabled = false;
+                TxtPrimaNetaAfecta.Visibility = Visibility.Visible;
+                TxtPrimaNetaAfecta.Text = "5,064";
+                TxtComisionTotal.Text = "759.60";
+                TxtPrimaNetaExenta.Visibility = Visibility.Visible;
+                TxtPrimaNetaExenta.Text = "0,00";
+                TxtComisionTotal.Visibility = Visibility.Visible;
+                TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
+                TxtPrimaNetaTotal.Visibility = Visibility.Visible;
+                TxtPrimaNetaTotal.Text = "5,064";
+                TxtPrimaBrutaTotal.Text = "5,064";
+                TxtIva.Visibility = Visibility.Visible;
+                TxtIva.Text = "962.16";
+                TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
+                TxtPrimaNetaTotal.Text = "6,026.16";
+                TxtComisionAfectaPorcentaje.IsEnabled = false;
+                TxtComisionAfectaPorcentaje.Text = "0,00";
             }
             else
             {
+                TxtComisionAfectaTexto.Visibility = Visibility.Visible;
+                TxtComisionExentaTexto.Visibility = Visibility.Visible;
+                TxtMontoAsegurado.Visibility = Visibility.Visible;
+                TxtMontoAsegurado.Text = "0,00";
+                TxtRamo.Visibility = Visibility.Visible;
                 TxtMontoAsegurado.Text = "1,00";
+                TxtComisionAfectaTexto.Text = "379,80";
+                TxtComisionExentaTexto.Text = "0,00";
+                TxtComisionExentaPorcentaje.Text = "0,00";
+                TxtPrimaNetaAfecta.IsEnabled = false;
+                TxtPrimaNetaAfecta.Visibility = Visibility.Visible;
+                TxtPrimaNetaAfecta.Text = "2.532,00";
+                TxtComisionTotal.Text = "379,00";
+                TxtPrimaNetaExenta.Visibility = Visibility.Visible;
+                TxtPrimaNetaExenta.Text = "0,00";
+                TxtComisionTotal.Visibility = Visibility.Visible;
+                TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
+                TxtPrimaNetaTotal.Visibility = Visibility.Visible;
+                TxtPrimaNetaTotal.Text = "2.532,00";
+                TxtPrimaBrutaTotal.Text = "2.532,00";
+                TxtIva.Visibility= Visibility.Visible;
+                TxtIva.Text = "481,08";
+                TxtPrimaBrutaTotal.Visibility= Visibility.Visible;
+                TxtPrimaNetaTotal.Text = "3.013,08";
+                TxtComisionExentaPorcentaje.IsEnabled = false;
+                //s
             }
         }
 
