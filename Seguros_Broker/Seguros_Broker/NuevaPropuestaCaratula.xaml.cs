@@ -258,6 +258,7 @@ namespace Seguros_Broker
                     {
                         TxtSocio.Visibility = Visibility.Visible;
                         TxtSocio.Text = rutSocio.nombre;
+
                     }
 
                 }
