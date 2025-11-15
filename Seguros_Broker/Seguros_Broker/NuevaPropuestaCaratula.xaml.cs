@@ -24,6 +24,8 @@ namespace Seguros_Broker
 
         private List<Moneda> monedas;
         private MonedaRep monedaRep= new MonedaRep();
+        private ClienteRep clienteRep = new ClienteRep();
+        private SocioRep socioRep = new SocioRep();
 
         public NuevaPropuestaCaratula()
         {
@@ -53,71 +55,219 @@ namespace Seguros_Broker
 
         private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
         {
-            var ramoRep = new RamoRep();
-            var ramoBuscado =  ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
+            if (TxtCodigoRamo.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID para buscar.");
+            }
+            else
+            {
+                var ramoRep = new RamoRep();
+                var ramoBuscado = ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
 
-            TxtRamo.Visibility = Visibility.Visible;
-            TxtRamo.Text = ramoBuscado.nombre;
-            return;
+                TxtRamo.Visibility = Visibility.Visible;
+                TxtRamo.Text = ramoBuscado.nombre;
+                return;
+            }
         }
 
 
         private void BtnBuscarEjecutivoCuenta_Click(object sender, RoutedEventArgs e)
         {
-            var ejecutivos = GetEjecutivo();
-
-            foreach (var ejecutivo in ejecutivos)
+            if (TxtCodigoEjecutivo.Text == "")
             {
-                if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivo.Text)
-                {
-                    TxtEjecutivoCuenta.Visibility = Visibility.Visible;
-                    TxtEjecutivoCuenta.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
-                    return;
-                }
+                MessageBox.Show("Por favor ingrese un ID para buscar.");
             }
+            else
+            {
+                var ejecutivos = GetEjecutivo();
 
-            MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivo.Text}");
+                foreach (var ejecutivo in ejecutivos)
+                {
+                    if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivo.Text)
+                    {
+                        TxtEjecutivoCuenta.Visibility = Visibility.Visible;
+                        TxtEjecutivoCuenta.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
+                        return;
+                    }
+                }
+
+                MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivo.Text}");
+            }
         }
 
         private void BtnBuscarEjecutivoResponsable_Click(object sender, RoutedEventArgs e)
         {
-            var ejecutivos = GetEjecutivo();
-
-            foreach (var ejecutivo in ejecutivos)
+            if (TxtCodigoEjecutivo.Text == "")
             {
-                if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivoResponsable.Text)
-                {
-                    TxtEjecutivoResponsable.Visibility = Visibility.Visible;
-                    TxtEjecutivoResponsable.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
-                    return;                    
-                }
+                MessageBox.Show("Por favor ingrese un ID para buscar.");
             }
+            else
+            {
+                var ejecutivos = GetEjecutivo();
 
-            MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivoResponsable.Text}");
+                foreach (var ejecutivo in ejecutivos)
+                {
+                    if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivoResponsable.Text)
+                    {
+                        TxtEjecutivoResponsable.Visibility = Visibility.Visible;
+                        TxtEjecutivoResponsable.Text = ejecutivo.nombre + " " + ejecutivo.aPaterno + " " + ejecutivo.aMaterno;
+                        return;
+                    }
+                }
+
+                MessageBox.Show($"No se encontró ningún ejecutivo con el ID: {TxtCodigoEjecutivo.Text}");
+            }
         }
         private void BtnBuscarArea_Click(object sender, RoutedEventArgs e)
         {
-
+            TxtAreanNegocio.Visibility = Visibility.Visible;
+            TxtAreanNegocio.Text = "Generales";
         }
         private void BtnBuscarRutFacturar_Click(object sender, RoutedEventArgs e)
         {
+            if (TxtRutCliente1.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutFacturar = clienteRep.GetCliente(TxtRutCliente1.Text);
+                    if (rutFacturar == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtFacturarA.Visibility = Visibility.Visible;
+                        TxtFacturarA.Text = rutFacturar.Nombre;
+                    }
+                        
+                }
+                catch (Exception ex)
+                {
 
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutContratante_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (TxtRutContratante.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutContratante = clienteRep.GetCliente(TxtRutContratante.Text);
+                    if (rutContratante == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtContratante.Visibility = Visibility.Visible;
+                        TxtContratante.Text = rutContratante.Nombre;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutAsegurado_Click(object sender, RoutedEventArgs e)
         {
+            if (TxtRutAsegurado.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutAsegurado = clienteRep.GetCliente(TxtRutAsegurado.Text);
+                    if (rutAsegurado == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtAsegurado.Visibility = Visibility.Visible;
+                        TxtAsegurado.Text = rutAsegurado.Nombre;
+                    }
 
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutAFavorDe_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (TxtRutAFavorDe.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutAFavorDe = clienteRep.GetCliente(TxtRutAFavorDe.Text);
+                    if (rutAFavorDe == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtAFavorDe.Visibility = Visibility.Visible;
+                        TxtAFavorDe.Text = rutAFavorDe.Nombre;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutSocio_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (TxtRutSocio.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutSocio = socioRep.GetSocio(int.Parse(TxtRutSocio.Text));
+                    if (rutSocio == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtSocio.Visibility = Visibility.Visible;
+                        TxtSocio.Text = rutSocio.nombre;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutGestor_Click(object sender, RoutedEventArgs e)
         {
@@ -225,6 +375,7 @@ namespace Seguros_Broker
             var VentanaAgregarCobertura = new VentanaAgregarCobertura();
             VentanaAgregarCobertura.ShowDialog();
         }
+
     }
 
 }
