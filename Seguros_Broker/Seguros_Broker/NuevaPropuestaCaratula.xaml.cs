@@ -213,19 +213,30 @@ namespace Seguros_Broker
 
         private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
         {
-            if (TxtCodigoRamo.Text == "")
-            {
-                MessageBox.Show("Por favor ingrese un ID para buscar.");
-            }
-            else
-            {
-                var ramoRep = new RamoRep();
-                var ramoBuscado = ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
 
-                TxtRamo.Visibility = Visibility.Visible;
-                TxtRamo.Text = ramoBuscado.nombre;
-                return;
+            try
+            {
+                if (TxtCodigoRamo.Text == "")
+                {
+                    MessageBox.Show("Por favor ingrese un ID para buscar.");
+                }
+                else
+                {
+                    var ramoRep = new RamoRep();
+                    var ramoBuscado = ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
+
+                    TxtRamo.Visibility = Visibility.Visible;
+                    TxtRamo.Text = ramoBuscado.nombre;
+                    return;
+                }
             }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Ramo no registrado");
+            }
+
+            
         }
 
 

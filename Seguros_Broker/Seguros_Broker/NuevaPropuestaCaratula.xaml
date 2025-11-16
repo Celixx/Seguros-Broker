@@ -359,7 +359,7 @@
                                                 </Button>
 
                                                 <TextBlock Text="Ejecutivo Compañía*" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,10,2"/>
-                                                <ComboBox Grid.Row="1" Grid.Column="1" SelectedValuePath="ID" DisplayMemberPath="nombre" x:Name="cbEjecutivosCompania" HorizontalAlignment="Stretch" Margin="0,2,5,2" SelectionChanged="cbEjecutivosCompania_SelectionChanged">
+                                                <ComboBox Grid.Row="1" Grid.Column="1" SelectedValuePath="ID" DisplayMemberPath="nombre" x:Name="cbEjecutivosCompania" HorizontalAlignment="Stretch" Margin="0,2,5,2">
                                                 </ComboBox>
                                                 <Button Grid.Row="1" Grid.Column="2" Width="28" Height="28" ToolTip="Limpiar campo" Click="BtnLimpiarEjecutivo_Click" Margin="0,2,10,2">
                                                     <Button.Content>
