@@ -184,5 +184,69 @@ namespace Seguros_Broker.Repositorio
                 return (false, ex.Message);
             }
         }
+
+        public List<Propuesta> GetPropuestas()
+        {
+            var propuestas = new List<Propuesta>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string sql = "SELECT ID, NumeroPoliza, RenuevaPoliza, FechaRecepcion, TipoPoliza, FechaIngreso, FechaEmision, IDRamo, IDEjecutivo, Area, FechaCreacion, FechaVigenciaDesde, FechaVigenciaHasta, IDMoneda, ComisionAfecta, ComisionExenta, MontoAsegurado, ComisionTotal, PrimaNetaAfecta, PrimaNetaExenta, PrimaNetaTotal, IVA, PrimaBrutaTotal, IDCliente, IDSocio, IDGestor, IDCompania, MateriaAsegurada, Observacion FROM PROPUESTA ORDER BY FechaVigenciaHasta DESC";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var propuesta = new Propuesta();
+
+                                propuesta.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0;
+                                propuesta.NumeroPoliza = reader["NumeroPoliza"] != DBNull.Value ? Convert.ToInt32(reader["NumeroPoliza"]) : 0;
+                                propuesta.RenuevaPoliza = reader["RenuevaPoliza"] != DBNull.Value ? Convert.ToInt32(reader["RenuevaPoliza"]) : 0;
+                                propuesta.FechaRecepcion = reader["FechaRecepcion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaRecepcion"]) : (DateTime?)null;
+                                propuesta.TipoPoliza = reader["TipoPoliza"] != DBNull.Value ? reader["TipoPoliza"].ToString() : "";
+                                propuesta.FechaIngreso = reader["FechaIngreso"] != DBNull.Value ? Convert.ToDateTime(reader["FechaIngreso"]) : (DateTime?)null;
+                                propuesta.FechaEmision = reader["FechaEmision"] != DBNull.Value ? Convert.ToDateTime(reader["FechaEmision"]) : (DateTime?)null;
+                                propuesta.IDRamo = reader["IDRamo"] != DBNull.Value ? Convert.ToInt32(reader["IDRamo"]) : 0;
+                                propuesta.IDEjecutivo = reader["IDEjecutivo"] != DBNull.Value ? reader["IDEjecutivo"].ToString() : "";
+                                propuesta.Area = reader["Area"] != DBNull.Value ? reader["Area"].ToString() : "";
+                                propuesta.FechaCreacion = reader["FechaCreacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaCreacion"]) : (DateTime?)null;
+                                propuesta.FechaVigenciaDesde = reader["FechaVigenciaDesde"] != DBNull.Value ? Convert.ToDateTime(reader["FechaVigenciaDesde"]) : (DateTime?)null;
+                                propuesta.FechaVigenciaHasta = reader["FechaVigenciaHasta"] != DBNull.Value ? Convert.ToDateTime(reader["FechaVigenciaHasta"]) : (DateTime?)null;
+                                propuesta.IDMoneda = reader["IDMoneda"] != DBNull.Value ? Convert.ToInt32(reader["IDMoneda"]) : 0;
+                                propuesta.ComisionAfecta = reader["ComisionAfecta"] != DBNull.Value ? Convert.ToInt32(reader["ComisionAfecta"]) : 0;
+                                propuesta.ComisionExenta = reader["ComisionExenta"] != DBNull.Value ? Convert.ToInt32(reader["ComisionExenta"]) : 0;
+                                propuesta.MontoAsegurado = reader["MontoAsegurado"] != DBNull.Value ? Convert.ToInt32(reader["MontoAsegurado"]) : 0;
+                                propuesta.ComisionTotal = reader["ComisionTotal"] != DBNull.Value ? Convert.ToInt32(reader["ComisionTotal"]) : 0;
+                                propuesta.PrimaNetaAfecta = reader["PrimaNetaAfecta"] != DBNull.Value ? Convert.ToInt32(reader["PrimaNetaAfecta"]) : 0;
+                                propuesta.PrimaNetaExenta = reader["PrimaNetaExenta"] != DBNull.Value ? Convert.ToInt32(reader["PrimaNetaExenta"]) : 0;
+                                propuesta.PrimaNetaTotal = reader["PrimaNetaTotal"] != DBNull.Value ? Convert.ToInt32(reader["PrimaNetaTotal"]) : 0;
+                                propuesta.IVA = reader["IVA"] != DBNull.Value ? Convert.ToInt32(reader["IVA"]) : 0;
+                                propuesta.PrimaBrutaTotal = reader["PrimaBrutaTotal"] != DBNull.Value ? Convert.ToInt32(reader["PrimaBrutaTotal"]) : 0;
+                                propuesta.IDCliente = reader["IDCliente"] != DBNull.Value ? reader["IDCliente"].ToString() : "";
+                                propuesta.IDSocio = reader["IDSocio"] != DBNull.Value ? Convert.ToInt32(reader["IDSocio"]) : 0;
+                                propuesta.IDGestor = reader["IDGestor"] != DBNull.Value ? Convert.ToInt32(reader["IDGestor"]) : 0;
+                                propuesta.IDCompania = reader["IDCompania"] != DBNull.Value ? reader["IDCompania"].ToString() : "";
+                                propuesta.MateriaAsegurada = reader["MateriaAsegurada"] != DBNull.Value ? reader["MateriaAsegurada"].ToString() : "";
+                                propuesta.Observacion = reader["Observacion"] != DBNull.Value ? reader["Observacion"].ToString() : "";
+
+                                propuestas.Add(propuesta);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.MessageBox.Show("Error en Propuesta: " + ex.Message + "\n" + ex.StackTrace, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+
+            return propuestas;
+        }
     }
 }

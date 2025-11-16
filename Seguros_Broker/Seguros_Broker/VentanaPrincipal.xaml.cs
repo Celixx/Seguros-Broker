@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Seguros_Broker.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,13 @@ namespace Seguros_Broker
     /// </summary>
     public partial class VentanaPrincipal
     {
+        private PropuestaRep propuestaRep = new PropuestaRep();
+
         public VentanaPrincipal()
         {
             InitializeComponent();
+            var propuestas = propuestaRep.GetPropuestas();
+            dataGridPropuestas.ItemsSource = propuestas;
         }
 
         private void Ejecutivo_Click(object sender, RoutedEventArgs e)
