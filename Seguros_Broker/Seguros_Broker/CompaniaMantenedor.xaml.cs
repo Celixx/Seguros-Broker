@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Seguros_Broker.Modelo;
+using Seguros_Broker.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,8 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Seguros_Broker.Modelo;
-using Seguros_Broker.Repositorio;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Seguros_Broker
 {
@@ -96,7 +97,7 @@ namespace Seguros_Broker
 
             if (result.success)
             {
-                MessageBox.Show("Compañía guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Compañía guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);               
 
                 //Refrescar Grid
                 ReadCompania();

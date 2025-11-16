@@ -70,7 +70,7 @@
             <Fluent:RibbonTabItem Header="Producción">
                 <Fluent:RibbonGroupBox Header="Propuesta" Margin="5">
                     <Fluent:Button Header="Nueva Propuesta" Click="NuevaPropuesta_Click" Icon="{StaticResource cobertura_icono}" />
-                    <Fluent:Button Header="Buscar Propuesta" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button Header="Buscar Propuesta" Click="BuscarPropuesta_Click" Icon="{StaticResource lupa_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Póliza" Margin="5">
@@ -121,25 +121,6 @@
         </Fluent:Ribbon>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="Pólizas vencidas y pólizas por vencer"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Margin="5 0 0 10" />
-
-            <DataGrid x:Name="dataGridPropuestas"
-                      Grid.Row="1"
-                      Margin="0"
-                      AutoGenerateColumns="True"
-                      HeadersVisibility="All"
-                      IsReadOnly="True"
-                      SelectionChanged="DataGrid_SelectionChanged"
-                      SelectionMode="Single" />
-        </Grid>
+        <ContentControl x:Name="MainContent" Grid.Row="1"/>
     </Grid>
 </Fluent:RibbonWindow>

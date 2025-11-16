@@ -25,8 +25,7 @@ namespace Seguros_Broker
         public VentanaPrincipal()
         {
             InitializeComponent();
-            var propuestas = propuestaRep.GetPropuestas();
-            dataGridPropuestas.ItemsSource = propuestas;
+            MainContent.Content = new UserControlTablaPropuestas();
         }
 
         private void Ejecutivo_Click(object sender, RoutedEventArgs e)
@@ -75,5 +74,17 @@ namespace Seguros_Broker
             var ProductoMantendor = new ProductoMantenedor();
             ProductoMantendor.ShowDialog();
         }
+        private void BuscarPropuesta_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainContent.Content = new UserControlBuscarPropuesta();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
+    
 }

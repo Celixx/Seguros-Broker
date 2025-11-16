@@ -43,7 +43,6 @@ namespace Seguros_Broker
 
             cbMonedas.ItemsSource = monedas;
 
-            InitializeComponent();
             HookEvents();
             cbFormaCompromiso.Items.Clear();
             cbFormaCompromiso.Items.Add("PAC");
@@ -193,6 +192,11 @@ namespace Seguros_Broker
             if (result.success)
             {
                 MessageBox.Show("Propuesta guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                TabItems.IsEnabled = true;
+                TabPlan.IsEnabled = true;
+                TabMinuta.IsEnabled = true;
+                TabBitacora.IsEnabled = true;
+                TabDocumentos.IsEnabled = true;
             }
             else
             {
@@ -812,6 +816,18 @@ namespace Seguros_Broker
             }
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "¿Seguro que desea cerrar la ventana? Los datos ingresados son solo de carátula.",
+                "Confirmación",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.No)
+                e.Cancel = true;   
+        }
 
 
 

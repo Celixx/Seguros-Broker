@@ -4,11 +4,11 @@
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.NuevaPropuestaCaratula"
         Title="Nueva Propuesta" Height="1440
     " Width="1280"
-        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9" WindowState="Maximized">
+        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9" WindowState="Maximized" Closing="Window_Closing">
 
 
-    <TabControl Margin="0,0,0,0">
-        <TabItem Header="Carátula">
+    <TabControl x:Name="MainTabs" Margin="0,0,0,0">
+        <TabItem x:Name="TabCaratula" Header="Carátula">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="23*"/>
@@ -402,7 +402,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Items">
+        <TabItem x:Name="TabItems" Header="Items" IsEnabled="False">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
                 <!-- Grid Principal que divide la ventana en 3 secciones:
@@ -684,7 +684,7 @@
             </ScrollViewer>
         </TabItem>
 
-        <TabItem Header="Plan de Pago">
+        <TabItem x:Name="TabPlan" IsEnabled="False" Header="Plan de Pago">
             <TabItem.Resources>
                 <Style x:Key="LabelStyle" TargetType="TextBlock">
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -854,15 +854,15 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Minuta de Documento">
+        <TabItem x:Name="TabMinuta" IsEnabled="False" Header="Minuta de Documento">
 
         </TabItem>
 
-        <TabItem Header="Bitácora">
+        <TabItem x:Name="TabBitacora" IsEnabled="False" Header="Bitácora">
 
         </TabItem>
 
-        <TabItem Header="Documentos Adjuntos">
+        <TabItem x:Name="TabDocumentos" IsEnabled="False" Header="Documentos Adjuntos">
 
         </TabItem>
     </TabControl>
