@@ -8,18 +8,19 @@ namespace Seguros_Broker.Modelo
 {
     public class Cobertura
     {
-        public string codigo { get; set; } = "";
+        // --- AÑADE ESTA LÍNEA ---
+        public bool IsSelected { get; set; }
+        
 
-        public string nombre { get; set; } = "";
-
-        public string afectaExtenta { get; set; } = "";
-
-        public string sumaMonto { get; set; } = "";
-
+       
+        // (Deben ser propiedades { get; set; } para que el DataGrid funcione)
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+        public string afectaExtenta { get; set; }
+        public string sumaMonto { get; set; }
         public int monto { get; set; }
-
         public int prima { get; set; }
 
+        
     }
-
 }
