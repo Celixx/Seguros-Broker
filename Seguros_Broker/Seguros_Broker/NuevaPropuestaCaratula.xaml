@@ -9,7 +9,11 @@
     <TabControl Margin="0,0,0,0">
         <TabItem Header="Carátula">
             <Grid>
-                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="23*"/>
+                    <ColumnDefinition Width="1251*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -252,7 +256,7 @@
                                                 <TextBlock Text="Facturar a" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2,10,2"/>
                                                 <TextBox Grid.Row="0" Grid.Column="1" Margin="0,2,10,2" IsEnabled="False" Visibility="Collapsed" x:Name="TxtFacturarA" IsReadOnly="True" HorizontalAlignment="Stretch"/>
                                                 <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="10,2,10,2"/>
-                                                <TextBox Grid.Row="0" Grid.Column="3" Margin="0,2,5,2" x:Name="TxtRutCliente1" HorizontalAlignment="Stretch"/>
+                                                <TextBox Grid.Row="0" Grid.Column="3" Margin="0,2,5,2" x:Name="TxtRutCliente1" HorizontalAlignment="Stretch" TextChanged="TxtRutCliente1_TextChanged"/>
                                                 <Button Grid.Row="0" Grid.Column="4" Width="28" Height="28" ToolTip="Buscar Rut a facturar" Click="BtnBuscarRutFacturar_Click" Margin="0,2,0,0" VerticalAlignment="Top">
                                                     <Button.Content>
                                                         <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
@@ -310,7 +314,7 @@
                                                 <TextBlock Text="Rut" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="10,2,10,2"/>
                                                 <TextBox Grid.Row="0" Grid.Column="3" Margin="0,2,5,2" x:Name="TxtRutSocio" HorizontalAlignment="Stretch"/>
                                                 <Button Grid.Row="0" Grid.Column="4" Width="28" Height="28" ToolTip="Buscar Socio" Click="BtnBuscarRutSocio_Click" Margin="0,2">
-                                                    
+
                                                     <Button.Content>
                                                         <Image Source="{StaticResource lupa_icono}" Width="16" Height="16"/>
                                                     </Button.Content>
@@ -682,7 +686,173 @@
         </TabItem>
 
         <TabItem Header="Plan de Pago">
+            <TabItem.Resources>
+                <Style x:Key="LabelStyle" TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,0,5,0"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,5,15,5"/>
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,5,15,5"/>
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+                <Style TargetType="DatePicker">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,5,15,5"/>
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+                <Style x:Key="StaticValueStyle" TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,5,15,5"/>
+                    <Setter Property="Padding" Value="4,3"/>
+                    <Setter Property="Background" Value="#EEE"/>
+                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </TabItem.Resources>
 
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Valores" FontWeight="Bold" Margin="0,0,0,10">
+                    <UniformGrid Rows="1" Margin="5">
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Monto asegurado"/>
+                            <TextBlock x:Name="txtMontoAseguradoValor" Text="{Binding MontoAsegurado}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Prima neta afecta"/>
+                            <TextBlock x:Name="txtPrimaNetaAfectaValor" Text="{Binding PrimaNetaAfecta}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Prima neta exenta"/>
+                            <TextBlock x:Name="txtPrimaNetaExentaValor" Text="{Binding PrimaNetaExenta}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Prima neta total"/>
+                            <TextBlock x:Name="txtPrimaNetaTotalValor" Text="{Binding PrimaNetaTotal}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="IVA"/>
+                            <TextBlock x:Name="txtIVAValor" Text="{Binding IVA}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5,0">
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Prima bruta total"/>
+                            <TextBlock x:Name="txtPrimaBrutaTotalValor" Text="{Binding PrimaBrutaTotal}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </UniformGrid>
+                </GroupBox>
+
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+
+                    <GroupBox Header="Completa el siguiente formulario" Margin="0,0,0,10">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Style="{StaticResource LabelStyle}" Text="Forma de compromiso de pago"/>
+                                <ComboBox x:Name="cbFormaCompromiso" Width="200">
+                                </ComboBox>
+                            </StackPanel>
+                            <CheckBox x:Name="chkPlanCerrado" Content="Este plan de pago se ha cerrado (no se puede modificar)" Margin="0,10,0,5"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Datos del plan de pago" Margin="0,0,0,10">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Cuota desde"/>
+                            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="txtCuotaDesde"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelStyle}" Text="Fecha de ingreso plan de pago"/>
+                            <DatePicker Grid.Row="0" Grid.Column="3" x:Name="dpFechaIngresoPlan"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="Monto a pactar"/>
+                            <TextBox   Grid.Row="0" Grid.Column="5" x:Name="txtMontoPactar"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource LabelStyle}" Text="Monto total"/>
+                            <TextBlock Grid.Row="0" Grid.Column="7" x:Name="txtMontoTotalStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Cuota hasta"/>
+                            <TextBox   Grid.Row="1" Grid.Column="1" x:Name="txtCuotaHasta"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelStyle}" Text="Fecha contado"/>
+                            <DatePicker Grid.Row="1" Grid.Column="3" x:Name="dpFechaContado"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="% Factor"/>
+                            <TextBox   Grid.Row="1" Grid.Column="5" x:Name="txtPorcentajeFactor"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource LabelStyle}" Text="Total cuotas"/>
+                            <TextBlock Grid.Row="1" Grid.Column="7" x:Name="txtTotalCuotasStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="% Interes Mensual"/>
+                            <TextBox   Grid.Row="2" Grid.Column="5" x:Name="txtInteresMensual"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="Monto total de cuota"/>
+                            <TextBlock Grid.Row="3" Grid.Column="5" x:Name="txtMontoTotalCuotaStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+
+                        </Grid>
+                    </GroupBox>
+
+                </StackPanel>
+
+                <DataGrid Grid.Row="2" x:Name="dataGridPlanPagos" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header=" " Width="30"/>
+
+                        <!-- Cuota -->
+                        <DataGridTextColumn Header="Cuota" Binding="{Binding CuotaNro}" IsReadOnly="True" Width="60"/>
+
+                        <!-- Monto -->
+                        <DataGridTextColumn Header="Monto" Binding="{Binding Monto, StringFormat=N2}" IsReadOnly="True" Width="100" />
+
+                        <!-- Fecha de vencimiento -->
+                        <DataGridTextColumn Header="Fecha de vencimiento" Binding="{Binding FechaVencimientoStr}" IsReadOnly="True" Width="140"/>
+
+                        <!-- Forma de pago -->
+                        <DataGridTextColumn Header="Forma de pago" Binding="{Binding FormaPago}" IsReadOnly="True" Width="80"/>
+
+                        <!-- Numero de documento -->
+                        <DataGridTextColumn Header="Numero de documento" Binding="{Binding NumeroDocumento}" Width="140"/>
+
+                        <!-- Nro. Tarj/Cta Cte -->
+                        <DataGridTextColumn Header="Nro. Tarj/Cta Cte" Binding="{Binding NroTarjetaCuenta}" Width="140"/>
+
+                        <!-- Tipo Tarj -->
+                        <DataGridTextColumn Header="Tipo Tarj" Binding="{Binding TipoTarjeta}" Width="100"/>
+
+                        <!-- Validez Tarj -->
+                        <DataGridTextColumn Header="Validez Tarj" Binding="{Binding ValidezTarjeta}" Width="100"/>
+
+                        <!-- Banco -->
+                        <DataGridTextColumn Header="Banco" Binding="{Binding Banco}" Width="140"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </TabItem>
 
         <TabItem Header="Minuta de Documento">

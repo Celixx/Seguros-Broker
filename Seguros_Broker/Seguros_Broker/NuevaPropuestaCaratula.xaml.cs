@@ -2,6 +2,7 @@
 using Seguros_Broker.Repositorio;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,11 @@ namespace Seguros_Broker
     /// <summary>
     /// Interaction logic for VentanaPrincipal.xaml
     /// </summary>
-    public partial class NuevaPropuestaCaratula
+    public partial class NuevaPropuestaCaratula : Window
     {
+        
+        private ClienteDatosPagoRep clienteDatosPagoRep = new ClienteDatosPagoRep();
+        private List<ClienteDatosPago> clienteDatosPagoCache = new List<ClienteDatosPago>();
 
         private List<Moneda> monedas;
         private MonedaRep monedaRep= new MonedaRep();
@@ -34,6 +38,15 @@ namespace Seguros_Broker
             this.monedas = monedaRep.GetMonedas();
 
             cbMonedas.ItemsSource = monedas;
+
+            InitializeComponent();
+            HookEvents();
+            cbFormaCompromiso.Items.Clear();
+            cbFormaCompromiso.Items.Add("PAC");
+            cbFormaCompromiso.SelectedIndex = 0;
+
+            // grid vacío
+            dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
         }
 
         private List<Modelo.EjecutivoM> GetEjecutivo()
@@ -368,6 +381,20 @@ namespace Seguros_Broker
                 TxtComisionExentaPorcentaje.IsEnabled = false;
                 //s
             }
+
+            try
+            {
+
+                // Sincroniza los valores actuales de Carátula hacia Plan de Pago
+                SyncFromCaratula();
+
+                // Reconstruye la grilla del plan de pago para que refleje los nuevos montos/totales
+                RebuildPlanGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al sincronizar Carátula -> Plan de Pago: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnAgregarCobertura(object sender, RoutedEventArgs e)
@@ -375,6 +402,206 @@ namespace Seguros_Broker
             var VentanaAgregarCobertura = new VentanaAgregarCobertura();
             VentanaAgregarCobertura.ShowDialog();
         }
+
+
+        //VENTANA DE PLAN DE PAGO
+        private void TxtRutCliente1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LoadClienteDatosPago(TxtRutCliente1.Text.Trim());
+            RebuildPlanGrid();
+        }
+        public class PlanPagoRow
+        {
+            public int CuotaNro { get; set; }
+            public DateTime FechaVencimiento { get; set; }
+            public DateTime? FechaPago { get; set; } = null;
+            public string NumeroDocumento { get; set; } = "";
+            public string NroTarjetaCuenta { get; set; } = "";
+            public string TipoTarjeta { get; set; } = "";
+            public string ValidezTarjeta { get; set; } = "";
+            public string Banco { get; set; } = "";
+            public decimal Monto { get; set; }
+            public string FormaPago { get; set; } = "PAC";
+            public string FechaVencimientoStr => FechaVencimiento.ToString("dd-MM-yyyy");
+            public string FechaPagoStr => FechaPago?.ToString("dd-MM-yyyy") ?? "";
+        }
+
+        private void HookEvents()
+        {
+            // Si el usuario cambia los datos en Carátula, sincronizar cuando se seleccione la pestaña Plan de Pago.
+            txtCuotaDesde.TextChanged += (s, e) => RebuildPlanGrid();
+            txtCuotaHasta.TextChanged += (s, e) => RebuildPlanGrid();
+            dpFechaIngresoPlan.SelectedDateChanged += (s, e) => RebuildPlanGrid();
+
+            // Cuando cambia el Rut del cliente en Carátula (TxtRutCliente1) recargar los datos de pago en cache
+            TxtRutCliente1.TextChanged += (s, e) => { LoadClienteDatosPago(TxtRutCliente1.Text.Trim()); RebuildPlanGrid(); };
+        }
+
+        private void SyncFromCaratula()
+        {
+            try
+            {
+                // Copiar valores desde Carátula 
+                txtMontoAseguradoValor.Text = TxtMontoAsegurado?.Text ?? "0";
+                txtPrimaNetaAfectaValor.Text = TxtPrimaNetaAfecta?.Text ?? "0";
+                txtPrimaNetaExentaValor.Text = TxtPrimaNetaExenta?.Text ?? "0";
+                txtPrimaNetaTotalValor.Text = TxtPrimaNetaTotal?.Text ?? "0";
+                txtIVAValor.Text = TxtIva?.Text ?? "0";
+                var primaBruta = TxtPrimaBrutaTotal?.Text ?? "0";
+                txtPrimaBrutaTotalValor.Text = primaBruta;
+                txtMontoTotalStatic.Text = primaBruta;
+                txtTotalCuotasStatic.Text = primaBruta;
+                txtMontoTotalCuotaStatic.Text = primaBruta;
+
+                if (string.IsNullOrWhiteSpace(txtMontoPactar.Text))
+                    txtMontoPactar.Text = primaBruta;
+
+                // actualizar grid
+                RebuildPlanGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al sincronizar Carátula -> Plan de Pago: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+       
+        private void LoadClienteDatosPago(string clienteID)
+        {
+            if (string.IsNullOrWhiteSpace(clienteID))
+            {
+                clienteDatosPagoCache = new List<ClienteDatosPago>();
+                return;
+            }
+
+            clienteDatosPagoCache = clienteDatosPagoRep.GetDatosPagoByClienteID(clienteID);
+        }
+
+       
+        private void RebuildPlanGrid()
+        {
+           
+            if (!int.TryParse(txtCuotaDesde.Text?.Trim(), out int cuotaDesde))
+            {
+                
+                dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
+                return;
+            }
+            if (!int.TryParse(txtCuotaHasta.Text?.Trim(), out int cuotaHasta))
+            {
+                dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
+                return;
+            }
+            if (cuotaHasta < cuotaDesde)
+            {
+                dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
+                return;
+            }
+
+            // Fecha de ingreso plan
+            if (!dpFechaIngresoPlan.SelectedDate.HasValue)
+            {
+                dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
+                return;
+            }
+            DateTime fechaIngreso = dpFechaIngresoPlan.SelectedDate.Value.Date;
+
+            // Obtener monto total a repartir.
+            decimal montoTotal;
+            var montoTotalText = txtMontoTotalStatic.Text?.Trim();
+            if (!TryParseDecimalInvariant(montoTotalText, out montoTotal))
+            {
+                
+                if (!TryParseDecimalInvariant(txtMontoPactar.Text?.Trim(), out montoTotal))
+                {
+                    montoTotal = 0m;
+                }
+            }
+
+            // Cantidad de cuotas
+            int cantidadCuotas = cuotaHasta - cuotaDesde + 1;
+
+            // Monto por cuota 
+            decimal montoPorCuota = 0m;
+            if (cantidadCuotas > 0)
+            {
+                montoPorCuota = Math.Floor((montoTotal / cantidadCuotas) * 100m) / 100m; 
+            }
+
+            // Construir filas
+            var filas = new List<PlanPagoRow>();
+            for (int nro = cuotaDesde; nro <= cuotaHasta; nro++)
+            {
+                int offset = nro - cuotaDesde + 1; 
+                DateTime fechaVenc = SafeAddMonthsKeepingDay(fechaIngreso, offset);
+
+                // datos del cliente de pago 
+                var datosPago = clienteDatosPagoCache.FirstOrDefault();
+
+                filas.Add(new PlanPagoRow
+                {
+                    CuotaNro = nro,
+                    FechaVencimiento = fechaVenc,
+                    FechaPago = null,
+                    NumeroDocumento = datosPago?.NumeroDocumento ?? "",
+                    NroTarjetaCuenta = datosPago?.NroTarjetaCuenta ?? "",
+                    TipoTarjeta = datosPago?.TipoTarjeta ?? "",
+                    ValidezTarjeta = datosPago?.ValidezTarjeta ?? "",
+                    Banco = datosPago?.Banco ?? "",
+                    FormaPago = "PAC",
+                    Monto = montoPorCuota
+                });
+            }
+
+            decimal sumaAsignada = filas.Sum(f => f.Monto);
+            decimal diferencia = Math.Round(montoTotal - sumaAsignada, 2);
+            if (filas.Count > 0 && Math.Abs(diferencia) >= 0.01m)
+            {
+                filas[filas.Count - 1].Monto += diferencia;
+            }
+
+            // Mostrar en grid
+            dataGridPlanPagos.ItemsSource = filas;
+            dataGridPlanPagos.Items.Refresh();
+
+            // Actualizar campos estáticos de totales y total cuotas
+            txtMontoTotalStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
+            txtTotalCuotasStatic.Text = cantidadCuotas.ToString();
+            txtMontoTotalCuotaStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
+        }
+
+        private bool TryParseDecimalInvariant(string s, out decimal value)
+        {
+            value = 0m;
+            if (string.IsNullOrWhiteSpace(s)) return false;
+            s = s.Trim().Replace(".", "").Replace(",", "."); // "1.234,56" -> "1234.56"
+            return decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
+        }
+
+        // Añadir meses manteniendo el día cuando sea posible 
+        private DateTime SafeAddMonthsKeepingDay(DateTime date, int months)
+        {
+            var target = date.AddMonths(months);
+            int day = Math.Min(date.Day, DateTime.DaysInMonth(target.Year, target.Month));
+            return new DateTime(target.Year, target.Month, day);
+        }
+
+
+        private void BtnSyncPlanPago_Click(object sender, RoutedEventArgs e)
+        {
+            SyncFromCaratula();
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (/* lógica para detectar pestaña Plan de Pago */ false)
+            {
+                SyncFromCaratula();
+            }
+        }
+
+
+
 
     }
 
