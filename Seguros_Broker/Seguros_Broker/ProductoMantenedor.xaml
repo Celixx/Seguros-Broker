@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Seguros_Broker"
         mc:Ignorable="d"
-        Title="ProductoMantenedor" Height="450" d:DesignWidth="888.689">
+        Title="ProductoMantenedor" Height="450" d:DesignWidth="888.689"
+        WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="LabelRequired" TargetType="{x:Type TextBlock}">
             <Setter Property="FontWeight" Value="SemiBold"/>

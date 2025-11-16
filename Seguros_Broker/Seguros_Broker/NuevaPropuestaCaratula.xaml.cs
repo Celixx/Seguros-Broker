@@ -30,6 +30,10 @@ namespace Seguros_Broker
         private MonedaRep monedaRep= new MonedaRep();
         private ClienteRep clienteRep = new ClienteRep();
         private SocioRep socioRep = new SocioRep();
+        private GestorRep gestorRep = new GestorRep();
+        private CompaniaRep companiaRep = new CompaniaRep();
+        private EjecutivoRep ejecutivoRep = new EjecutivoRep();         
+        private PropuestaRep propuestaRep = new PropuestaRep();
 
         public NuevaPropuestaCaratula()
         {
@@ -56,14 +60,155 @@ namespace Seguros_Broker
             return ejecutivos;
         }
 
-        private void Guardar_Click(object sender, RoutedEventArgs e)
+        private async void Guardar_Click(object sender, RoutedEventArgs e)
         {
+            // Validaciones
+            var errores = new System.Collections.Generic.List<string>();
 
+            if (string.IsNullOrWhiteSpace(TxtNumeroPoliza.Text))
+                errores.Add("Número de Póliza (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtCodigoRamo.Text))
+                errores.Add("Código Ramo (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtCodigoEjecutivo.Text))
+                errores.Add("Código Ejecutivo de Cuenta (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtCodigoEjecutivoResponsable.Text))
+                errores.Add("Código Ejecutivo Responsable (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtAreaNegocio.Text))
+                errores.Add("Código Área de negocio (obligatorio).");
+
+            if (DpDesde.SelectedDate == null)
+                errores.Add("Fecha de ingreso (obligatorio).");
+
+            if (DpHasta.SelectedDate == null)
+                errores.Add("Fecha de término (obligatorio).");
+
+            if (cbMonedas.SelectedItem == null)
+                errores.Add("Tipo de moneda (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtComisionAfectaPorcentaje.Text) && string.IsNullOrWhiteSpace(TxtComisionExentaPorcentaje.Text))
+                errores.Add("Comisión afecta o Comisión exenta (Obligatorio)");
+
+            //if (!string.IsNullOrWhiteSpace(TxtComisionAfectaPorcentaje.Text) && !string.IsNullOrWhiteSpace(TxtComisionExentaPorcentaje.Text))
+            //    errores.Add("Comisión afecta y Comisión exenta no pueden estar rellenados ambos");
+
+            if (string.IsNullOrWhiteSpace(TxtRutCliente1.Text))
+                errores.Add("RUT Facturar a (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutContratante.Text))
+                errores.Add("RUT Contratante (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutAsegurado.Text))
+                errores.Add("RUT Asegurado (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutAFavorDe.Text))
+                errores.Add("RUT A favor de (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutSocio.Text))
+                errores.Add("RUT Socio (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutGestor.Text))
+                errores.Add("RUT Gestor (obligatorio).");
+
+            if (string.IsNullOrWhiteSpace(TxtRutCompania.Text))
+                errores.Add("RUT Compañía (obligatorio).");
+
+            if (cbEjecutivosCompania.SelectedItem == null)
+                errores.Add("Ejecutivo Compañía (obligatorio).");
+
+            if (TxtMateriaAsegurada.Text == "")
+                errores.Add("Matería Asegurada (obligatorio).");            
+
+            if (errores.Any())
+            {
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var monedaSeleccionada = new Moneda();
+            monedaSeleccionada = (Moneda)cbMonedas.SelectedItem;
+            var clienteSeleccionado = new Cliente();
+            clienteSeleccionado = clienteRep.GetCliente(TxtRutCliente1.Text);
+            var socioSeleccionado = new Socio();
+            socioSeleccionado = socioRep.GetSocio(int.Parse(TxtRutSocio.Text));
+
+            var ejecutivos = GetEjecutivo();
+            var ejecutivoSeleccionado = new EjecutivoM();
+            foreach (var ejecutivo in ejecutivos)
+            {
+                if (ejecutivo.codigo.ToString() == TxtCodigoEjecutivo.Text)
+                {
+                    ejecutivoSeleccionado = ejecutivo;
+                }
+            }
+
+            var selectedTipoPoliza = "";
+
+            if (RbConvencional.IsChecked == true)
+            {
+                selectedTipoPoliza = RbConvencional.Content.ToString();
+            }
+            else if(RbColectiva.IsChecked == true)
+            {
+                selectedTipoPoliza = RbColectiva.Content.ToString();
+            }
+
+            var nuevaPropuesta = new Propuesta
+            {
+                TipoPoliza = selectedTipoPoliza,
+                FechaRecepcion = DtFechaRecepcion.SelectedDate,
+                NumeroPoliza = int.Parse(TxtNumeroPoliza.Text),
+                RenuevaPoliza = int.Parse(TxtRenuevaPoliza.Text),
+                FechaIngreso = DpFechaIngreso.SelectedDate,
+                FechaEmision = DpTermino.SelectedDate,
+                IDRamo = int.Parse(TxtCodigoRamo.Text),
+                IDEjecutivo = ejecutivoSeleccionado.ID,
+                Area = TxtAreanNegocio.Text,
+                FechaCreacion = DpFechaCreacion.SelectedDate,
+                FechaVigenciaDesde = DpDesde.SelectedDate,
+                FechaVigenciaHasta = DpHasta.SelectedDate,
+                IDMoneda = monedaSeleccionada.monedaId,
+                ComisionAfecta = int.Parse(TxtComisionAfectaPorcentaje.Text),
+                ComisionExenta = int.Parse(TxtComisionExentaPorcentaje.Text),
+                MontoAsegurado = int.Parse(TxtMontoAsegurado.Text),
+                ComisionTotal = int.Parse(TxtComisionTotal.Text),
+                PrimaNetaAfecta = int.Parse(TxtPrimaNetaAfecta.Text),
+                PrimaNetaExenta = int.Parse(TxtPrimaNetaExenta.Text),
+                PrimaNetaTotal = int.Parse(TxtPrimaNetaTotal.Text),
+                IVA = int.Parse(TxtIva.Text),
+                PrimaBrutaTotal = int.Parse(TxtPrimaBrutaTotal.Text),
+                IDCliente = clienteSeleccionado.ID,
+                IDSocio = socioSeleccionado.ID,
+                IDGestor = int.Parse(TxtRutGestor.Text),
+                IDCompania = TxtRutCompania.Text,
+                MateriaAsegurada = TxtMateriaAsegurada.Text,
+                Observacion = TxtObservacion.Text
+            };
+
+            var result = await propuestaRep.CreatePropuestaAsync(nuevaPropuesta);
+
+            if (result.success)
+            {
+                MessageBox.Show("Propuesta guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                //Mostrar mensaje de error del repo
+                MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("¿Seguro que quiere salir?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
@@ -284,15 +429,72 @@ namespace Seguros_Broker
         }
         private void BtnBuscarRutGestor_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (TxtRutGestor.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var rutGestor = gestorRep.GetGestor(int.Parse(TxtRutGestor.Text));
+                    if (rutGestor == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtGestor.Visibility = Visibility.Visible;
+                        TxtGestor.Text = rutGestor.nombre;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnBuscarRutCompania_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (TxtRutCompania.Text == "")
+            {
+                MessageBox.Show("Por favor ingrese un ID.");
+            }
+            else
+            {
+                try
+                {
+                    var compania = companiaRep.GetCompania(TxtRutCompania.Text);
+                    var ejecutivos = ejecutivoRep.GetEjecutivos();
+                    if (compania == null)
+                    {
+                        MessageBox.Show("Error, el ID no se encuentra registrado");
+                    }
+                    else
+                    {
+                        TxtCompania.Visibility = Visibility.Visible;
+                        TxtCompania.Text = compania.nombre;
+                        TxtGenerales.Visibility = Visibility.Visible;
+                        TxtGenerales.Text = "Generales";
+
+                        cbEjecutivosCompania.ItemsSource = ejecutivos;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error, el ID no se encuentra registrado");
+                }
+            }
         }
         private void BtnLimpiarEjecutivo_Click(object sender, RoutedEventArgs e)
         {
-            
+            cbEjecutivosCompania.SelectedItem = null;
         }
 
         private void BtnAgregarItem(object sender, RoutedEventArgs e)
@@ -329,57 +531,56 @@ namespace Seguros_Broker
                 TxtComisionAfectaTexto.Visibility = Visibility.Visible;
                 TxtComisionExentaTexto.Visibility = Visibility.Visible;
                 TxtMontoAsegurado.Visibility = Visibility.Visible;
-                TxtMontoAsegurado.Text = "0,00";
+                TxtMontoAsegurado.Text = "0";
                 TxtRamo.Visibility = Visibility.Visible;
-                TxtMontoAsegurado.Text = "0,00";
-                TxtComisionExentaTexto.Text = "759.60";
-                TxtComisionAfectaTexto.Text = "0,00";
+                TxtMontoAsegurado.Text = "0";
+                TxtComisionExentaTexto.Text = "759";
+                TxtComisionAfectaTexto.Text = "0";
                 TxtPrimaNetaAfecta.IsEnabled = false;
                 TxtPrimaNetaAfecta.Visibility = Visibility.Visible;
-                TxtPrimaNetaAfecta.Text = "5,064";
-                TxtComisionTotal.Text = "759.60";
+                TxtPrimaNetaAfecta.Text = "5064";
+                TxtComisionTotal.Text = "759";
                 TxtPrimaNetaExenta.Visibility = Visibility.Visible;
-                TxtPrimaNetaExenta.Text = "0,00";
+                TxtPrimaNetaExenta.Text = "0";
                 TxtComisionTotal.Visibility = Visibility.Visible;
                 TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
                 TxtPrimaNetaTotal.Visibility = Visibility.Visible;
-                TxtPrimaNetaTotal.Text = "5,064";
-                TxtPrimaBrutaTotal.Text = "5,064";
+                TxtPrimaNetaTotal.Text = "5064";
+                TxtPrimaBrutaTotal.Text = "5064";
                 TxtIva.Visibility = Visibility.Visible;
-                TxtIva.Text = "962.16";
+                TxtIva.Text = "962";
                 TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
-                TxtPrimaNetaTotal.Text = "6,026.16";
+                TxtPrimaNetaTotal.Text = "6026";
                 TxtComisionAfectaPorcentaje.IsEnabled = false;
-                TxtComisionAfectaPorcentaje.Text = "0,00";
+                TxtComisionAfectaPorcentaje.Text = "0";
             }
             else
             {
                 TxtComisionAfectaTexto.Visibility = Visibility.Visible;
                 TxtComisionExentaTexto.Visibility = Visibility.Visible;
                 TxtMontoAsegurado.Visibility = Visibility.Visible;
-                TxtMontoAsegurado.Text = "0,00";
+                TxtMontoAsegurado.Text = "0";
                 TxtRamo.Visibility = Visibility.Visible;
-                TxtMontoAsegurado.Text = "1,00";
-                TxtComisionAfectaTexto.Text = "379,80";
-                TxtComisionExentaTexto.Text = "0,00";
-                TxtComisionExentaPorcentaje.Text = "0,00";
+                TxtMontoAsegurado.Text = "1";
+                TxtComisionAfectaTexto.Text = "379";
+                TxtComisionExentaTexto.Text = "0";
+                TxtComisionExentaPorcentaje.Text = "0";
                 TxtPrimaNetaAfecta.IsEnabled = false;
                 TxtPrimaNetaAfecta.Visibility = Visibility.Visible;
-                TxtPrimaNetaAfecta.Text = "2.532,00";
-                TxtComisionTotal.Text = "379,00";
+                TxtPrimaNetaAfecta.Text = "2532";
+                TxtComisionTotal.Text = "379";
                 TxtPrimaNetaExenta.Visibility = Visibility.Visible;
-                TxtPrimaNetaExenta.Text = "0,00";
+                TxtPrimaNetaExenta.Text = "0";
                 TxtComisionTotal.Visibility = Visibility.Visible;
                 TxtPrimaBrutaTotal.Visibility = Visibility.Visible;
                 TxtPrimaNetaTotal.Visibility = Visibility.Visible;
-                TxtPrimaNetaTotal.Text = "2.532,00";
-                TxtPrimaBrutaTotal.Text = "2.532,00";
+                TxtPrimaNetaTotal.Text = "2532";
+                TxtPrimaBrutaTotal.Text = "3013";
                 TxtIva.Visibility= Visibility.Visible;
-                TxtIva.Text = "481,08";
+                TxtIva.Text = "481";
                 TxtPrimaBrutaTotal.Visibility= Visibility.Visible;
-                TxtPrimaNetaTotal.Text = "3.013,08";
+                TxtPrimaNetaTotal.Text = "2532";
                 TxtComisionExentaPorcentaje.IsEnabled = false;
-                //s
             }
 
             try
