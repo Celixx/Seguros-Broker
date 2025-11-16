@@ -793,17 +793,11 @@ namespace Seguros_Broker
             SyncFromCaratula();
         }
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void Guaradar_Click_Pagos(object sender, RoutedEventArgs e)
         {
-            if (/* lógica para detectar pestaña Plan de Pago */ false)
-            {
-                SyncFromCaratula();
-            }
+
         }
-
-
-
-
     }
 
 }
