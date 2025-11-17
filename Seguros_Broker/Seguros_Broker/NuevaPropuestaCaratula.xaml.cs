@@ -37,12 +37,17 @@ namespace Seguros_Broker
         private CompaniaRep companiaRep = new CompaniaRep();
         private EjecutivoRep ejecutivoRep = new EjecutivoRep();         
         private PropuestaRep propuestaRep = new PropuestaRep();
+        public ObservableCollection<Cobertura> CoberturasDePropuesta { get; set; }
+
 
         public NuevaPropuestaCaratula()
         {
             InitializeComponent();
 
             this.monedas = monedaRep.GetMonedas();
+
+            CoberturasDePropuesta = new ObservableCollection<Cobertura>();
+            CoberturasDataGrid.ItemsSource = CoberturasDePropuesta;
 
             cbMonedas.ItemsSource = monedas;
 
@@ -60,6 +65,8 @@ namespace Seguros_Broker
 
             // grid vacío
             dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
+
+
         }
 
         private List<Modelo.EjecutivoM> GetEjecutivo()
@@ -635,12 +642,17 @@ namespace Seguros_Broker
             if (resultado == true)
             {
                 // Obtener la lista de la propiedad pública de la ventana
+                
                 List<Cobertura> seleccionadas = ventanaSeleccion.CoberturasSeleccionadas;
 
                 // Añadir las coberturas seleccionadas a la grilla de la ventana principal
                 foreach (var cobertura in seleccionadas)
                 {
-                    
+                    // (Opcional) Comprobar si ya existe para no añadir duplicados
+                    if (!CoberturasDePropuesta.Any(c => c.codigo == cobertura.codigo))
+                    {
+                        CoberturasDePropuesta.Add(cobertura);
+                    }
                 }
             }
         }
@@ -854,7 +866,6 @@ namespace Seguros_Broker
             if (result == MessageBoxResult.No)
                 e.Cancel = true;   
         }
-
 
 
     }

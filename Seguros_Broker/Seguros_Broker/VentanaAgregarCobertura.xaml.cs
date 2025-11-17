@@ -24,12 +24,15 @@ namespace Seguros_Broker
 
             // 2. Inicializar la lista de resultados
             CoberturasSeleccionadas = new List<Cobertura>();
+            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CargarDatos();
         }
+        
+        
 
         private void CargarDatos()
         {
@@ -53,7 +56,8 @@ namespace Seguros_Broker
             this.DialogResult = true;
 
             // 5. Cerrar esta ventana (no es necesario this.Close() 
-            //    cuando DialogResult se establece)
+            //    cuando DialogResult se establece
         }
+
     }
 }
