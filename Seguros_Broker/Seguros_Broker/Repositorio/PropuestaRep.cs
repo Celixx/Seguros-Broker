@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Seguros_Broker.Repositorio
 {
@@ -247,6 +248,110 @@ namespace Seguros_Broker.Repositorio
             }
 
             return propuestas;
+        }
+
+        public Propuesta? GetPropuesta(int NumeroPoliza)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM PROPUESTA WHERE NumeroPoliza=@NumeroPoliza";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@NumeroPoliza", NumeroPoliza);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Propuesta propuesta = new Propuesta();
+
+                                propuesta.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? 0 : reader.GetInt32(0);
+                                propuesta.NumeroPoliza = NumeroPoliza;
+                                propuesta.RenuevaPoliza = reader.IsDBNull(reader.GetOrdinal("RenuevaPoliza")) ? 0 : reader.GetInt32(2);
+                                propuesta.FechaRecepcion = reader.IsDBNull(reader.GetOrdinal("FechaRecepcion")) ? null : reader.GetDateTime(3);
+                                propuesta.TipoPoliza = reader.IsDBNull(reader.GetOrdinal("TipoPoliza")) ? null : reader.GetString(4);
+                                propuesta.FechaIngreso = reader.IsDBNull(reader.GetOrdinal("FechaIngreso")) ? null : reader.GetDateTime(5);
+                                propuesta.FechaEmision = reader.IsDBNull(reader.GetOrdinal("FechaEmision")) ? null : reader.GetDateTime(6);
+                                propuesta.IDRamo = reader.IsDBNull(reader.GetOrdinal("IDRamo")) ? 0 : reader.GetInt32(7);
+                                propuesta.IDEjecutivo = reader.IsDBNull(reader.GetOrdinal("IDEjecutivo")) ? null : reader.GetString(8);
+                                propuesta.Area = reader.IsDBNull(reader.GetOrdinal("Area")) ? null : reader.GetString(9);
+                                propuesta.FechaCreacion = reader.IsDBNull(reader.GetOrdinal("FechaCreacion")) ? null : reader.GetDateTime(10);
+                                propuesta.FechaVigenciaDesde = reader.IsDBNull(reader.GetOrdinal("FechaVigenciaDesde")) ? null : reader.GetDateTime(11);
+                                propuesta.FechaVigenciaHasta = reader.IsDBNull(reader.GetOrdinal("FechaVigenciaHasta")) ? null : reader.GetDateTime(12);
+                                propuesta.IDMoneda = reader.IsDBNull(reader.GetOrdinal("IDMoneda")) ? 0 : reader.GetInt32(13);
+                                propuesta.ComisionAfecta = reader.IsDBNull(reader.GetOrdinal("ComisionAfecta")) ? 0 : reader.GetInt32(14);
+                                propuesta.ComisionExenta = reader.IsDBNull(reader.GetOrdinal("ComisionExenta")) ? 0 : reader.GetInt32(15);
+                                propuesta.MontoAsegurado = reader.IsDBNull(reader.GetOrdinal("MontoAsegurado")) ? 0 : reader.GetInt32(16);
+                                propuesta.ComisionTotal = reader.IsDBNull(reader.GetOrdinal("ComisionTotal")) ? 0 : reader.GetInt32(17);
+                                propuesta.PrimaNetaAfecta = reader.IsDBNull(reader.GetOrdinal("PrimaNetaAfecta")) ? 0 : reader.GetInt32(18);
+                                propuesta.PrimaNetaExenta = reader.IsDBNull(reader.GetOrdinal("PrimaNetaExenta")) ? 0 : reader.GetInt32(19);
+                                propuesta.PrimaNetaTotal = reader.IsDBNull(reader.GetOrdinal("PrimaNetaTotal")) ? 0 : reader.GetInt32(20);
+                                propuesta.IVA = reader.IsDBNull(reader.GetOrdinal("IVA")) ? 0 : reader.GetInt32(21);
+                                propuesta.PrimaBrutaTotal = reader.IsDBNull(reader.GetOrdinal("PrimaBrutaTotal")) ? 0 : reader.GetInt32(22);
+                                propuesta.IDCliente = reader.IsDBNull(reader.GetOrdinal("IDCliente")) ? null : reader.GetString(23);
+                                propuesta.IDSocio = reader.IsDBNull(reader.GetOrdinal("IDSocio")) ? 0 : reader.GetInt32(24);
+                                propuesta.IDGestor = reader.IsDBNull(reader.GetOrdinal("IDGestor")) ? 0 : reader.GetInt32(25);
+                                propuesta.IDCompania = reader.IsDBNull(reader.GetOrdinal("IDCompania")) ? null : reader.GetString(26);
+                                propuesta.MateriaAsegurada = reader.IsDBNull(reader.GetOrdinal("MateriaAsegurada")) ? null : reader.GetString(27);
+                                propuesta.Observacion = reader.IsDBNull(reader.GetOrdinal("Observacion")) ? null : reader.GetString(28);
+
+                                return propuesta;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se encontró el ID, pero ocurrió un error al leer los datos:\n\n" + ex.Message, "Error de Lectura", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("Exception: " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        public async Task<(bool success, string? errorMessage)> UpdatePropuestaAsync(Propuesta propuesta)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var tran = connection.BeginTransaction())
+                    {
+                        const string insertSql = @"UPDATE PROPUESTA
+                                                    SET IDCliente=@IDCliente, IDCompania=@IDCompania
+                                                    WHERE ID=@ID;";
+                        using (var cmd = new SqlCommand(insertSql, connection, tran))
+                        {
+
+                            cmd.Parameters.Add("@IDCliente", System.Data.SqlDbType.VarChar, 50).Value = (object)propuesta.IDCliente ?? DBNull.Value;
+                            cmd.Parameters.Add("@IDCompania", System.Data.SqlDbType.NVarChar, 50).Value = (object)propuesta.IDCompania ?? DBNull.Value;
+                            cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = propuesta.ID;
+
+                            int rows = await cmd.ExecuteNonQueryAsync();
+
+                            if (rows <= 0)
+                            {
+                                await tran.RollbackAsync();
+                                return (false, "No se actualizó el registro (0 filas afectadas).");
+                            }
+
+                            await tran.CommitAsync();
+                            return (true, null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return (false, ex.Message);
+            }
         }
 
         public Propuesta? GetPropuestaByNumeroPoliza(int numeroPoliza)
