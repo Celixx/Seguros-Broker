@@ -53,7 +53,11 @@
                 <DatePicker x:Name="dpHasta"/>
 
                 <TextBlock Text="Número Póliza" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtNroPoliza"/>
+                <Grid>
+                    <TextBox x:Name="txtNroPoliza"/>
+                    <Button x:Name="btnBuscarNumeroPoliza" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                </Grid>
+                
 
                 <TextBlock Text="Rut Asegurado" Margin="0,10,0,0"/>
                 <TextBox x:Name="txtRutAsegurado"/>
@@ -98,6 +102,11 @@
         </Grid>
 
         <!-- TABLA RESULTADOS -->
-        <DataGrid Grid.Row="1" x:Name="dgResultados" AutoGenerateColumns="True"/>
+        <DataGrid x:Name="dataGridPropuestas"
+          Grid.Row="1"
+          AutoGenerateColumns="True"
+          HeadersVisibility="All"
+          IsReadOnly="True"                  
+          SelectionMode="Single"/>
     </Grid>
 </UserControl>

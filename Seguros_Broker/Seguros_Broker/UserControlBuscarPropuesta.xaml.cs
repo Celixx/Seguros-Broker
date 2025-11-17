@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Seguros_Broker.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,13 @@ namespace Seguros_Broker
     /// </summary>
     public partial class UserControlBuscarPropuesta : UserControl
     {
+        private PropuestaRep propuestaRep = new PropuestaRep();
         public UserControlBuscarPropuesta()
         {
             InitializeComponent();
+
+            var propuestas = propuestaRep.GetPropuestas();
+            dataGridPropuestas.ItemsSource = propuestas;
         }
     }
 }
