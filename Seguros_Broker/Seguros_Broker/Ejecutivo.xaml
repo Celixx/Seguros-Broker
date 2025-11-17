@@ -133,8 +133,7 @@
                         </StackPanel>
                         <ComboBox x:Name="cbPerfil" SelectedIndex="0">
                             <ComboBoxItem Content="SELECCIONE"/>
-                            <ComboBoxItem Content="placeholder1"/>
-                            <ComboBoxItem Content="placeholder2"/>
+                            <ComboBoxItem Content="ADMINISTRADOR"/>
                         </ComboBox>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -144,8 +143,7 @@
                         
                         <ComboBox x:Name="cbEstado" SelectedIndex="0">
                             <ComboBoxItem Content="SELECCIONE"/>
-                            <ComboBoxItem Content="placeholder1"/>
-                            <ComboBoxItem Content="placeholder2"/>
+                            <ComboBoxItem Content="PERMITIR"/>
                         </ComboBox>
 
                         <TextBlock Text="Restriccion en la busqueda de negocios" FontWeight="Normal" Margin="0,8,0,2"/>
@@ -156,8 +154,7 @@
                         
                         <ComboBox x:Name="cbRestricciones" SelectedIndex="0" IsEditable="False">
                             <ComboBoxItem Content="SIN RESTRICCIÓN"/>
-                            <ComboBoxItem Content="placeholder1"/>
-                            <ComboBoxItem Content="placeholder2"/>
+                            <ComboBoxItem Content="NO RESTRICCIONES"/>
                         </ComboBox>
                         
                          

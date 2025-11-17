@@ -51,6 +51,7 @@ namespace Seguros_Broker
 
             cbMonedas.ItemsSource = monedas;
 
+            InitializeComponent();
             HookEvents();
             cbFormaCompromiso.Items.Clear();
             cbFormaCompromiso.Items.Add("PAC");
@@ -209,11 +210,6 @@ namespace Seguros_Broker
             if (result.success)
             {
                 MessageBox.Show("Propuesta guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                TabItems.IsEnabled = true;
-                TabPlan.IsEnabled = true;
-                TabMinuta.IsEnabled = true;
-                TabBitacora.IsEnabled = true;
-                TabDocumentos.IsEnabled = true;
             }
             else
             {
@@ -234,30 +230,19 @@ namespace Seguros_Broker
 
         private void BtnBuscarRamo_Click(object sender, RoutedEventArgs e)
         {
-
-            try
+            if (TxtCodigoRamo.Text == "")
             {
-                if (TxtCodigoRamo.Text == "")
-                {
-                    MessageBox.Show("Por favor ingrese un ID para buscar.");
-                }
-                else
-                {
-                    var ramoRep = new RamoRep();
-                    var ramoBuscado = ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
-
-                    TxtRamo.Visibility = Visibility.Visible;
-                    TxtRamo.Text = ramoBuscado.nombre;
-                    return;
-                }
+                MessageBox.Show("Por favor ingrese un ID para buscar.");
             }
-            catch (Exception)
+            else
             {
+                var ramoRep = new RamoRep();
+                var ramoBuscado = ramoRep.GetRamo(int.Parse(TxtCodigoRamo.Text));
 
-                MessageBox.Show("Ramo no registrado");
+                TxtRamo.Visibility = Visibility.Visible;
+                TxtRamo.Text = ramoBuscado.nombre;
+                return;
             }
-
-            
         }
 
 
@@ -846,27 +831,98 @@ namespace Seguros_Broker
             SyncFromCaratula();
         }
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private async void Guaradar_Click_Pagos(object sender, RoutedEventArgs e)
         {
-            if (/* lógica para detectar pestaña Plan de Pago */ false)
+            // Validaciones requeridas
+            if (!dpFechaIngresoPlan.SelectedDate.HasValue)
             {
-                SyncFromCaratula();
+                MessageBox.Show("Debe elegir Fecha de ingreso plan de pago.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtCuotaDesde.Text?.Trim(), out int cuotaDesde))
+            {
+                MessageBox.Show("Cuota desde inválida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtCuotaHasta.Text?.Trim(), out int cuotaHasta))
+            {
+                MessageBox.Show("Cuota hasta inválida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (cuotaDesde >= cuotaHasta)
+            {
+                MessageBox.Show("Cuota desde debe ser menor que Cuota hasta.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Asegurarnos que hay filas en el grid
+            var items = dataGridPlanPagos.ItemsSource as IEnumerable<PlanPagoRow>;
+            if (items == null || !items.Any())
+            {
+                MessageBox.Show("No hay filas en el Plan de Pago para guardar.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Asegurarse que la propuesta ya fue guardada: buscar por NumeroPoliza
+            if (!int.TryParse(TxtNumeroPoliza.Text?.Trim(), out int numeroPoliza))
+            {
+                MessageBox.Show("Número de Póliza inválido. Debe guardar la Carátula primero.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var propuesta = propuestaRep.GetPropuestaByNumeroPoliza(numeroPoliza);
+            if (propuesta == null || propuesta.ID <= 0)
+            {
+                MessageBox.Show("No se encontró la propuesta en la base de datos. Por favor guarde la Carátula antes de guardar los pagos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Mapear PlanPagoRow -> PagoPropuesta (modelo)
+            var pagos = new List<PagoPropuesta>();
+            foreach (var row in items)
+            {
+                // row es PlanPagoRow (definido en esta clase). Asegurar casting correcto.
+                if (row is PlanPagoRow pRow)
+                {
+                    pagos.Add(new PagoPropuesta
+                    {
+                        PropuestaID = propuesta.ID,
+                        NumeroPoliza = numeroPoliza,
+                        CuotaNro = pRow.CuotaNro,
+                        Monto = pRow.Monto,
+                        FechaVencimiento = pRow.FechaVencimiento,
+                        FormaPago = pRow.FormaPago ?? "PAC",
+                        NumeroDocumento = pRow.NumeroDocumento ?? "",
+                        NroTarjCtaCte = pRow.NroTarjetaCuenta ?? "",
+                        TipoTarj = pRow.TipoTarjeta ?? "",
+                        ValidezTarj = pRow.ValidezTarjeta ?? "",
+                        Banco = pRow.Banco ?? ""
+                    });
+                }
+            }
+
+            if (pagos.Count == 0)
+            {
+                MessageBox.Show("No hay pagos válidos para guardar.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Insertar pagos
+            var pagosRepo = new PagosPropuestaRep();
+            var (success, errorMsg) = await pagosRepo.CreatePagosForPropuestaAsync(propuesta.ID, numeroPoliza, pagos);
+            if (success)
+            {
+                MessageBox.Show("Pagos guardados correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("No se pudieron guardar los pagos: " + (errorMsg ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var result = MessageBox.Show(
-                "¿Seguro que desea cerrar la ventana? Los datos ingresados son solo de carátula.",
-                "Confirmación",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
-
-            if (result == MessageBoxResult.No)
-                e.Cancel = true;   
-        }
-
 
     }
 

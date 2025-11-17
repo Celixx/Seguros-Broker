@@ -85,6 +85,16 @@ namespace Seguros_Broker
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        private void MainRibbon_SelectedTabChanged(object sender, RoutedEventArgs e)
+        {
+            var selected = MainRibbon.SelectedTabItem;
+
+            if (selected == Maestros_RibbonTabItem)
+            { 
+                MainContent.Content = new UserControlTablaPropuestas();
+            }
+        }
     }
     
 }

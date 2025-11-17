@@ -58,5 +58,53 @@ namespace Seguros_Broker.Repositorio
 
             return null;
         }
+
+        public List<Gestor> GetGestores()
+        {
+            var gestores = new List<Gestor>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string sql = "SELECT TipoID, ID, Nombre, APaterno, AMaterno, Fono, Celular, Mail, Fax, Direccion, Observacion, Comision, PorcentajeComision FROM GESTOR ORDER BY ID DESC;";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var gestor = new Gestor();
+
+                                gestor.tipoId = reader["TipoID"] != DBNull.Value ? reader["TipoID"].ToString() : "";
+                                gestor.ID = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0;
+                                gestor.nombre = reader["Nombre"] != DBNull.Value ? reader["Nombre"].ToString() : "";
+                                gestor.aPaterno = reader["APaterno"] != DBNull.Value ? reader["APaterno"].ToString() : "";
+                                gestor.aMaterno = reader["AMaterno"] != DBNull.Value ? reader["AMaterno"].ToString() : "";
+                                gestor.fono = reader["Fono"] != DBNull.Value ? Convert.ToInt32(reader["Fono"]) : 0;
+                                gestor.celular = reader["Celular"] != DBNull.Value ? Convert.ToInt32(reader["Celular"]) : 0;
+                                gestor.mail = reader["Mail"] != DBNull.Value ? reader["Mail"].ToString() : "";
+                                gestor.fax = reader["Fax"] != DBNull.Value ? Convert.ToInt32(reader["Fax"]) : 0;
+                                gestor.direccion = reader["Direccion"] != DBNull.Value ? reader["Direccion"].ToString() : "";
+                                gestor.observacion = reader["Observacion"] != DBNull.Value ? reader["Observacion"].ToString() : "";
+                                gestor.comision = reader["Comision"] != DBNull.Value ? Convert.ToInt32(reader["Comision"]) : 0;
+                                gestor.porcentajeComision = reader["PorcentajeComision"] != DBNull.Value ? Convert.ToInt32(reader["PorcentajeComision"]) : 0;
+
+                                gestores.Add(gestor);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.MessageBox.Show("Error en Compañía: " + ex.Message + "\n" + ex.StackTrace, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+
+            return gestores;
+        }
     }
 }
