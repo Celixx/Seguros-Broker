@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Seguros_Broker.Repositorio
 {
@@ -247,6 +248,49 @@ namespace Seguros_Broker.Repositorio
             }
 
             return propuestas;
+        }
+
+        public Propuesta? GetPropuesta(int NumeroPoliza)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM PROPUESTA WHERE NumeroPoliza=@NumeroPoliza";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+
+                        command.Parameters.AddWithValue("@NumeroPoliza", NumeroPoliza);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Propuesta propuesta = new Propuesta();
+
+                                propuesta.ID = int.Parse(reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(0));
+                                propuesta.NumeroPoliza = NumeroPoliza;
+                                propuesta.RenuevaPoliza = int.Parse(reader.IsDBNull(reader.GetOrdinal("RenuevaPoliza")) ? null : reader.GetString(2));
+                                propuesta.FechaRecepcion = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaRecepcion")) ? null : reader.GetString(3));
+                                propuesta.TipoPoliza = reader.IsDBNull(reader.GetOrdinal("TipoPoliza")) ? null : reader.GetString(4);
+                                propuesta.FechaIngreso = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaIngreso")) ? null : reader.GetString(5));
+                                propuesta.FechaEmision = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaEmision")) ? null : reader.GetString(6));
+                                propuesta.IDRamo = int.Parse(reader.IsDBNull(reader.GetOrdinal("IDRamo")) ? null : reader.GetString(7));
+
+                                return propuesta;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se encontró el ID, pero ocurrió un error al leer los datos:\n\n" + ex.Message, "Error de Lectura", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("Exception: " + ex.ToString());
+            }
+
+            return null;
         }
     }
 }
