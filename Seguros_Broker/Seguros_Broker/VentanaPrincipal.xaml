@@ -74,7 +74,7 @@
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Póliza" Margin="5">
-                    <Fluent:Button Header="Buscar Póliza" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Buscar Póliza" Icon="{StaticResource lupa_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Cuentas Corrientes" Margin="5">
