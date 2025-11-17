@@ -14,6 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
+
 
 namespace Seguros_Broker
 {
@@ -615,8 +618,24 @@ namespace Seguros_Broker
 
         private void BtnAgregarCobertura(object sender, RoutedEventArgs e)
         {
-            var VentanaAgregarCobertura = new VentanaAgregarCobertura();
-            VentanaAgregarCobertura.ShowDialog();
+            // Crear la ventana pop-up
+            VentanaAgregarCobertura ventanaSeleccion = new VentanaAgregarCobertura();
+
+            // Abrirla como un DIÁLOGO (esto pausa el código aquí hasta que se cierre)
+            bool? resultado = ventanaSeleccion.ShowDialog();
+
+            // Comprobar si el usuario hizo click en "aceptar"
+            if (resultado == true)
+            {
+                // Obtener la lista de la propiedad pública de la ventana
+                List<Cobertura> seleccionadas = ventanaSeleccion.CoberturasSeleccionadas;
+
+                // Añadir las coberturas seleccionadas a la grilla de la ventana principal
+                foreach (var cobertura in seleccionadas)
+                {
+                    
+                }
+            }
         }
 
 

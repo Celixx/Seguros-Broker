@@ -635,19 +635,15 @@
 
                             <!-- Grilla de Coberturas -->
                             <!-- Se movió de Grid.Row="1" a Grid.Row="2" -->
-                            <DataGrid Grid.Row="2" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
+                            <DataGrid Grid.Row="2" Margin="0,10,0,0" AutoGenerateColumns="False" IsReadOnly="True" Height="150" 
+                                      ItemsSource="{Binding CoberturasDePropuesta}">>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Código" Width="Auto"/>
-                                    <DataGridTextColumn Header="Nombre" Width="auto "/>
-                                    <DataGridTextColumn Header="Monto" Width="Auto"/>
-                                    <DataGridTextColumn Header="Tasa" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima neta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Afecta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Exenta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Bruta" Width="Auto"/>
-                                    <DataGridTextColumn Header="DESDE" Width="Auto"/>
-                                    <DataGridTextColumn Header="HASTA" Width="Auto"/>
-                                    <DataGridTextColumn Header="DIAS" Width="Auto"/>
+                                    <DataGridTextColumn Header="Código" Binding="{Binding codigo}" Width="Auto"/>
+                            <DataGridTextColumn Header="Cobertura" Binding="{Binding nombre}" Width="Auto"/>
+                            <DataGridTextColumn Header="Afecta Exenta" Binding="{Binding afectaExtenta}" Width="Auto"/>
+                            <DataGridTextColumn Header="Suma al Monto" Binding="{Binding sumaMonto}" Width="Auto"/>
+                            <DataGridTextColumn Header="Monto" Binding="{Binding monto, StringFormat='N2'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Prima" Binding="{Binding prima, StringFormat='N2'}" Width="Auto"/>
                                 </DataGrid.Columns>
                                 <!-- Aquí iría el ItemsSource="{Binding CoberturasDelItem}" -->
                             </DataGrid>
