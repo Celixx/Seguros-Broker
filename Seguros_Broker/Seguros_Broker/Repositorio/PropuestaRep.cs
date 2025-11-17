@@ -269,14 +269,35 @@ namespace Seguros_Broker.Repositorio
                             {
                                 Propuesta propuesta = new Propuesta();
 
-                                propuesta.ID = int.Parse(reader.IsDBNull(reader.GetOrdinal("ID")) ? null : reader.GetString(0));
+                                propuesta.ID = reader.IsDBNull(reader.GetOrdinal("ID")) ? 0 : reader.GetInt32(0);
                                 propuesta.NumeroPoliza = NumeroPoliza;
-                                propuesta.RenuevaPoliza = int.Parse(reader.IsDBNull(reader.GetOrdinal("RenuevaPoliza")) ? null : reader.GetString(2));
-                                propuesta.FechaRecepcion = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaRecepcion")) ? null : reader.GetString(3));
+                                propuesta.RenuevaPoliza = reader.IsDBNull(reader.GetOrdinal("RenuevaPoliza")) ? 0 : reader.GetInt32(2);
+                                propuesta.FechaRecepcion = reader.IsDBNull(reader.GetOrdinal("FechaRecepcion")) ? null : reader.GetDateTime(3);
                                 propuesta.TipoPoliza = reader.IsDBNull(reader.GetOrdinal("TipoPoliza")) ? null : reader.GetString(4);
-                                propuesta.FechaIngreso = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaIngreso")) ? null : reader.GetString(5));
-                                propuesta.FechaEmision = DateTime.Parse(reader.IsDBNull(reader.GetOrdinal("FechaEmision")) ? null : reader.GetString(6));
-                                propuesta.IDRamo = int.Parse(reader.IsDBNull(reader.GetOrdinal("IDRamo")) ? null : reader.GetString(7));
+                                propuesta.FechaIngreso = reader.IsDBNull(reader.GetOrdinal("FechaIngreso")) ? null : reader.GetDateTime(5);
+                                propuesta.FechaEmision = reader.IsDBNull(reader.GetOrdinal("FechaEmision")) ? null : reader.GetDateTime(6);
+                                propuesta.IDRamo = reader.IsDBNull(reader.GetOrdinal("IDRamo")) ? 0 : reader.GetInt32(7);
+                                propuesta.IDEjecutivo = reader.IsDBNull(reader.GetOrdinal("IDEjecutivo")) ? null : reader.GetString(8);
+                                propuesta.Area = reader.IsDBNull(reader.GetOrdinal("Area")) ? null : reader.GetString(9);
+                                propuesta.FechaCreacion = reader.IsDBNull(reader.GetOrdinal("FechaCreacion")) ? null : reader.GetDateTime(10);
+                                propuesta.FechaVigenciaDesde = reader.IsDBNull(reader.GetOrdinal("FechaVigenciaDesde")) ? null : reader.GetDateTime(11);
+                                propuesta.FechaVigenciaHasta = reader.IsDBNull(reader.GetOrdinal("FechaVigenciaHasta")) ? null : reader.GetDateTime(12);
+                                propuesta.IDMoneda = reader.IsDBNull(reader.GetOrdinal("IDMoneda")) ? 0 : reader.GetInt32(13);
+                                propuesta.ComisionAfecta = reader.IsDBNull(reader.GetOrdinal("ComisionAfecta")) ? 0 : reader.GetInt32(14);
+                                propuesta.ComisionExenta = reader.IsDBNull(reader.GetOrdinal("ComisionExenta")) ? 0 : reader.GetInt32(15);
+                                propuesta.MontoAsegurado = reader.IsDBNull(reader.GetOrdinal("MontoAsegurado")) ? 0 : reader.GetInt32(16);
+                                propuesta.ComisionTotal = reader.IsDBNull(reader.GetOrdinal("ComisionTotal")) ? 0 : reader.GetInt32(17);
+                                propuesta.PrimaNetaAfecta = reader.IsDBNull(reader.GetOrdinal("PrimaNetaAfecta")) ? 0 : reader.GetInt32(18);
+                                propuesta.PrimaNetaExenta = reader.IsDBNull(reader.GetOrdinal("PrimaNetaExenta")) ? 0 : reader.GetInt32(19);
+                                propuesta.PrimaNetaTotal = reader.IsDBNull(reader.GetOrdinal("PrimaNetaTotal")) ? 0 : reader.GetInt32(20);
+                                propuesta.IVA = reader.IsDBNull(reader.GetOrdinal("IVA")) ? 0 : reader.GetInt32(21);
+                                propuesta.PrimaBrutaTotal = reader.IsDBNull(reader.GetOrdinal("PrimaBrutaTotal")) ? 0 : reader.GetInt32(22);
+                                propuesta.IDCliente = reader.IsDBNull(reader.GetOrdinal("IDCliente")) ? null : reader.GetString(23);
+                                propuesta.IDSocio = reader.IsDBNull(reader.GetOrdinal("IDSocio")) ? 0 : reader.GetInt32(24);
+                                propuesta.IDGestor = reader.IsDBNull(reader.GetOrdinal("IDGestor")) ? 0 : reader.GetInt32(25);
+                                propuesta.IDCompania = reader.IsDBNull(reader.GetOrdinal("IDCompania")) ? null : reader.GetString(26);
+                                propuesta.MateriaAsegurada = reader.IsDBNull(reader.GetOrdinal("MateriaAsegurada")) ? null : reader.GetString(27);
+                                propuesta.Observacion = reader.IsDBNull(reader.GetOrdinal("Observacion")) ? null : reader.GetString(28);
 
                                 return propuesta;
                             }

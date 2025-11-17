@@ -20,84 +20,124 @@
             <!-- Columna 1 -->
             <StackPanel Margin="0,0,15,0">
                 <TextBlock Text="Desde"/>
-                <DatePicker x:Name="dpDesde"/>
+                <DatePicker x:Name="dpDesde" IsEnabled="False"/>
 
                 <TextBlock Text="Moneda" Margin="0,10,0,0"/>
-                <ComboBox x:Name="cbMoneda"/>
+                <ComboBox x:Name="cbMoneda" SelectedValuePath="monedaId" DisplayMemberPath="nombre" IsEnabled="False"/>
 
                 <TextBlock Text="Tipo de Póliza" Margin="0,10,0,0"/>
-                <ComboBox x:Name="cbTipoPoliza"/>
+                <ComboBox x:Name="cbTipoPoliza" IsEnabled="False">
+                    <ComboBoxItem Content="Póliza Convencional"/>
+                    <ComboBoxItem Content="Póliza Colectiva"/>
+                </ComboBox>
 
-                <TextBlock Text="Contratante" Margin="0,10,0,0"/>
+                <TextBlock Text="Contratante/Cliente" Margin="0,10,0,0"/>
                 <Grid>
-                    <ComboBox x:Name="cbContratante"/>
-                    <Button x:Name="btnBuscarContratante" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <ComboBox x:Name="cbContratante" SelectedValuePath="ID" DisplayMemberPath="Nombre" IsEnabled="False"/>
                 </Grid>
 
                 <TextBlock Text="Compañía" Margin="0,10,0,0"/>
                 <Grid>
-                    <ComboBox x:Name="cbCompania"/>
-                    <Button x:Name="btnBuscarCompania" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <ComboBox x:Name="cbCompania" SelectedValuePath="ID" DisplayMemberPath="nombre" IsEnabled="False"/>
                 </Grid>
 
                 <TextBlock Text="Ramo" Margin="0,10,0,0"/>
                 <Grid>
-                    <ComboBox x:Name="cbRamo"/>
-                    <Button x:Name="btnBuscarRamo" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="181*"/>
+                        <ColumnDefinition Width="68*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="cbRamo" SelectedValuePath="ID" DisplayMemberPath="nombre" Grid.ColumnSpan="2" IsEnabled="False"/>
                 </Grid>
             </StackPanel>
 
             <!-- Columna 2 -->
             <StackPanel Grid.Column="1" Margin="0,0,15,0">
                 <TextBlock Text="Hasta"/>
-                <DatePicker x:Name="dpHasta"/>
+                <DatePicker x:Name="dpHasta" IsEnabled="false"/>
 
                 <TextBlock Text="Número Póliza" Margin="0,10,0,0"/>
                 <Grid>
                     <TextBox x:Name="txtNroPoliza"/>
-                    <Button x:Name="btnBuscarNumeroPoliza" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <Button x:Name="btnBuscarNumeroPoliza" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0" Click="btnBuscarNumeroPoliza_Click"/>
                 </Grid>
-                
+
 
                 <TextBlock Text="Rut Asegurado" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtRutAsegurado"/>
+                <TextBox x:Name="txtRutAsegurado" IsEnabled="False"/>
             </StackPanel>
 
             <!-- Columna 3 -->
             <StackPanel Grid.Column="2" Margin="0,0,15,0">
-                <TextBlock Text="Según"/>
-                <ComboBox x:Name="cbSegun"/>
 
                 <TextBlock Text="Patente" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtPatente"/>
+                <TextBox x:Name="txtPatente" IsEnabled="False"/>
 
                 <TextBlock Text="Estado" Margin="0,10,0,0"/>
-                <ComboBox x:Name="cbEstado"/>
+                <TextBox x:Name="txtEstado" IsReadOnly="True"/>
 
                 <TextBlock Text="Socio" Margin="0,10,0,0"/>
                 <Grid>
-                    <ComboBox x:Name="cbSocio"/>
-                    <Button x:Name="btnBuscarSocio" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <ComboBox x:Name="cbSocio" SelectedValuePath="ID" DisplayMemberPath="nombre" IsEnabled="False"/>
                 </Grid>
 
                 <TextBlock Text="Gestor" Margin="0,10,0,0"/>
                 <Grid>
-                    <ComboBox x:Name="cbGestor"/>
-                    <Button x:Name="btnBuscarGestor" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                    <ComboBox x:Name="cbGestor" SelectedValuePath="ID" DisplayMemberPath="nombre" IsEnabled="False"/>
                 </Grid>
 
-                <TextBlock Text="Holding" Margin="0,10,0,0"/>
+                <TextBlock Text="Plan de pago" Margin="0,10,0,0"/>
                 <Grid>
                     <ComboBox x:Name="cbHolding"/>
-                    <Button x:Name="btnBuscarHolding" Content="🔍" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,0,2,0"/>
                 </Grid>
             </StackPanel>
 
             <!-- Botones laterales -->
             <StackPanel Grid.Column="3" VerticalAlignment="Top">
-                <Button x:Name="btnLimpiar" Content="[Borrar]" Width="40" Height="40" Margin="0,0,0,8"/>
-                <Button x:Name="btnBuscar" Content="[Check]" Width="40" Height="40" Margin="0,0,0,8"/>
-                <Button x:Name="btnExcel" Content="[Excel]" Width="40" Height="40"/>
+                <Button x:Name="btnLimpiar"
+                        Width="90"
+                        Height="40"
+                        Margin="0,0,0,8">
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="4">
+
+                        <TextBlock Text="Limpiar"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,6,0"/>
+
+                        <Image Source="{StaticResource borrar_icono}"
+                               Width="16"
+                               Height="16"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </Button>
+
+                <Button x:Name="btnBuscar"
+                        Width="90"
+                        Height="40"
+                        Margin="0,0,0,8">
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="4">
+
+                        <TextBlock Text="Guardar"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,6,0"/>
+
+                        <Image Source="{StaticResource guardar_icono}"
+                               Width="16"
+                               Height="16"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </Button>
+
             </StackPanel>
         </Grid>
 

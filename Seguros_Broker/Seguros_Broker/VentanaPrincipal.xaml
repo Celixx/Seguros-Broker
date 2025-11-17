@@ -14,13 +14,13 @@
         </Grid.RowDefinitions>
 
         <!-- Ribbon -->
-        <Fluent:Ribbon Grid.Row="0" Margin="0 0 0 10">
+        <Fluent:Ribbon x:Name="MainRibbon" SelectedTabChanged="MainRibbon_SelectedTabChanged" Grid.Row="0" Margin="0 0 0 10">
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage />
             </Fluent:Ribbon.Menu>
 
             <!-- Tab Maestros -->
-            <Fluent:RibbonTabItem Header="Maestros">
+            <Fluent:RibbonTabItem x:Name="Maestros_RibbonTabItem" Header="Maestros">
                 <Fluent:RibbonGroupBox Header="Persona" Margin="5">
                     <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click" Icon="{StaticResource ejecutivo_icon}" />
                     <Fluent:Button Header="Socio" Click="Socio_Click" Icon="{StaticResource socio_icono}"/>
@@ -59,7 +59,7 @@
             </Fluent:RibbonTabItem>
 
             <!-- Cotizaciones -->
-            <Fluent:RibbonTabItem Header="Cotizaciones">
+            <Fluent:RibbonTabItem Header="Cotizaciones" IsEnabled="False">
                 <Fluent:RibbonGroupBox Header="Group" Margin="5">
                     <Fluent:Button Header="Green"/>
                     <Fluent:Button Header="Grey"/>
@@ -67,7 +67,7 @@
             </Fluent:RibbonTabItem>
 
             <!-- Producción -->
-            <Fluent:RibbonTabItem Header="Producción">
+            <Fluent:RibbonTabItem x:Name="Produccion_RibbonTabItem" Header="Producción">
                 <Fluent:RibbonGroupBox Header="Propuesta" Margin="5">
                     <Fluent:Button Header="Nueva Propuesta" Click="NuevaPropuesta_Click" Icon="{StaticResource cobertura_icono}" />
                     <Fluent:Button Header="Buscar Propuesta" Click="BuscarPropuesta_Click" Icon="{StaticResource lupa_icono}"/>
@@ -104,7 +104,7 @@
             </Fluent:RibbonTabItem>
 
             <!-- Informes -->
-            <Fluent:RibbonTabItem Header="Informes">
+            <Fluent:RibbonTabItem Header="Informes" IsEnabled="False">
                 <Fluent:RibbonGroupBox Header="Group" Margin="5">
                     <Fluent:Button Header="Green"/>
                     <Fluent:Button Header="Grey"/>
@@ -112,7 +112,7 @@
             </Fluent:RibbonTabItem>
 
             <!-- Carga Masiva -->
-            <Fluent:RibbonTabItem Header="Carga Masiva">
+            <Fluent:RibbonTabItem Header="Carga Masiva" IsEnabled="False">
                 <Fluent:RibbonGroupBox Header="Group" Margin="5">
                     <Fluent:Button Header="Green"/>
                     <Fluent:Button Header="Grey"/>
