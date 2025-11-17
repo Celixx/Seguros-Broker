@@ -22,7 +22,7 @@ namespace Seguros_Broker
     {
         public UserControlBuscarPropuesta()
         {
-            
+            InitializeComponent();
         }
     }
 }
