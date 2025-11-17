@@ -24,10 +24,10 @@
                 <Fluent:RibbonGroupBox Header="Persona" Margin="5">
                     <Fluent:Button Header="Ejecutivo" Click="Ejecutivo_Click" Icon="{StaticResource ejecutivo_icon}" />
                     <Fluent:Button Header="Socio" Click="Socio_Click" Icon="{StaticResource socio_icono}"/>
-                    <Fluent:Button Header="Gestor" Icon="{StaticResource gestor_icono}"/>
-                    <Fluent:Button Header="Abogado" Icon="{StaticResource abogado_icono}"/>
-                    <Fluent:Button Header="Liquidador" Icon="{StaticResource liquidador_icono}"/>
-                    <Fluent:Button Header="Perfil" Icon="{StaticResource perfil_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Gestor" Icon="{StaticResource gestor_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Abogado" Icon="{StaticResource abogado_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Liquidador" Icon="{StaticResource liquidador_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Perfil" Icon="{StaticResource perfil_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Carteras" Margin="5">
@@ -37,24 +37,24 @@
 
                 <Fluent:RibbonGroupBox Header="Cobertura y Ramo" Margin="5">
                     <Fluent:Button Header="Productos" Icon="{StaticResource producto_icono}" Click="Producto_Click"/>
-                    <Fluent:Button Header="Cobertura" Icon="{StaticResource cobertura_icono}"/>
-                    <Fluent:Button Header="Ramos" Icon="{StaticResource ramos_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Cobertura" Icon="{StaticResource cobertura_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Ramos" Icon="{StaticResource ramos_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Siniestro" Margin="5">
-                    <Fluent:Button Header="Siniestro" Icon="{StaticResource siniestro_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Siniestro" Icon="{StaticResource siniestro_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Lugar" Margin="5">
-                    <Fluent:Button Header="Ciudad" Icon="{StaticResource ciudad_icono}"/>
-                    <Fluent:Button Header="País" Icon="{StaticResource pais_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Ciudad" Icon="{StaticResource ciudad_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="País" Icon="{StaticResource pais_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Otros" Margin="5">
-                    <Fluent:Button Header="Cuenta Corriente" Icon="{StaticResource tarjeta_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Cuenta Corriente" Icon="{StaticResource tarjeta_icono}"/>
                     <Fluent:Button Header="Moneda" Icon="{StaticResource moneda_icono}" Click="Moneda_Click"/>
-                    <Fluent:Button Header="Valores" Icon="{StaticResource valores_icono}"/>
-                    <Fluent:Button Header="Acción Bitácora" Icon="{StaticResource accion_bitacora_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Valores" Icon="{StaticResource valores_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Acción Bitácora" Icon="{StaticResource accion_bitacora_icono}"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
@@ -78,28 +78,28 @@
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Cuentas Corrientes" Margin="5">
-                    <Fluent:Button Header="Plan de Pago" Icon="{StaticResource invoice_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Plan de Pago" Icon="{StaticResource invoice_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Cobranza Comisión" Margin="5">
-                    <Fluent:Button Header="Liquidar Comisiones" Icon="{StaticResource file_lines_icono}"/>
-                    <Fluent:Button Header="Buscar Liquidación" Icon="{StaticResource lupa_icono}"/>
-                    <Fluent:Button Header="Cobrar Documentos" Icon="{StaticResource file_lines_icono}"/>
-                    <Fluent:Button Header="Cobrar Comisión Otros Conceptos" Icon="{StaticResource invoice_icono}"/>
-                    <Fluent:Button Header="Buscar Cobros" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Liquidar Comisiones" Icon="{StaticResource file_lines_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Buscar Liquidación" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Cobrar Documentos" Icon="{StaticResource file_lines_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Cobrar Comisión Otros Conceptos" Icon="{StaticResource invoice_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Buscar Cobros" Icon="{StaticResource lupa_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Pago de Comisión" Margin="5">
-                    <Fluent:Button Header="Pago a Terceros" Icon="{StaticResource money_hand_icono}"/>
-                    <Fluent:Button Header="Buscar Pago" Icon="{StaticResource lupa_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Pago a Terceros" Icon="{StaticResource money_hand_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Buscar Pago" Icon="{StaticResource lupa_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Siniestro" Margin="5">
-                    <Fluent:Button Header="Buscar Siniestro" Icon="{StaticResource siniestro_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Buscar Siniestro" Icon="{StaticResource siniestro_icono}"/>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox Header="Vencimientos" Margin="5">
-                    <Fluent:Button Header="Ver Vencimientos" Icon="{StaticResource vencimiento_icono}"/>
+                    <Fluent:Button IsEnabled="False" Header="Ver Vencimientos" Icon="{StaticResource vencimiento_icono}"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 

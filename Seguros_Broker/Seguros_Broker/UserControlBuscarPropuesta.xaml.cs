@@ -65,8 +65,22 @@ namespace Seguros_Broker
 
         private void btnBuscarNumeroPoliza_Click(object sender, RoutedEventArgs e)
         {
+            if (txtNroPoliza.Text == "")
+            {
+                System.Windows.MessageBox.Show("Por favor ingresar un número de póliza antes de buscar.", "Alerta", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
             var propuestaBuscada = new Propuesta();
-            propuestaBuscada = propuestaRep.GetPropuesta(int.Parse(txtNroPoliza.Text));
+            try
+            {
+                propuestaBuscada = propuestaRep.GetPropuesta(int.Parse(txtNroPoliza.Text));
+            }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("El número de póliza ingresado no es válido o no se encuentra registrado", "Alerta", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
 
             dpDesde.SelectedDate = propuestaBuscada.FechaVigenciaDesde;
             dpHasta.SelectedDate = propuestaBuscada.FechaVigenciaHasta;
@@ -91,17 +105,112 @@ namespace Seguros_Broker
             cbSocio.SelectedItem = socios.Find(socio => socio.ID == propuestaBuscada.IDSocio);
             cbGestor.SelectedItem = gestores.Find(gestor => gestor.ID == propuestaBuscada.IDGestor);
 
-            dpDesde.IsEnabled = true;
-            cbMoneda.IsEnabled = true;
-            cbTipoPoliza.IsEnabled = true;
             cbContratante.IsEnabled = true;
             cbCompania.IsEnabled = true;
-            cbRamo.IsEnabled = true;
-            dpHasta.IsEnabled = true;
-            txtRutAsegurado.IsEnabled = true;
-            txtPatente.IsEnabled = true;
-            cbSocio.IsEnabled = true;
-            cbGestor.IsEnabled = true;
+
+            btnLimpiar.IsEnabled = true;
+            btnGuardar.IsEnabled = true;
+        }
+
+        private async void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+
+            var companiaSelected = (Compania)cbCompania.SelectedItem;
+            var clienteSelected = (Cliente)cbContratante.SelectedItem;
+            var propuestaActual = propuestaRep.GetPropuesta(int.Parse(txtNroPoliza.Text));
+
+            var propuestaUpdate = new Propuesta();
+            propuestaUpdate.IDCompania = companiaSelected.ID;
+            propuestaUpdate.IDCliente = clienteSelected.ID;
+            propuestaUpdate.ID = propuestaActual.ID;
+
+            var result = await propuestaRep.UpdatePropuestaAsync(propuestaUpdate);
+
+            if (result.success)
+            {
+                System.Windows.MessageBox.Show("Propuesta actualizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+
+                //Refrescar Grid
+                ReadPropuesta();
+
+                //Limpiar Form
+                LimpiarFormulario();
+            }
+            else
+            {
+                //Mostrar mensaje de error del repo
+                System.Windows.MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void LimpiarFormulario()
+        {
+            dpDesde.SelectedDate = null;
+            cbMoneda.SelectedIndex = -1;
+            cbTipoPoliza.SelectedIndex = -1;
+            cbContratante.SelectedIndex = -1;
+            cbCompania.SelectedIndex = -1;
+            cbRamo.SelectedIndex = -1;
+            dpHasta.SelectedDate = null;
+            txtNroPoliza.Text = null;
+            txtRutAsegurado.Text = null;
+            txtPatente.Text = null;
+            txtEstado.Text = null;
+            cbSocio.SelectedIndex = -1;
+            cbGestor.SelectedIndex = -1;
+        }
+
+        private void ReadPropuesta()
+        {
+            var propuestas = propuestaRep.GetPropuestas();
+
+            this.dataGridPropuestas.ItemsSource = propuestas;
+        }
+
+        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarFormulario();
+            btnLimpiar.IsEnabled = false;
+            btnGuardar.IsEnabled = false;
+        }
+
+        private void dataGridPropuestas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var propuestaSeleccionada = (Propuesta)dataGridPropuestas.SelectedItem;
+
+            if (propuestaSeleccionada != null)
+            {
+                dpDesde.SelectedDate = propuestaSeleccionada.FechaVigenciaDesde;
+                dpHasta.SelectedDate = propuestaSeleccionada.FechaVigenciaHasta;
+                cbMoneda.SelectedItem = (Moneda)(monedas.Find(moneda => moneda.monedaId == propuestaSeleccionada.IDMoneda));
+
+                if (propuestaSeleccionada.TipoPoliza == "Póliza Convencional")
+                {
+                    cbTipoPoliza.SelectedIndex = 0;
+                }
+                else
+                {
+                    cbTipoPoliza.SelectedIndex = 1;
+                }
+
+                cbContratante.SelectedItem = clientes.Find(cliente => cliente.ID == propuestaSeleccionada.IDCliente);
+
+                var clienteBuscado = (Cliente)cbContratante.SelectedItem;
+
+                cbCompania.SelectedItem = companias.Find(compania => compania.ID == propuestaSeleccionada.IDCompania);
+                cbRamo.SelectedItem = ramos.Find(ramo => ramo.ID == propuestaSeleccionada.IDRamo);
+                txtRutAsegurado.Text = clienteBuscado.ID;
+                cbSocio.SelectedItem = socios.Find(socio => socio.ID == propuestaSeleccionada.IDSocio);
+                cbGestor.SelectedItem = gestores.Find(gestor => gestor.ID == propuestaSeleccionada.IDGestor);
+
+                cbContratante.IsEnabled = true;
+                cbCompania.IsEnabled = true;
+
+                btnLimpiar.IsEnabled = true;
+                btnGuardar.IsEnabled = true;
+            }
         }
     }
 }

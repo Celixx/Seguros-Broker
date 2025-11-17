@@ -94,10 +94,10 @@
 
             <!-- Botones laterales -->
             <StackPanel Grid.Column="3" VerticalAlignment="Top">
-                <Button x:Name="btnLimpiar"
+                <Button IsEnabled="False" x:Name="btnLimpiar"
                         Width="90"
                         Height="40"
-                        Margin="0,0,0,8">
+                        Margin="0,0,0,8" Click="btnLimpiar_Click">
 
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center"
@@ -116,10 +116,10 @@
 
                 </Button>
 
-                <Button x:Name="btnBuscar"
+                <Button IsEnabled="False" x:Name="btnGuardar"
                         Width="90"
                         Height="40"
-                        Margin="0,0,0,8">
+                        Margin="0,0,0,8" Click="btnGuardar_Click">
 
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center"
@@ -147,6 +147,6 @@
           AutoGenerateColumns="True"
           HeadersVisibility="All"
           IsReadOnly="True"                  
-          SelectionMode="Single"/>
+          SelectionMode="Single" SelectionChanged="dataGridPropuestas_SelectionChanged"/>
     </Grid>
 </UserControl>
