@@ -16,16 +16,20 @@
                     <ColumnDefinition Width="1145*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="82*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Text="NUEVA PROPUESTA DE PÓLIZA" 
-                   HorizontalAlignment="Center" Margin="10" 
-                   FontSize="24" FontWeight="Bold"/>
+                   HorizontalAlignment="Left" Margin="335,10,0,10" 
+                   FontSize="24" FontWeight="Bold" Grid.Column="1"/>
 
-                    <Grid Grid.Row="1" HorizontalAlignment="Center" MaxWidth="2000">
+                    <Grid Grid.Row="1" HorizontalAlignment="Left" MaxWidth="2000" Grid.Column="1" Margin="150,0,0,0">
                         <Grid Grid.Row="1">
                             <Grid Grid.Row="1" Margin="10">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -795,7 +799,7 @@
                             <TextBox   Grid.Row="0" Grid.Column="5" x:Name="txtMontoPactar"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource LabelStyle}" Text="Monto total"/>
-                            <TextBlock Grid.Row="0" Grid.Column="7" x:Name="txtMontoTotalStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+                            <TextBlock Grid.Row="0" Grid.Column="7" x:Name="txtMontoTotalStatic" Style="{StaticResource StaticValueStyle}" Text="[0]"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Cuota hasta"/>
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="txtCuotaHasta"/>
@@ -807,13 +811,13 @@
                             <TextBox   Grid.Row="1" Grid.Column="5" x:Name="txtPorcentajeFactor"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource LabelStyle}" Text="Total cuotas"/>
-                            <TextBlock Grid.Row="1" Grid.Column="7" x:Name="txtTotalCuotasStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+                            <TextBlock Grid.Row="1" Grid.Column="7" x:Name="txtTotalCuotasStatic" Style="{StaticResource StaticValueStyle}" Text="[0]"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="% Interes Mensual"/>
                             <TextBox   Grid.Row="2" Grid.Column="5" x:Name="txtInteresMensual"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="Monto total de cuota"/>
-                            <TextBlock Grid.Row="3" Grid.Column="5" x:Name="txtMontoTotalCuotaStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
+                            <TextBlock Grid.Row="3" Grid.Column="5" x:Name="txtMontoTotalCuotaStatic" Style="{StaticResource StaticValueStyle}" Text="[0]"/>
                             <Button Grid.Column="7" Content="Guardar" HorizontalAlignment="Left" Margin="94,21,0,0" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="25" Click="Guaradar_Click_Pagos"/>
 
                         </Grid>
