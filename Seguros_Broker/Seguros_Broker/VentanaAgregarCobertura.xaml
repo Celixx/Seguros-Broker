@@ -30,7 +30,7 @@
                   x:Name="CoberturasDataGrid" AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   HeadersVisibility="Column" 
-                  IsReadOnly="True">
+                  >
 
             <DataGrid.Columns>
 
@@ -43,16 +43,17 @@
                     </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>  
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                
-                <DataGridTextColumn Header="Código" Binding="{Binding codigo}" Width="Auto"/>
-                
-                
-                <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" Width="*"/>
+
+                <DataGridTextColumn Header="Código" Binding="{Binding codigo}" Width="Auto" IsReadOnly="True"/>
+
+
+                <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" Width="*" IsReadOnly="True"/>
 
                 
             </DataGrid.Columns>
@@ -69,7 +70,7 @@
             <StatusBarItem HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Coberturas seleccionadas: 0" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="Bold"/>
-                    <Button Content="aceptar" Padding="10,3" FontWeight="Bold"/>
+                    <Button Content="aceptar" Padding="10,3" FontWeight="Bold" Click="BtnAceptar_Click"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

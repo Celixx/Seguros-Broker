@@ -635,73 +635,16 @@
                             <!-- Botón "Agregar cobertura" en la parte superior derecha -->
                             <Button Grid.Row="0" Content="Agregar cobertura" HorizontalAlignment="Right" Margin="0,0,5,5" Click="BtnAgregarCobertura" />
 
-                            <!-- Formulario de Coberturas -->
-                            <!-- Se movió de Grid.Row="0" a Grid.Row="1" -->
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <!-- Fila 0 -->
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Código:" VerticalAlignment="Center" Margin="5"/>
-                                <TextBox Grid.Row="0" Grid.Column="1" Margin="5"/>
-
-                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Nombre:" VerticalAlignment="Center" Margin="5"/>
-                                <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3"/>
-                                <!-- Ocupa más espacio -->
-
-                                <TextBlock Grid.Row="0" Grid.Column="6" Text="Tipo de tasa:" VerticalAlignment="Center" Margin="5"/>
-                                <ComboBox Grid.Row="0" Grid.Column="7" Margin="5"/>
-
-                                <!-- Fila 1 -->
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Monto:" VerticalAlignment="Center" Margin="5"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Margin="5"/>
-
-                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Tasa (%):" VerticalAlignment="Center" Margin="5"/>
-                                <TextBox Grid.Row="1" Grid.Column="3" Margin="5"/>
-
-                                <TextBlock Grid.Row="1" Grid.Column="4" Text="Prima neta:" VerticalAlignment="Center" Margin="5"/>
-                                <TextBox Grid.Row="1" Grid.Column="5" Margin="5"/>
-
-                                <!-- Fila 2 -->
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Prima Afecta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="2" Text="Prima Exenta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
-                                <TextBox Grid.Row="2" Grid.Column="3" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="4" Text="Prima Bruta:" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
-                                <TextBox Grid.Row="2" Grid.Column="5" Margin="5" IsReadOnly="True" Background="#EEEEEE"/>
-
-                            </Grid>
-
-                            <!-- Grilla de Coberturas -->
-                            <!-- Se movió de Grid.Row="1" a Grid.Row="2" -->
-                            <DataGrid Grid.Row="2" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserAddRows="False" Height="150">
+                        
+                            <DataGrid x:Name="CoberturasDataGrid" Grid.Row="1" Margin="0,10,0,0" AutoGenerateColumns="False" IsReadOnly="True" Height="150" 
+                                      ItemsSource="{Binding CoberturasDePropuesta}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Código" Width="Auto"/>
-                                    <DataGridTextColumn Header="Nombre" Width="auto "/>
-                                    <DataGridTextColumn Header="Monto" Width="Auto"/>
-                                    <DataGridTextColumn Header="Tasa" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima neta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Afecta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Exenta" Width="Auto"/>
-                                    <DataGridTextColumn Header="Prima Bruta" Width="Auto"/>
-                                    <DataGridTextColumn Header="DESDE" Width="Auto"/>
-                                    <DataGridTextColumn Header="HASTA" Width="Auto"/>
-                                    <DataGridTextColumn Header="DIAS" Width="Auto"/>
+                                    <DataGridTextColumn Header="Código" Binding="{Binding codigo}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Cobertura" Binding="{Binding nombre}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Afecta Exenta" Binding="{Binding afectaExtenta}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Suma al Monto" Binding="{Binding sumaMonto}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Monto" Binding="{Binding ElementName=TxtMontoAsegurado, Path=Text}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Prima" Binding="{Binding ElementName=TxtPrimaNetaTotal, Path=Text}" Width="Auto"/>
                                 </DataGrid.Columns>
                                 <!-- Aquí iría el ItemsSource="{Binding CoberturasDelItem}" -->
                             </DataGrid>
