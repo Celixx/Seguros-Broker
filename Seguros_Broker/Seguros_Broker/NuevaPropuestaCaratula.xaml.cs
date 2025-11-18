@@ -203,7 +203,7 @@ namespace Seguros_Broker
             }
             else
             {
-                //Mostrar mensaje de error del repo
+                //mostrar mensaje de error del repo
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -593,10 +593,10 @@ namespace Seguros_Broker
             try
             {
 
-                // Sincroniza los valores actuales de Carátula hacia Plan de Pago
+                // sincroniza los valores de Carátula hacia Plan de Pago
                 SyncFromCaratula();
 
-                // Reconstruye la grilla del plan de pago para que refleje los nuevos montos/totales
+                // reconstruye el grid del plan de pago 
                 RebuildPlanGrid();
             }
             catch (Exception ex)
@@ -636,12 +636,12 @@ namespace Seguros_Broker
 
         private void HookEvents()
         {
-            // Si el usuario cambia los datos en Carátula, sincronizar cuando se seleccione la pestaña Plan de Pago.
+            // si el usuario cambia los datos en Carátula, sincronizar cuando se seleccione la pestaña Plan de Pago
             txtCuotaDesde.TextChanged += (s, e) => RebuildPlanGrid();
             txtCuotaHasta.TextChanged += (s, e) => RebuildPlanGrid();
             dpFechaIngresoPlan.SelectedDateChanged += (s, e) => RebuildPlanGrid();
 
-            // Cuando cambia el Rut del cliente en Carátula (TxtRutCliente1) recargar los datos de pago en cache
+            // cuando cambia el rut del cliente en Carátula TxtRutCliente1 recargar los datos de pago 
             TxtRutCliente1.TextChanged += (s, e) => { LoadClienteDatosPago(TxtRutCliente1.Text.Trim()); RebuildPlanGrid(); };
         }
 
@@ -649,7 +649,7 @@ namespace Seguros_Broker
         {
             try
             {
-                // Copiar valores desde Carátula 
+                // copiar valores desde Carátula 
                 txtMontoAseguradoValor.Text = TxtMontoAsegurado?.Text ?? "0";
                 txtPrimaNetaAfectaValor.Text = TxtPrimaNetaAfecta?.Text ?? "0";
                 txtPrimaNetaExentaValor.Text = TxtPrimaNetaExenta?.Text ?? "0";
@@ -706,7 +706,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Fecha de ingreso plan
+            // fecha de ingreso plan
             if (!dpFechaIngresoPlan.SelectedDate.HasValue)
             {
                 dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
@@ -714,7 +714,7 @@ namespace Seguros_Broker
             }
             DateTime fechaIngreso = dpFechaIngresoPlan.SelectedDate.Value.Date;
 
-            // Obtener monto total a repartir.
+            // obtener monto total a repartir
             decimal montoTotal;
             var montoTotalText = txtMontoTotalStatic.Text?.Trim();
             if (!TryParseDecimalInvariant(montoTotalText, out montoTotal))
@@ -726,17 +726,17 @@ namespace Seguros_Broker
                 }
             }
 
-            // Cantidad de cuotas
+            // cantidad de cuotas
             int cantidadCuotas = cuotaHasta - cuotaDesde + 1;
 
-            // Monto por cuota 
+            // monto por cuota 
             decimal montoPorCuota = 0m;
             if (cantidadCuotas > 0)
             {
                 montoPorCuota = Math.Floor((montoTotal / cantidadCuotas) * 100m) / 100m; 
             }
 
-            // Construir filas
+            // construir filas
             var filas = new List<PlanPagoRow>();
             for (int nro = cuotaDesde; nro <= cuotaHasta; nro++)
             {
@@ -768,11 +768,11 @@ namespace Seguros_Broker
                 filas[filas.Count - 1].Monto += diferencia;
             }
 
-            // Mostrar en grid
+            // mostrar en grid
             dataGridPlanPagos.ItemsSource = filas;
             dataGridPlanPagos.Items.Refresh();
 
-            // Actualizar campos estáticos de totales y total cuotas
+            // actualizar campos estáticos de totales y total cuotas
             txtMontoTotalStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
             txtTotalCuotasStatic.Text = cantidadCuotas.ToString();
             txtMontoTotalCuotaStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
@@ -786,7 +786,7 @@ namespace Seguros_Broker
             return decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
         }
 
-        // Añadir meses manteniendo el día cuando sea posible 
+        // añadir meses manteniendo el día cuando sea posible 
         private DateTime SafeAddMonthsKeepingDay(DateTime date, int months)
         {
             var target = date.AddMonths(months);
@@ -803,7 +803,7 @@ namespace Seguros_Broker
 
         private async void Guaradar_Click_Pagos(object sender, RoutedEventArgs e)
         {
-            // Validaciones requeridas
+            // validaciones 
             if (!dpFechaIngresoPlan.SelectedDate.HasValue)
             {
                 MessageBox.Show("Debe elegir Fecha de ingreso plan de pago.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -828,7 +828,6 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Asegurarnos que hay filas en el grid
             var items = dataGridPlanPagos.ItemsSource as IEnumerable<PlanPagoRow>;
             if (items == null || !items.Any())
             {
@@ -836,7 +835,6 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Asegurarse que la propuesta ya fue guardada: buscar por NumeroPoliza
             if (!int.TryParse(TxtNumeroPoliza.Text?.Trim(), out int numeroPoliza))
             {
                 MessageBox.Show("Número de Póliza inválido. Debe guardar la Carátula primero.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -850,7 +848,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Mapear PlanPagoRow -> PagoPropuesta (modelo)
+            // mapear PlanPagoRow a PagoPropuesta 
             var pagos = new List<PagoPropuesta>();
             foreach (var row in items)
             {

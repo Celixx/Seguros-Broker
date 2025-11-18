@@ -30,6 +30,8 @@ namespace Seguros_Broker
         private RamoRep ramoRep = new RamoRep();
         private SocioRep socioRep = new SocioRep();
         private GestorRep gestorRep= new GestorRep();
+        private PagosPropuestaRep pagosRep = new PagosPropuestaRep();
+
 
         private List<Moneda> monedas;
         private List<Cliente> clientes;
@@ -82,6 +84,7 @@ namespace Seguros_Broker
                 return;
             }
 
+            // Rellenar campos existentes (tu código original)
             dpDesde.SelectedDate = propuestaBuscada.FechaVigenciaDesde;
             dpHasta.SelectedDate = propuestaBuscada.FechaVigenciaHasta;
             cbMoneda.SelectedItem = (Moneda)(monedas.Find(moneda => moneda.monedaId == propuestaBuscada.IDMoneda));
@@ -95,8 +98,7 @@ namespace Seguros_Broker
                 cbTipoPoliza.SelectedIndex = 1;
             }
 
-            cbContratante.SelectedItem = clientes.Find(cliente => cliente.ID== propuestaBuscada.IDCliente);
-
+            cbContratante.SelectedItem = clientes.Find(cliente => cliente.ID == propuestaBuscada.IDCliente);
             var clienteBuscado = (Cliente)cbContratante.SelectedItem;
 
             cbCompania.SelectedItem = companias.Find(compania => compania.ID == propuestaBuscada.IDCompania);
@@ -110,7 +112,40 @@ namespace Seguros_Broker
 
             btnLimpiar.IsEnabled = true;
             btnGuardar.IsEnabled = true;
+
+            // -----------------------
+            // NUEVO: Cargar Plan de Pago
+            // -----------------------
+            try
+            {
+                // Obtener pagos por Propuesta.ID (si existen)
+                var pagos = pagosRep.GetPagosByPropuestaID(propuestaBuscada.ID);
+
+                if (pagos != null && pagos.Count > 0)
+                {
+                    // Formatear la salida: una línea por cuota "Cuota 1: $1.234,56"
+                    // Usamos la cultura actual para formateo de moneda (o CultureInfo.InvariantCulture si prefieres)
+                    var lines = new List<string>();
+                    foreach (var p in pagos)
+                    {
+                        // ejemplo: "Cuota 1: 1.234,56"
+                        lines.Add($"Cuota {p.CuotaNro}: {p.Monto:N2}");
+                    }
+
+                    txtPlanPago.Text = string.Join(Environment.NewLine, lines);
+                }
+                else
+                {
+                    txtPlanPago.Text = ""; // o "No hay plan de pago"
+                }
+            }
+            catch (Exception ex)
+            {
+                // No bloqueamos el resto del llenado si falla la lectura de pagos, solo mostramos aviso
+                System.Windows.MessageBox.Show("No se pudo cargar el Plan de Pago: " + ex.Message, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
+
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
@@ -160,6 +195,7 @@ namespace Seguros_Broker
             txtEstado.Text = null;
             cbSocio.SelectedIndex = -1;
             cbGestor.SelectedIndex = -1;
+            txtPlanPago.Text = null;
         }
 
         private void ReadPropuesta()

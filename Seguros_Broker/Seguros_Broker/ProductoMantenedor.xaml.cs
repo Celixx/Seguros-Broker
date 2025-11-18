@@ -65,37 +65,50 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(txtCodigo.Text)) errores.Add("Nombre (obligatorio).");
             if (cbRamo.SelectedItem == null) errores.Add("Ramo (obligatorio).");
             if (cbCompania.SelectedItem == null) errores.Add("Compañía (obligatorio).");
+
             if (errores.Any())
             {
-                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores), "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Corrija los siguientes errores:\n- " + string.Join("\n- ", errores),
+                                "Errores de validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            // Obtener los objetos seleccionados
             var selectedRamo = cbRamo.SelectedItem as Ramo;
             var selectedCompania = cbCompania.SelectedItem as Compania;
+            string nombreIngresado = txtCodigo.Text.Trim();
+
+            // validacion de duplicados
+            bool existeDuplicado = productos.Any(p =>
+                p.nombre.Equals(nombreIngresado, StringComparison.OrdinalIgnoreCase) && // compara nombre del prodcuto
+                p.ramoID == selectedRamo.ID &&
+                p.companiaID == selectedCompania.ID
+            );
+
+            if (existeDuplicado)
+            {
+                MessageBox.Show("Ya existe un producto registrado con este Nombre, Ramo y Compañía.",
+                                "Producto Duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Detenemos el proceso de guardado
+            }
 
             var nuevoProducto = new Producto
             {
-                nombre = txtCodigo.Text.Trim(),
+                nombre = nombreIngresado,
                 ramoID = selectedRamo != null ? selectedRamo.ID : 0,
                 companiaID = selectedCompania != null ? selectedCompania.ID : ""
             };
 
             var (success, errorMessage, insertedId) = await productoRep.CreateProductoAsync(nuevoProducto);
+
             if (success)
             {
                 MessageBox.Show("Producto guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // refrescar lista de productos 
                 ReadProductos();
 
-                // seleccionar el producto recién insertado en el dataGrid
                 selectedProductId = insertedId;
-
-
-                // habilitar botón de agregar cobertura
                 btnCobertura.IsEnabled = true;
-
                 LimpiarFormulario();
             }
             else

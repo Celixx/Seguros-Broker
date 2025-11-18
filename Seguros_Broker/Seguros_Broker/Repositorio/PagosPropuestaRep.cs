@@ -70,5 +70,55 @@ namespace Seguros_Broker.Repositorio
                 return (false, ex.Message);
             }
         }
+
+        public List<PagoPropuesta> GetPagosByPropuestaID(int propuestaId)
+        {
+            var list = new List<PagoPropuesta>();
+            try
+            {
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = @"
+                        SELECT ID, PropuestaID, NumeroPoliza, CuotaNro, Monto, FechaVencimiento,
+                               FormaPago, NumeroDocumento, NroTarjCtaCte, TipoTarj, ValidezTarj, Banco
+                        FROM PAGOS_PROPUESTA
+                        WHERE PropuestaID = @PropuestaID
+                        ORDER BY CuotaNro ASC, ID ASC";
+                    using (var cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PropuestaID", propuestaId);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var p = new PagoPropuesta
+                                {
+                                    ID = rdr["ID"] != DBNull.Value ? Convert.ToInt32(rdr["ID"]) : 0,
+                                    PropuestaID = rdr["PropuestaID"] != DBNull.Value ? Convert.ToInt32(rdr["PropuestaID"]) : 0,
+                                    NumeroPoliza = rdr["NumeroPoliza"] != DBNull.Value ? Convert.ToInt32(rdr["NumeroPoliza"]) : 0,
+                                    CuotaNro = rdr["CuotaNro"] != DBNull.Value ? Convert.ToInt32(rdr["CuotaNro"]) : 0,
+                                    Monto = rdr["Monto"] != DBNull.Value ? Convert.ToDecimal(rdr["Monto"]) : 0m,
+                                    FechaVencimiento = rdr["FechaVencimiento"] != DBNull.Value ? Convert.ToDateTime(rdr["FechaVencimiento"]) : DateTime.MinValue,
+                                    FormaPago = rdr["FormaPago"] != DBNull.Value ? rdr["FormaPago"].ToString() : "",
+                                    NumeroDocumento = rdr["NumeroDocumento"] != DBNull.Value ? rdr["NumeroDocumento"].ToString() : "",
+                                    NroTarjCtaCte = rdr["NroTarjCtaCte"] != DBNull.Value ? rdr["NroTarjCtaCte"].ToString() : "",
+                                    TipoTarj = rdr["TipoTarj"] != DBNull.Value ? rdr["TipoTarj"].ToString() : "",
+                                    ValidezTarj = rdr["ValidezTarj"] != DBNull.Value ? rdr["ValidezTarj"].ToString() : "",
+                                    Banco = rdr["Banco"] != DBNull.Value ? rdr["Banco"].ToString() : ""
+                                };
+                                list.Add(p);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al leer pagos de propuesta: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return list;
+        }
     }
 }
