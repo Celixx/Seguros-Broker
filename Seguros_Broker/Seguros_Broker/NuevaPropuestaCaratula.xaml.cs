@@ -37,7 +37,9 @@ namespace Seguros_Broker
         private CompaniaRep companiaRep = new CompaniaRep();
         private EjecutivoRep ejecutivoRep = new EjecutivoRep();         
         private PropuestaRep propuestaRep = new PropuestaRep();
+        private ItemRep itemRep = new ItemRep();
         public ObservableCollection<Cobertura> CoberturasDePropuesta { get; set; }
+        public ObservableCollection<ItemResumenCobertura> ItemsConCobertura { get; set; }
 
 
         public NuevaPropuestaCaratula()
@@ -48,6 +50,14 @@ namespace Seguros_Broker
 
             CoberturasDePropuesta = new ObservableCollection<Cobertura>();
             CoberturasDataGrid.ItemsSource = CoberturasDePropuesta;
+
+          
+            this.ItemsConCobertura = new ObservableCollection<ItemResumenCobertura>();
+
+            
+            this.DataContext = this; 
+
+            
 
             cbMonedas.ItemsSource = monedas;
 
@@ -922,6 +932,188 @@ namespace Seguros_Broker
             }
         }
 
+       
+
+        private void BtnBuscarItem_Click(object sender, RoutedEventArgs e)
+        {
+            string rut = TxtRutItem.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(rut))
+            {
+                MessageBox.Show("Por favor, ingrese un RUT para buscar el Ítem.", "Error de Entrada", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                List<Item> itemsEncontrados = itemRep.GetItemsByRut(rut);
+
+                if (itemsEncontrados == null || !itemsEncontrados.Any())
+                {
+                    MessageBox.Show($"No se encontró ningún Ítem asociado al RUT: {rut}.", "Sin Resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LimpiarCamposItem();
+                    return;
+                }
+
+                Item item = itemsEncontrados.First();
+
+                
+                TxtIdItem.Text = item.IdItem.ToString();
+
+                TxtMateriaAsegurada1.Text = item.MateriaAsegurada;
+
+                TxtAnno.Text = item.Anno;
+                TxtPatente.Text = item.Patente;
+                TxtMinutaItem.Text = item.MinutaItem;
+                TxtCarroceria.Text = item.Carroceria;
+                TxtPropietario.Text = item.Propietario;
+                TxtTipo.Text = item.Tipo;
+                TxtNumeroMotor.Text = item.NumeroMotor;
+                TxtColor.Text = item.Color;
+                TxtChasis.Text = item.Chasis;
+                TxtValorComercial.Text = item.ValorComercial;
+                TxtModelo.Text = item.Modelo;
+                TxtNumeroChasis.Text = item.NumeroChasis;
+                TxtUso.Text = item.Uso;
+
+                TxtFechaDesde.Text = item.FechaDesde.HasValue ? item.FechaDesde.Value.ToShortDateString() : string.Empty;
+                TxtFechaHasta.Text = item.FechaHasta.HasValue ? item.FechaHasta.Value.ToShortDateString() : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al buscar el Ítem: {ex.Message}", "Error de Búsqueda", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void LimpiarCamposItem()
+        {
+           
+            
+            TxtMateriaAsegurada1.Text = string.Empty;
+
+            TxtIdItem.Text = string.Empty;
+            TxtAnno.Text = string.Empty;
+            TxtPatente.Text = string.Empty;
+            TxtMinutaItem.Text = string.Empty;
+            TxtCarroceria.Text = string.Empty;
+            TxtPropietario.Text = string.Empty;
+            TxtTipo.Text = string.Empty;
+            TxtNumeroMotor.Text = string.Empty;
+            TxtColor.Text = string.Empty;
+            TxtChasis.Text = string.Empty;
+            TxtValorComercial.Text = string.Empty;
+            TxtModelo.Text = string.Empty;
+            TxtNumeroChasis.Text = string.Empty;
+            TxtUso.Text = string.Empty;
+            TxtFechaDesde.Text = string.Empty;
+            TxtFechaHasta.Text = string.Empty;
+        }
+
+
+        private static bool TryParseDecimal(string s, out decimal value)
+        {
+            value = 0;
+            if (string.IsNullOrWhiteSpace(s)) return false;
+            // Esto es CRÍTICO para manejar números chilenos (miles con punto, decimales con coma, o al revés)
+            s = s.Trim().Replace(".", "").Replace(",", "."); // "1.234,56" -> "1234.56"
+            return decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
+        }
+        
+
+        private async void BtnGuardarItemCoberturas_Click(object sender, RoutedEventArgs e)
+        {
+            // --- 1. CAPTURA Y VALIDACIÓN DE CLAVES ---
+            // NOTA: Debes asegurarte de que currentPropuestaId y currentItemId 
+            // se actualicen correctamente cuando se busca el Ítem y se crea/carga la Propuesta.
+            // Usaremos variables placeholder si no tienes las variables de instancia declaradas:
+            int idPropuesta = 1; // REEMPLAZAR con el valor real (ej: this.currentPropuestaId)
+            int idItem = 1;      // REEMPLAZAR con el valor real (ej: this.currentItemId)
+
+            if (idPropuesta <= 0 || idItem <= 0)
+            {
+                MessageBox.Show("Debe seleccionar un Ítem y una Propuesta válida para guardar coberturas.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // --- 2. CAPTURA DE VALORES GLOBALES (Monto y Prima) ---
+
+            // Obtener Monto Asegurado (TxtMontoAsegurado)
+            if (!TryParseDecimal(TxtMontoAsegurado.Text, out decimal montoAseguradoGlobal))
+            {
+                MessageBox.Show("El Monto Asegurado es inválido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Obtener Prima Neta Total (TxtPrimaNetaTotal)
+            if (!TryParseDecimal(TxtPrimaNetaTotal.Text, out decimal primaNetaTotalGlobal))
+            {
+                MessageBox.Show("La Prima Neta Total es inválida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // --- 3. FILTRAR Y MAPEAR LAS COBERTURAS SELECCIONADAS ---
+
+            // Asumo que CoberturasDePropuesta es la ObservableCollection<Cobertura> enlazada a la grilla
+            var coberturasSeleccionadas = CoberturasDePropuesta
+                .Where(c => c.IsSelected) // Asumo que tienes una propiedad IsSelected en el modelo Cobertura
+                .ToList();
+
+            if (!coberturasSeleccionadas.Any())
+            {
+                MessageBox.Show("No hay coberturas seleccionadas para guardar.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Mapear Cobertura al Modelo ItemCobertura, inyectando los valores globales de Monto y Prima
+            var coberturasAModelos = coberturasSeleccionadas.Select(c => new ItemCobertura
+            {
+                IdPropuesta = idPropuesta,
+                IdItem = idItem,
+                CodCobertura = c.codigo,
+
+                // Asumiendo que afectaExtenta y sumaMonto son strings en el modelo Cobertura
+                AfectaExenta = c.afectaExtenta,
+                SumaAlMonto = c.sumaMonto,
+
+                // INYECTAMOS los valores globales capturados de los TextBox de la Carátula
+                Monto = montoAseguradoGlobal,
+                Prima = primaNetaTotalGlobal
+            }).ToList();
+
+            // --- 4. GUARDAR EN LA BASE DE DATOS ---
+
+            var rep = new ItemCoberturaRep();
+            var (success, errorMsg) = await rep.CreateItemCoberturasAsync(coberturasAModelos);
+
+            if (success)
+            {
+                // **********************************************
+                // LÓGICA NUEVA: RECARGAR DESDE LA BASE DE DATOS
+                // **********************************************
+
+                // 1. Obtener la lista actualizada de la base de datos
+                // Asegúrate de usar el ID de la propuesta actual.
+                var resumenDesdeDB = await rep.GetResumenItemsPorPropuestaAsync(idPropuesta);
+
+                // 2. Limpiar la colección actual enlazada a la grilla
+                // Esto borra los datos anteriores y prepara la actualización
+                ItemsConCobertura.Clear();
+
+                // 3. Rellenar la colección con los datos frescos de la base de datos
+                foreach (var item in resumenDesdeDB)
+                {
+                    ItemsConCobertura.Add(item);
+                }
+
+                // **********************************************
+
+                MessageBox.Show("Coberturas de Ítem guardadas correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Error al guardar coberturas: " + errorMsg, "Error de Base de Datos", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 
 }
