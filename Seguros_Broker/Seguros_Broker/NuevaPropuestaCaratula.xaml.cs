@@ -1114,6 +1114,30 @@ namespace Seguros_Broker
                 MessageBox.Show("Error al guardar coberturas: " + errorMsg, "Error de Base de Datos", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void DpDesde_DateChanged(object sender, RoutedEventArgs e)
+        {
+            DpHasta.IsEnabled = true;
+            if (DpHasta.SelectedDate == null)
+            {
+                DateTime fechaSuma = (DateTime)DpDesde.SelectedDate;                
+                DpHasta.SelectedDate = fechaSuma.AddYears(1); ;
+                CalcularDiasFechaCaratula();
+            }
+            CalcularDiasFechaCaratula();
+        }
+        private void DpHasta_DateChanged(object sender, RoutedEventArgs e)
+        {
+            CalcularDiasFechaCaratula();
+        }
+        private void CalcularDiasFechaCaratula()
+        {
+            DateTime fechaDesde = (DateTime)DpDesde.SelectedDate;
+            DateTime fechaHasta = (DateTime)DpHasta.SelectedDate;
+
+            var dias = (fechaHasta - fechaDesde).Days;
+            TxtNDias.Text = dias.ToString();
+        }
     }
 
 }
