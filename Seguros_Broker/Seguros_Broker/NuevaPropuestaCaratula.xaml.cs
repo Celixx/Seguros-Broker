@@ -2,6 +2,8 @@
 using Seguros_Broker.Repositorio;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,7 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Collections.ObjectModel;
 
 
 
@@ -1138,6 +1139,20 @@ namespace Seguros_Broker
             var dias = (fechaHasta - fechaDesde).Days;
             TxtNDias.Text = dias.ToString();
         }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            var result = MessageBox.Show(
+            "Estás seguro que quieres salir? perderás todo el progreso de tu propuesta de carátula",
+            "Confirmación",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning
+        );
+
+            if (result == MessageBoxResult.No)
+                e.Cancel = true;
+        }
+
     }
 
 }

@@ -4,7 +4,7 @@
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Seguros_Broker.NuevaPropuestaCaratula"
         Title="Nueva Propuesta" Height="1440
     " Width="1280"
-        WindowStartupLocation="CenterScreen" MinWidth="900" MinHeight="600" Background="#F6F7F9" WindowState="Maximized" >
+        WindowStartupLocation="CenterScreen" Closing="Window_Closing" MinWidth="900" MinHeight="600" Background="#F6F7F9" WindowState="Maximized" >
 
 
     <TabControl x:Name="MainTabs" Margin="0,0,0,0">
