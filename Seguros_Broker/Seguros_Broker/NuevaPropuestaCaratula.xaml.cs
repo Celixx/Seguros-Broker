@@ -1153,6 +1153,22 @@ namespace Seguros_Broker
                 e.Cancel = true;
         }
 
+        private void DpDesdeItems_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (TxtFechaDesde.SelectedDate != null && TxtFechaHasta.SelectedDate != null)
+            {
+                TimeSpan fechaResta = (DateTime)TxtFechaHasta.SelectedDate - (DateTime)TxtFechaDesde.SelectedDate;
+                txtDiasItem.Text = Convert.ToString(fechaResta.Days);
+            }
+        }
+        private void DpHastaItems_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (TxtFechaDesde.SelectedDate != null && TxtFechaHasta.SelectedDate != null)
+            {
+                TimeSpan fechaResta = (DateTime)TxtFechaHasta.SelectedDate - (DateTime)TxtFechaDesde.SelectedDate;
+                txtDiasItem.Text = Convert.ToString(fechaResta.Days);
+            }
+        }        
     }
 
 }

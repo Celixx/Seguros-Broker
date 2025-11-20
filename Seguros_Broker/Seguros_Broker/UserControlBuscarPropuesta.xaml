@@ -73,9 +73,6 @@
                 <TextBlock Text="Patente" Margin="0,10,0,0"/>
                 <TextBox x:Name="txtPatente" IsEnabled="False"/>
 
-                <TextBlock Text="Estado" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtEstado" IsReadOnly="True"/>
-
                 <TextBlock Text="Socio" Margin="0,10,0,0"/>
                 <Grid>
                     <ComboBox x:Name="cbSocio" SelectedValuePath="ID" DisplayMemberPath="nombre" IsEnabled="False"/>
@@ -87,7 +84,7 @@
                 </Grid>
 
                 <TextBlock Text="Plan de pago" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtPlanPago" IsEnabled="False"/>
+                <TextBox MaxHeight="113" VerticalScrollBarVisibility="Auto" IsReadOnly="True" x:Name="txtPlanPago" IsEnabled="False"/>
             </StackPanel>
 
             <!-- Botones laterales -->

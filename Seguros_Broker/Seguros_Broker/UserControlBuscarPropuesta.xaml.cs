@@ -85,6 +85,11 @@ namespace Seguros_Broker
                 return;
             }
 
+            if (propuestaBuscada == null)
+            {
+                System.Windows.MessageBox.Show("El número de póliza ingresado no es válido o no se encuentra registrado", "Alerta", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
             
             dpDesde.SelectedDate = propuestaBuscada.FechaVigenciaDesde;
             dpHasta.SelectedDate = propuestaBuscada.FechaVigenciaHasta;
@@ -130,7 +135,7 @@ namespace Seguros_Broker
                         lines.Add($"Cuota {p.CuotaNro}: {p.Monto:N2}");
                     }
 
-                 
+                    txtPlanPago.IsEnabled = true;
                     txtPlanPago.Text = string.Join(Environment.NewLine, lines);
 
                 }
@@ -221,10 +226,10 @@ namespace Seguros_Broker
             txtNroPoliza.Text = null;
             txtRutAsegurado.Text = null;
             txtPatente.Text = null;
-            txtEstado.Text = null;
             cbSocio.SelectedIndex = -1;
             cbGestor.SelectedIndex = -1;
             txtPlanPago.Text = null;
+            txtPlanPago.IsEnabled = false;
         }
 
         private void ReadPropuesta()

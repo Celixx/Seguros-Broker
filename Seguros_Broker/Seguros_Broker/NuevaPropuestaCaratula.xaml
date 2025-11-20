@@ -547,11 +547,11 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="Vigencia" VerticalAlignment="Center" Margin="5" FontWeight="Bold"/>
                                     <TextBlock Grid.Column="1" Text="Desde:" VerticalAlignment="Center" Margin="15,5,5,5"/>
-                                    <DatePicker Grid.Column="2" Width="120" Margin="5" x:Name="TxtFechaDesde"/>
+                                    <DatePicker SelectedDateChanged="DpDesdeItems_SelectionChanged" Grid.Column="2" Width="120" Margin="5" x:Name="TxtFechaDesde"/>
                                     <TextBlock Grid.Column="4" Text="Hasta:" VerticalAlignment="Center" Margin="10,5,5,5"/>
-                                    <DatePicker Grid.Column="5" Width="120" Margin="5" x:Name="TxtFechaHasta"/>
+                                    <DatePicker SelectedDateChanged="DpHastaItems_SelectionChanged" Grid.Column="5" Width="120" Margin="5" x:Name="TxtFechaHasta"/>
                                     <TextBlock Grid.Column="7" Text="Días:" VerticalAlignment="Center" Margin="10,5,5,5"/>
-                                    <TextBox Grid.Column="8" Width="50" Margin="5"/>
+                                    <TextBox x:Name="txtDiasItem" Grid.Column="8" Width="50" Margin="5"/>
                                 </Grid>
                             </StackPanel>
                         </GroupBox>
