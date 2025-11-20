@@ -678,7 +678,6 @@
                                 <ComboBox x:Name="cbFormaCompromiso" Width="200">
                                 </ComboBox>
                             </StackPanel>
-                            <CheckBox x:Name="chkPlanCerrado" Content="Este plan de pago se ha cerrado (no se puede modificar)" Margin="0,10,0,5"/>
                         </StackPanel>
                     </GroupBox>
 
@@ -716,9 +715,6 @@
                             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Cuota hasta"/>
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="txtCuotaHasta"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelStyle}" Text="Fecha contado"/>
-                            <DatePicker Grid.Row="1" Grid.Column="3" x:Name="dpFechaContado"/>
-
                             <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="% Factor"/>
                             <TextBox   Grid.Row="1" Grid.Column="5" x:Name="txtPorcentajeFactor"/>
 
@@ -730,7 +726,7 @@
 
                             <TextBlock Grid.Row="3" Grid.Column="4" Style="{StaticResource LabelStyle}" Text="Monto total de cuota"/>
                             <TextBlock Grid.Row="3" Grid.Column="5" x:Name="txtMontoTotalCuotaStatic" Style="{StaticResource StaticValueStyle}" Text="[Prima bruta total]"/>
-
+                            <Button Grid.Column="7" Content="Guardar" HorizontalAlignment="Left" Margin="94,21,0,0" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="25" Click="Guaradar_Click_Pagos"/>
                         </Grid>
                     </GroupBox>
 
