@@ -7,13 +7,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Título -->
-        <TextBlock Text="Pólizas vencidas y pólizas por vencer"
+        <TextBlock Text="Propuestas por vencer"
                    FontSize="20"
                    FontWeight="Bold"
-                   Margin="5 0 0 10"/>
+                   Margin="5 0 0 10"
+                   Grid.Row="0"/>
 
         <!-- Tabla -->
         <DataGrid x:Name="dataGridPropuestas"
@@ -22,6 +25,30 @@
                   HeadersVisibility="All"
                   IsReadOnly="True"                  
                   SelectionMode="Single"/>
+
+        <!-- Título -->
+        <TextBlock Text="Pagos de propuestas por vencer"
+           FontSize="20"
+           FontWeight="Bold"
+           Margin="5 0 0 10"
+           Grid.Row="2"/>
+
+        <!-- Tabla -->
+        <DataGrid x:Name="dataGridPagosPropuestas"
+          Grid.Row="3"
+          AutoGenerateColumns="True"
+          HeadersVisibility="All"
+          IsReadOnly="True"                  
+          SelectionMode="Single">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Style>
+            </DataGrid.RowStyle>
+
+        </DataGrid>
     </Grid>
 
 </UserControl>
