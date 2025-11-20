@@ -224,7 +224,7 @@ namespace Seguros_Broker
             }
             else
             {
-                //mostrar mensaje de error del repo
+                
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

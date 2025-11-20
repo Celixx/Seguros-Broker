@@ -18,9 +18,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for UserControlBuscarPropuesta.xaml
-    /// </summary>
+    
     public partial class UserControlBuscarPropuesta : System.Windows.Controls.UserControl
     {
         private PropuestaRep propuestaRep = new PropuestaRep();
@@ -31,7 +29,7 @@ namespace Seguros_Broker
         private SocioRep socioRep = new SocioRep();
         private GestorRep gestorRep= new GestorRep();
         private PagosPropuestaRep pagosRep = new PagosPropuestaRep();
-
+        private ItemRep itemRep = new ItemRep();
 
         private List<Moneda> monedas;
         private List<Cliente> clientes;
@@ -39,6 +37,7 @@ namespace Seguros_Broker
         private List<Ramo> ramos;
         private List<Socio> socios;
         private List<Gestor> gestores;
+        private List<Item> items;
         public UserControlBuscarPropuesta()
         {
             InitializeComponent();
@@ -63,6 +62,8 @@ namespace Seguros_Broker
 
             this.gestores = gestorRep.GetGestores();
             cbGestor.ItemsSource = gestores;
+
+            
         }
 
         private void btnBuscarNumeroPoliza_Click(object sender, RoutedEventArgs e)
@@ -84,7 +85,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Rellenar campos existentes (tu código original)
+            
             dpDesde.SelectedDate = propuestaBuscada.FechaVigenciaDesde;
             dpHasta.SelectedDate = propuestaBuscada.FechaVigenciaHasta;
             cbMoneda.SelectedItem = (Moneda)(monedas.Find(moneda => moneda.monedaId == propuestaBuscada.IDMoneda));
@@ -113,36 +114,64 @@ namespace Seguros_Broker
             btnLimpiar.IsEnabled = true;
             btnGuardar.IsEnabled = true;
 
-            // -----------------------
-            // NUEVO: Cargar Plan de Pago
-            // -----------------------
+            
             try
             {
-                // Obtener pagos por Propuesta.ID (si existen)
+                
                 var pagos = pagosRep.GetPagosByPropuestaID(propuestaBuscada.ID);
 
                 if (pagos != null && pagos.Count > 0)
                 {
-                    // Formatear la salida: una línea por cuota "Cuota 1: $1.234,56"
-                    // Usamos la cultura actual para formateo de moneda (o CultureInfo.InvariantCulture si prefieres)
+                    
                     var lines = new List<string>();
                     foreach (var p in pagos)
                     {
-                        // ejemplo: "Cuota 1: 1.234,56"
+                        
                         lines.Add($"Cuota {p.CuotaNro}: {p.Monto:N2}");
                     }
 
+                 
                     txtPlanPago.Text = string.Join(Environment.NewLine, lines);
+
                 }
+
                 else
                 {
-                    txtPlanPago.Text = ""; // o "No hay plan de pago"
+                    txtPlanPago.Text = ""; 
                 }
             }
             catch (Exception ex)
             {
-                // No bloqueamos el resto del llenado si falla la lectura de pagos, solo mostramos aviso
+             
                 System.Windows.MessageBox.Show("No se pudo cargar el Plan de Pago: " + ex.Message, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            try
+            {
+                
+                var items = itemRep.GetItemsByRut(clienteBuscado.ID);
+
+                if (items != null && items.Count > 0)
+                {
+                   
+
+                    var listaPatentes = items
+                                        .Select(i => i.Patente)
+                                        .Where(p => !string.IsNullOrWhiteSpace(p))
+                                        .Distinct();
+
+                    txtPatente.Text = string.Join(", ", listaPatentes);
+                }
+                else
+                {
+                    txtPatente.Text = "S/N"; 
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                txtPatente.Text = "";
+                System.Windows.MessageBox.Show("No se pudo cargar la Patente: " + ex.Message, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -167,15 +196,15 @@ namespace Seguros_Broker
 
 
 
-                //Refrescar Grid
+               
                 ReadPropuesta();
 
-                //Limpiar Form
+              
                 LimpiarFormulario();
             }
             else
             {
-                //Mostrar mensaje de error del repo
+                
                 System.Windows.MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
