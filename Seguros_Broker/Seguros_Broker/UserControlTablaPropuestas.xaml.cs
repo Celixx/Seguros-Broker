@@ -33,7 +33,9 @@ namespace Seguros_Broker
 
             var propuestasPorVencer = propuestasPagoVencer();
             dataGridPagosPropuestas.ItemsSource = propuestasPorVencer;
+            if (true) {
 
+            }
         }
 
         private List<Propuesta> propuestasPagoVencer()

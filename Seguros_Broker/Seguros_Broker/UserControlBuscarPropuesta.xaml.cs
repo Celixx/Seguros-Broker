@@ -77,7 +77,7 @@ namespace Seguros_Broker
             var propuestaBuscada = new Propuesta();
             try
             {
-                propuestaBuscada = propuestaRep.GetPropuesta(int.Parse(txtNroPoliza.Text));
+                propuestaBuscada = propuestaRep.GetPropuestaNumPoliza(int.Parse(txtNroPoliza.Text));
             }
             catch (Exception)
             {
@@ -186,7 +186,7 @@ namespace Seguros_Broker
 
             var companiaSelected = (Compania)cbCompania.SelectedItem;
             var clienteSelected = (Cliente)cbContratante.SelectedItem;
-            var propuestaActual = propuestaRep.GetPropuesta(int.Parse(txtNroPoliza.Text));
+            var propuestaActual = propuestaRep.GetPropuestaNumPoliza(int.Parse(txtNroPoliza.Text));
 
             var propuestaUpdate = new Propuesta();
             propuestaUpdate.IDCompania = companiaSelected.ID;

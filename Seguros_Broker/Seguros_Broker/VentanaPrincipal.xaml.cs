@@ -91,7 +91,7 @@ namespace Seguros_Broker
             var selected = MainRibbon.SelectedTabItem;
 
             if (selected == Maestros_RibbonTabItem)
-            { 
+            {
                 MainContent.Content = new UserControlTablaPropuestas();
             }
         }
