@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Seguros_Broker.Modelo;
+using Seguros_Broker.Repositorio;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Lógica de interacción para VentanaAgregarNuevoItem.xaml
-    /// </summary>
     public partial class VentanaAgregarNuevoItem : Window
     {
+        private ItemRep itemRep = new ItemRep();
+        private ClienteRep clienteRep = new ClienteRep();
+
+        public VentanaAgregarNuevoItem(string rutClientePrellenado)
+        {
+            InitializeComponent();
+
+            // Pre-llenamos el cuadro de texto
+            txtRutCliente.Text = rutClientePrellenado;
+
+            // Fechas por defecto
+            dpDesde.SelectedDate = DateTime.Now;
+            dpHasta.SelectedDate = DateTime.Now.AddYears(1);
+        }
+
         public VentanaAgregarNuevoItem()
         {
             InitializeComponent();
@@ -26,9 +29,79 @@ namespace Seguros_Broker
 
         private void BtaAceptarItem(object sender, RoutedEventArgs e)
         {
+            // 1. Validaciones
+            if (string.IsNullOrWhiteSpace(txtRutCliente.Text))
+            {
+                MessageBox.Show("El RUT del Cliente es obligatorio.", "Falta información", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            if (string.IsNullOrWhiteSpace(txtPatente.Text))
+            {
+                MessageBox.Show("La Patente es obligatoria.", "Falta información", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var buscarCliente = clienteRep.GetCliente(txtRutCliente.Text);
+            if (buscarCliente == null)
+            {
+                MessageBox.Show("El cliente no existe.", "Falta información", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
+
+
+
+            // 2. Crear Objeto Item leyendo los TextBox
+            Item nuevoItem = new Item
+            {
+                // AQUI EL CAMBIO: Leemos del TextBox
+                RutCliente = txtRutCliente.Text,
+
+                Carroceria = txtCarroceria.Text,
+                MateriaAsegurada = txtMateriaAsegurada.Text,
+                ValorComercial = txtValorComercial.Text,
+                Tipo = txtTipo.Text,
+                Anno = txtAnno.Text,
+                NumeroChasis = txtNumeroChasis.Text,
+                Color = txtColor.Text,
+                MinutaItem = txtMinutaItem.Text,
+                Chasis = txtChasis.Text,
+                Propietario = txtPropietario.Text,
+
+               
+                Modelo = txtModelo.Text,
+
+                NumeroMotor = txtNumeroMotor.Text,
+                Patente = txtPatente.Text,
+                Uso = txtUso.Text,
+                FechaDesde = dpDesde.SelectedDate,
+                FechaHasta = dpHasta.SelectedDate
+            };
+
+            // 3. Guardar en BD
+            try
+            {
+                bool guardado = itemRep.AgregarItem(nuevoItem);
+
+                if (guardado)
+                {
+                    MessageBox.Show("Item guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo guardar el item. Verifique los datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al conectar con base de datos: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
-
-
 }

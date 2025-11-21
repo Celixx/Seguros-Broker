@@ -7,6 +7,7 @@ using System.IO; // <-- NUEVO USING
 
 namespace Seguros_Broker.Repositorio
 {
+
     public class ItemRep
     {
         // 1. Cambia la constante por una variable de solo lectura (readonly)
@@ -85,6 +86,58 @@ namespace Seguros_Broker.Repositorio
 
             return items;
         }
+        // Agrega esto dentro de la clase ItemRep
+        public bool AgregarItem(Item item)
+        {
+            // Asegúrate de que los nombres de las columnas coincidan EXACTAMENTE con tu base de datos
+            string sql = @"INSERT INTO Item (
+                        RutCliente, MateriaAsegurada, Anno, Patente, MinutaItem, 
+                        Carroceria, Propietario, Tipo, NumeroMotor, Color, 
+                        Chasis, ValorComercial, Modelo, NumeroChasis, Uso, 
+                        FechaDesde, FechaHasta
+                    ) VALUES (
+                        @RutCliente, @MateriaAsegurada, @Anno, @Patente, @MinutaItem, 
+                        @Carroceria, @Propietario, @Tipo, @NumeroMotor, @Color, 
+                        @Chasis, @ValorComercial, @Modelo, @NumeroChasis, @Uso, 
+                        @FechaDesde, @FechaHasta
+                    )";
 
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                // Manejo de nulos: si el string es null, enviamos DBNull.Value
+                cmd.Parameters.AddWithValue("@RutCliente", item.RutCliente ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@MateriaAsegurada", item.MateriaAsegurada ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Anno", item.Anno ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Patente", item.Patente ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@MinutaItem", item.MinutaItem ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Carroceria", item.Carroceria ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Propietario", item.Propietario ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Tipo", item.Tipo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@NumeroMotor", item.NumeroMotor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Color", item.Color ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Chasis", item.Chasis ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@ValorComercial", item.ValorComercial ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Modelo", item.Modelo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@NumeroChasis", item.NumeroChasis ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Uso", item.Uso ?? (object)DBNull.Value);
+
+                // Fechas
+                cmd.Parameters.AddWithValue("@FechaDesde", item.FechaDesde ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaHasta", item.FechaHasta ?? (object)DBNull.Value);
+
+                try
+                {
+                    conn.Open();
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+                    return filasAfectadas > 0;
+                }
+                catch (Exception ex)
+                {
+                    // Aquí podrías loguear el error
+                    throw new Exception("Error al guardar el item: " + ex.Message);
+                }
+            }
+        }
     }
 }
