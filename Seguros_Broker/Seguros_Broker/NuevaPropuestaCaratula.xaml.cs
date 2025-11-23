@@ -12,6 +12,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows;
+using System.Windows.Controls;
+
+
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -933,7 +937,9 @@ namespace Seguros_Broker
             }
         }
 
-       
+
+
+        private List<Item> itemsDelRut = new List<Item>();
 
         private void BtnBuscarItem_Click(object sender, RoutedEventArgs e)
         {
@@ -947,38 +953,26 @@ namespace Seguros_Broker
 
             try
             {
-                List<Item> itemsEncontrados = itemRep.GetItemsByRut(rut);
+                itemsDelRut = itemRep.GetItemsByRut(rut);
 
-                if (itemsEncontrados == null || !itemsEncontrados.Any())
+                if (itemsDelRut == null || !itemsDelRut.Any())
                 {
                     MessageBox.Show($"No se encontró ningún Ítem asociado al RUT: {rut}.", "Sin Resultados", MessageBoxButton.OK, MessageBoxImage.Information);
                     LimpiarCamposItem();
+                    CbIdItem.ItemsSource = null;
                     return;
                 }
 
-                Item item = itemsEncontrados.First();
+                // cargar IDs en el combo
+                CbIdItem.ItemsSource = itemsDelRut;
+                CbIdItem.DisplayMemberPath = "IdItem";
+                CbIdItem.SelectedValuePath = "IdItem";
 
-                
-                TxtIdItem.Text = item.IdItem.ToString();
+                MessageBox.Show($"Se encontraron {itemsDelRut.Count} items. Seleccione uno del listado.",
+                                "Items encontrados",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
 
-                TxtMateriaAsegurada1.Text = item.MateriaAsegurada;
-
-                TxtAnno.Text = item.Anno;
-                TxtPatente.Text = item.Patente;
-                TxtMinutaItem.Text = item.MinutaItem;
-                TxtCarroceria.Text = item.Carroceria;
-                TxtPropietario.Text = item.Propietario;
-                TxtTipo.Text = item.Tipo;
-                TxtNumeroMotor.Text = item.NumeroMotor;
-                TxtColor.Text = item.Color;
-                TxtChasis.Text = item.Chasis;
-                TxtValorComercial.Text = item.ValorComercial;
-                TxtModelo.Text = item.Modelo;
-                TxtNumeroChasis.Text = item.NumeroChasis;
-                TxtUso.Text = item.Uso;
-
-                TxtFechaDesde.Text = item.FechaDesde.HasValue ? item.FechaDesde.Value.ToShortDateString() : string.Empty;
-                TxtFechaHasta.Text = item.FechaHasta.HasValue ? item.FechaHasta.Value.ToShortDateString() : string.Empty;
             }
             catch (Exception ex)
             {
@@ -986,13 +980,38 @@ namespace Seguros_Broker
             }
         }
 
+        private void CbIdItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbIdItem.SelectedItem == null) return;
+
+            var item = (Item)CbIdItem.SelectedItem;
+
+            
+            TxtMateriaAsegurada1.Text = item.MateriaAsegurada;
+            TxtAnno.Text = item.Anno;
+            TxtPatente.Text = item.Patente;
+            TxtMinutaItem.Text = item.MinutaItem;
+            TxtCarroceria.Text = item.Carroceria;
+            TxtPropietario.Text = item.Propietario;
+            TxtTipo.Text = item.Tipo;
+            TxtNumeroMotor.Text = item.NumeroMotor;
+            TxtColor.Text = item.Color;
+            TxtChasis.Text = item.Chasis;
+            TxtValorComercial.Text = item.ValorComercial;
+            TxtModelo.Text = item.Modelo;
+            TxtNumeroChasis.Text = item.NumeroChasis;
+            TxtUso.Text = item.Uso;
+
+            TxtFechaDesde.Text = item.FechaDesde.HasValue ? item.FechaDesde.Value.ToShortDateString() : string.Empty;
+            TxtFechaHasta.Text = item.FechaHasta.HasValue ? item.FechaHasta.Value.ToShortDateString() : string.Empty;
+        }
         private void LimpiarCamposItem()
         {
            
             
             TxtMateriaAsegurada1.Text = string.Empty;
 
-            TxtIdItem.Text = string.Empty;
+            CbIdItem.Text = string.Empty;
             TxtAnno.Text = string.Empty;
             TxtPatente.Text = string.Empty;
             TxtMinutaItem.Text = string.Empty;

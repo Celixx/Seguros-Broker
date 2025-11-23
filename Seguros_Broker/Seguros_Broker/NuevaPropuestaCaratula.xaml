@@ -467,7 +467,9 @@
 
                                     <!-- Fila 0 -->
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Número Item:" VerticalAlignment="Center" Margin="5"/>
-                                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5" x:Name="TxtIdItem" />
+                                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10,5,10,5" 
+                                      x:Name="CbIdItem"
+                                      SelectionChanged="CbIdItem_SelectionChanged"/>
 
                                     <TextBlock Grid.Row="0" Grid.Column="2" Text="Carrocería:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="0" Grid.Column="3" Margin="5" x:Name="TxtCarroceria"/>
