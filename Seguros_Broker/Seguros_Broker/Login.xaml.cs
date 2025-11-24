@@ -30,27 +30,10 @@ namespace Seguros_Broker
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string usuario = TxtUsuario.Text;
-            string password = TxtPassword.Password;
+            var ventanaPrincipal = new VentanaPrincipal();
+            ventanaPrincipal.Show();
 
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Debe ingresar usuario y contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (usuario == "admin" && password == "admin")
-            {
-
-                var ventanaPrincipal = new VentanaPrincipal();
-                ventanaPrincipal.Show();
-
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            this.Close();
         }
 
         private void OlvidoContrasena_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
