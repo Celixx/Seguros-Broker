@@ -117,9 +117,6 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(TxtComisionAfectaPorcentaje.Text) && string.IsNullOrWhiteSpace(TxtComisionExentaPorcentaje.Text))
                 errores.Add("Comisión afecta o Comisión exenta (Obligatorio)");
 
-            //if (!string.IsNullOrWhiteSpace(TxtComisionAfectaPorcentaje.Text) && !string.IsNullOrWhiteSpace(TxtComisionExentaPorcentaje.Text))
-            //    errores.Add("Comisión afecta y Comisión exenta no pueden estar rellenados ambos");
-
             if (string.IsNullOrWhiteSpace(TxtRutCliente1.Text))
                 errores.Add("RUT Facturar a (obligatorio).");
 
