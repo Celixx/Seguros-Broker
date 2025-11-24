@@ -43,7 +43,7 @@ namespace Seguros_Broker
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            // Validaciones
+
             var errores = new System.Collections.Generic.List<string>();
 
             int codigoParsed = 0;
@@ -84,7 +84,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Mapeo de modelo 
+ 
             var nuevo = new EjecutivoM
             {
                 codigo = codigoParsed, 
@@ -114,20 +114,20 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Ejecutivo guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Refrescar la grilla
+
                 ReadEjecutivo();
 
-                // Limpiar formulario
+ 
                 LimpiarFormulario();
             }
             else
             {
-                // Msj de error proveniente del repositorio
+                // msj de error proveniente del repositorio
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // --- Métodos auxiliares ---
+
         private static bool IsValidEmail(string email)
         {
             try
@@ -235,7 +235,7 @@ namespace Seguros_Broker
 
             var repo = new EjecutivoRep();
 
-            // Llamada al método Update
+
             var result = await repo.UpdateEjecutivoAsync(nuevoEjecutivo);
 
             if (result.success)

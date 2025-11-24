@@ -431,7 +431,7 @@ namespace Seguros_Broker.Repositorio
                                       IDCliente, IDSocio, IDGestor, IDCompania, MateriaAsegurada, Observacion
                                FROM PROPUESTA
                                WHERE NumeroPoliza = @NumeroPoliza
-                               ORDER BY ID DESC"; // por si hay duplicados, tomar la última
+                               ORDER BY ID DESC";
                     using (var cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@NumeroPoliza", numeroPoliza);
@@ -443,7 +443,7 @@ namespace Seguros_Broker.Repositorio
                                 {
                                     ID = rdr["ID"] != DBNull.Value ? Convert.ToInt32(rdr["ID"]) : 0,
                                     NumeroPoliza = rdr["NumeroPoliza"] != DBNull.Value ? Convert.ToInt32(rdr["NumeroPoliza"]) : 0,
-                                    // ... completa aquí los mapeos que necesites
+                                   
                                 };
                                 return p;
                             }
@@ -453,7 +453,7 @@ namespace Seguros_Broker.Repositorio
             }
             catch (Exception)
             {
-                // Manejo de errores si necesitas
+               
             }
             return null;
         }

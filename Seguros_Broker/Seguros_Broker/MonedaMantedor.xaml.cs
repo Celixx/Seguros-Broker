@@ -63,11 +63,7 @@ namespace Seguros_Broker
         {
             int idBuscado = int.Parse(txtBuscar.Text);
 
-            //if (string.IsNullOrWhiteSpace(idBuscado))
-            //{
-            //    MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
+
 
             MonedaRep repository = new MonedaRep();
             Moneda? monedaEncontrada = repository.GetMoneda(idBuscado);

@@ -12,10 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows;
-using System.Windows.Controls;
-
-
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,9 +21,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for VentanaPrincipal.xaml
-    /// </summary>
+
     public partial class NuevaPropuestaCaratula : Window
     {
         
@@ -87,7 +81,6 @@ namespace Seguros_Broker
 
         private async void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            // Validaciones
             var errores = new System.Collections.Generic.List<string>();
 
             if (string.IsNullOrWhiteSpace(TxtNumeroPoliza.Text))
@@ -610,10 +603,10 @@ namespace Seguros_Broker
             try
             {
 
-                // sincroniza los valores de Carátula hacia Plan de Pago
+                // sincroniza los valores de carátula con plan de pago
                 SyncFromCaratula();
 
-                // reconstruye el grid del plan de pago 
+                // act el grid del plan de pago 
                 RebuildPlanGrid();
             }
             catch (Exception ex)
@@ -624,23 +617,20 @@ namespace Seguros_Broker
 
         private void BtnAgregarCobertura(object sender, RoutedEventArgs e)
         {
-            // Crear la ventana pop-up
+
             VentanaAgregarCobertura ventanaSeleccion = new VentanaAgregarCobertura();
 
-            // Abrirla como un DIÁLOGO (esto pausa el código aquí hasta que se cierre)
+
             bool? resultado = ventanaSeleccion.ShowDialog();
 
-            // Comprobar si el usuario hizo click en "aceptar"
+
             if (resultado == true)
             {
-                // Obtener la lista de la propiedad pública de la ventana
                 
                 List<Cobertura> seleccionadas = ventanaSeleccion.CoberturasSeleccionadas;
 
-                // Añadir las coberturas seleccionadas a la grilla de la ventana principal
                 foreach (var cobertura in seleccionadas)
                 {
-                    // (Opcional) Comprobar si ya existe para no añadir duplicados
                     if (!CoberturasDePropuesta.Any(c => c.codigo == cobertura.codigo))
                     {
                         CoberturasDePropuesta.Add(cobertura);
@@ -674,7 +664,7 @@ namespace Seguros_Broker
 
         private void HookEvents()
         {
-            // si el usuario cambia los datos en Carátula, sincronizar cuando se seleccione la pestaña Plan de Pago
+            // si el usuario cambia los datos en caratula, sincronizar cuando se seleccione la pestaña plan de pago
             txtCuotaDesde.TextChanged += (s, e) => RebuildPlanGrid();
             txtCuotaHasta.TextChanged += (s, e) => RebuildPlanGrid();
             dpFechaIngresoPlan.SelectedDateChanged += (s, e) => RebuildPlanGrid();
@@ -687,7 +677,7 @@ namespace Seguros_Broker
         {
             try
             {
-                // copiar valores desde Carátula 
+                // copiar valores desde caratula 
                 txtMontoAseguradoValor.Text = TxtMontoAsegurado?.Text ?? "0";
                 txtPrimaNetaAfectaValor.Text = TxtPrimaNetaAfecta?.Text ?? "0";
                 txtPrimaNetaExentaValor.Text = TxtPrimaNetaExenta?.Text ?? "0";
@@ -702,7 +692,7 @@ namespace Seguros_Broker
                 if (string.IsNullOrWhiteSpace(txtMontoPactar.Text))
                     txtMontoPactar.Text = primaBruta;
 
-                // actualizar grid
+                // act grid
                 RebuildPlanGrid();
             }
             catch (Exception ex)
@@ -809,8 +799,6 @@ namespace Seguros_Broker
             // mostrar en grid
             dataGridPlanPagos.ItemsSource = filas;
             dataGridPlanPagos.Items.Refresh();
-
-            // actualizar campos estáticos de totales y total cuotas
             txtMontoTotalStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
             txtTotalCuotasStatic.Text = cantidadCuotas.ToString();
             txtMontoTotalCuotaStatic.Text = montoTotal.ToString("N2", CultureInfo.InvariantCulture);
@@ -820,7 +808,7 @@ namespace Seguros_Broker
         {
             value = 0m;
             if (string.IsNullOrWhiteSpace(s)) return false;
-            s = s.Trim().Replace(".", "").Replace(",", "."); // "1.234,56" -> "1234.56"
+            s = s.Trim().Replace(".", "").Replace(",", ".");
             return decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
         }
 
@@ -840,8 +828,7 @@ namespace Seguros_Broker
 
 
         private async void Guaradar_Click_Pagos(object sender, RoutedEventArgs e)
-        {
-            // validaciones 
+        { 
             if (!dpFechaIngresoPlan.SelectedDate.HasValue)
             {
                 MessageBox.Show("Debe elegir Fecha de ingreso plan de pago.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -886,11 +873,10 @@ namespace Seguros_Broker
                 return;
             }
 
-            // mapear PlanPagoRow a PagoPropuesta 
             var pagos = new List<PagoPropuesta>();
             foreach (var row in items)
             {
-                // row es PlanPagoRow (definido en esta clase). Asegurar casting correcto.
+
                 if (row is PlanPagoRow pRow)
                 {
                     pagos.Add(new PagoPropuesta
@@ -916,7 +902,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Insertar pagos
+            // insertar plan de pagos
             var pagosRepo = new PagosPropuestaRep();
             var (success, errorMsg) = await pagosRepo.CreatePagosForPropuestaAsync(propuesta.ID, numeroPoliza, pagos);
             if (success)
@@ -955,7 +941,7 @@ namespace Seguros_Broker
                     return;
                 }
 
-                // cargar IDs en el combo
+                // cargar ids en el combo
                 CbIdItem.ItemsSource = itemsDelRut;
                 CbIdItem.DisplayMemberPath = "IdItem";
                 CbIdItem.SelectedValuePath = "IdItem";
@@ -1026,20 +1012,17 @@ namespace Seguros_Broker
         {
             value = 0;
             if (string.IsNullOrWhiteSpace(s)) return false;
-            // Esto es CRÍTICO para manejar números chilenos (miles con punto, decimales con coma, o al revés)
-            s = s.Trim().Replace(".", "").Replace(",", "."); // "1.234,56" -> "1234.56"
+
+            s = s.Trim().Replace(".", "").Replace(",", "."); 
             return decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out value);
         }
         
 
         private async void BtnGuardarItemCoberturas_Click(object sender, RoutedEventArgs e)
         {
-            // --- 1. CAPTURA Y VALIDACIÓN DE CLAVES ---
-            // NOTA: Debes asegurarte de que currentPropuestaId y currentItemId 
-            // se actualicen correctamente cuando se busca el Ítem y se crea/carga la Propuesta.
-            // Usaremos variables placeholder si no tienes las variables de instancia declaradas:
-            int idPropuesta = 1; // REEMPLAZAR con el valor real (ej: this.currentPropuestaId)
-            int idItem = 1;      // REEMPLAZAR con el valor real (ej: this.currentItemId)
+
+            int idPropuesta = 1; 
+            int idItem = 1;     
 
             if (idPropuesta <= 0 || idItem <= 0)
             {
@@ -1047,27 +1030,24 @@ namespace Seguros_Broker
                 return;
             }
 
-            // --- 2. CAPTURA DE VALORES GLOBALES (Monto y Prima) ---
 
-            // Obtener Monto Asegurado (TxtMontoAsegurado)
+            // obtener TxtMontoAsegurado
             if (!TryParseDecimal(TxtMontoAsegurado.Text, out decimal montoAseguradoGlobal))
             {
                 MessageBox.Show("El Monto Asegurado es inválido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Obtener Prima Neta Total (TxtPrimaNetaTotal)
+            // obtener TxtPrimaNetaTotal
             if (!TryParseDecimal(TxtPrimaNetaTotal.Text, out decimal primaNetaTotalGlobal))
             {
                 MessageBox.Show("La Prima Neta Total es inválida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // --- 3. FILTRAR Y MAPEAR LAS COBERTURAS SELECCIONADAS ---
 
-            // Asumo que CoberturasDePropuesta es la ObservableCollection<Cobertura> enlazada a la grilla
             var coberturasSeleccionadas = CoberturasDePropuesta
-                .Where(c => c.IsSelected) // Asumo que tienes una propiedad IsSelected en el modelo Cobertura
+                .Where(c => c.IsSelected) 
                 .ToList();
 
             if (!coberturasSeleccionadas.Any())
@@ -1076,48 +1056,42 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Mapear Cobertura al Modelo ItemCobertura, inyectando los valores globales de Monto y Prima
+           
             var coberturasAModelos = coberturasSeleccionadas.Select(c => new ItemCobertura
             {
                 IdPropuesta = idPropuesta,
                 IdItem = idItem,
                 CodCobertura = c.codigo,
 
-                // Asumiendo que afectaExtenta y sumaMonto son strings en el modelo Cobertura
+              
                 AfectaExenta = c.afectaExtenta,
                 SumaAlMonto = c.sumaMonto,
 
-                // INYECTAMOS los valores globales capturados de los TextBox de la Carátula
+               
                 Monto = montoAseguradoGlobal,
                 Prima = primaNetaTotalGlobal
             }).ToList();
 
-            // --- 4. GUARDAR EN LA BASE DE DATOS ---
+
 
             var rep = new ItemCoberturaRep();
             var (success, errorMsg) = await rep.CreateItemCoberturasAsync(coberturasAModelos);
 
             if (success)
             {
-                // **********************************************
-                // LÓGICA NUEVA: RECARGAR DESDE LA BASE DE DATOS
-                // **********************************************
 
-                // 1. Obtener la lista actualizada de la base de datos
-                // Asegúrate de usar el ID de la propuesta actual.
                 var resumenDesdeDB = await rep.GetResumenItemsPorPropuestaAsync(idPropuesta);
 
-                // 2. Limpiar la colección actual enlazada a la grilla
-                // Esto borra los datos anteriores y prepara la actualización
+
                 ItemsConCobertura.Clear();
 
-                // 3. Rellenar la colección con los datos frescos de la base de datos
+
                 foreach (var item in resumenDesdeDB)
                 {
                     ItemsConCobertura.Add(item);
                 }
 
-                // **********************************************
+
 
                 MessageBox.Show("Coberturas de Ítem guardadas correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }

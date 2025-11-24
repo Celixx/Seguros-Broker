@@ -42,7 +42,7 @@ namespace Seguros_Broker.Repositorio
             return list;
         }
 
-        // Obtiene los códigos de cobertura asociados a un producto
+        // get de codigos de cobertura asociados a un producto
         public List<string> GetCoberturasByProducto(int productoId)
         {
             var list = new List<string>();
@@ -81,7 +81,7 @@ namespace Seguros_Broker.Repositorio
                     await connection.OpenAsync();
                     using (var tran = connection.BeginTransaction())
                     {
-                        // Eliminar asociaciones previas
+                        // eliminar asociaciones previas
                         const string deleteSql = "DELETE FROM PRODUCTO_COBERTURA WHERE ProductoID = @ProductoID";
                         using (var delCmd = new SqlCommand(deleteSql, connection, tran))
                         {
@@ -89,7 +89,7 @@ namespace Seguros_Broker.Repositorio
                             await delCmd.ExecuteNonQueryAsync();
                         }
 
-                        // Insertar nuevas asociaciones
+                        // insertar nuevas asociaciones
                         if (codigos != null && codigos.Count > 0)
                         {
                             const string insertSql = "INSERT INTO PRODUCTO_COBERTURA (ProductoID, CoberturaCodigo) VALUES (@ProductoID, @CoberturaCodigo)";

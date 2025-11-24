@@ -3,29 +3,27 @@ using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration; // Necesario para leer appsettings
-using System.IO;                       // Necesario para I/O
+using Microsoft.Extensions.Configuration; 
+using System.IO;                       
 
 namespace Seguros_Broker.Repositorio
 {
     public class ItemCoberturaRep
     {
-        // Variable para almacenar la cadena de conexión
+        
         private readonly string ConnectionString;
 
-        // Constructor para leer la cadena de conexión
         public ItemCoberturaRep()
         {
             try
             {
-                // Construye la configuración para encontrar appsettings.json
+
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
                 IConfigurationRoot configuration = builder.Build();
 
-                // Lee la cadena de conexión desde la sección "Settings:connectionString"
                 ConnectionString = configuration.GetSection("Settings:connectionString").Value;
 
                 if (string.IsNullOrEmpty(ConnectionString))
@@ -35,15 +33,14 @@ namespace Seguros_Broker.Repositorio
             }
             catch (Exception ex)
             {
-                // Maneja el error si no se puede cargar la configuración
                 throw new InvalidOperationException("Error al inicializar la cadena de conexión en ItemCoberturaRep. Verifique appsettings.json y NuGet Packages.", ex);
             }
         }
 
-        // El método de guardado
+        // el metodo de guardado
         public async Task<(bool success, string errorMsg)> CreateItemCoberturasAsync(List<ItemCobertura> coberturas)
         {
-            // Usamos una transacción para asegurar que todas se inserten o ninguna
+
             using (var conn = new SqlConnection(ConnectionString))
             {
                 await conn.OpenAsync();
@@ -51,7 +48,7 @@ namespace Seguros_Broker.Repositorio
 
                 try
                 {
-                    // Consulta SQL de inserción
+                    // insert en sql
                     string sql = @"
                         INSERT INTO ItemCobertura (
                             IdPropuesta, IdItem, CodCobertura, afectaExenta, 
@@ -66,16 +63,12 @@ namespace Seguros_Broker.Repositorio
                     {
                         using (var cmd = new SqlCommand(sql, conn, transaction))
                         {
-                            // Parámetros
+
                             cmd.Parameters.AddWithValue("@IdPropuesta", itemCob.IdPropuesta);
                             cmd.Parameters.AddWithValue("@IdItem", itemCob.IdItem);
                             cmd.Parameters.AddWithValue("@CodCobertura", itemCob.CodCobertura);
-
-                            // Aseguramos que los valores sean nulos si son null para SQL, o un string vacío. 
-                            // Dado que en SQL los definiste como VARCHAR(20), es seguro pasar string.Empty.
                             cmd.Parameters.AddWithValue("@AfectaExenta", (object)itemCob.AfectaExenta ?? DBNull.Value);
                             cmd.Parameters.AddWithValue("@SumaAlMonto", (object)itemCob.SumaAlMonto ?? DBNull.Value);
-
                             cmd.Parameters.AddWithValue("@Monto", itemCob.Monto);
                             cmd.Parameters.AddWithValue("@Prima", itemCob.Prima);
 
@@ -84,12 +77,12 @@ namespace Seguros_Broker.Repositorio
                     }
 
                     transaction.Commit();
-                    return (true, null); // Éxito
+                    return (true, null); 
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return (false, ex.Message); // Fallo
+                    return (false, ex.Message); 
                 }
             }
         }
@@ -98,7 +91,6 @@ namespace Seguros_Broker.Repositorio
         {
             var resumen = new List<ItemResumenCobertura>();
 
-            // Consulta SQL: Agrupa por IdItem y usa MAX(Prima) para obtener la Prima Neta Total guardada
             string sql = @"
         SELECT 
             T1.IdItem,
@@ -120,9 +112,8 @@ namespace Seguros_Broker.Repositorio
                         {
                             resumen.Add(new ItemResumenCobertura
                             {
-                                // Mapeo: IdItem a Numero
+
                                 Numero = reader.GetInt32(reader.GetOrdinal("IdItem")),
-                                // Mapeo: MAX(Prima) a PrimaNeta
                                 PrimaNeta = reader.GetDecimal(reader.GetOrdinal("PrimaNeta"))
                             });
                         }

@@ -16,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for ClienteMantenedor.xaml
-    /// </summary>
+
     public partial class ClienteMantenedor : Window
     {
         private List<Holding> holdings;
@@ -57,7 +55,7 @@ namespace Seguros_Broker
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            // Validaciones básicas
+
             var errores = new List<string>();
 
             if (cbTipoIdentificacion.SelectedItem == null ||
@@ -230,7 +228,7 @@ namespace Seguros_Broker
             }
         }
 
-        // Holdings tab — operaciones sobre holdings (Crear/Actualizar/Buscar) adaptadas del ejemplo Grupo
+        // holdings tab 
         private void ReadHolding()
         {
             this.dataGridHolding.ItemsSource = holdings;
@@ -338,7 +336,7 @@ namespace Seguros_Broker
 
         private void ReadEjecutivo()
         {
-            // Si EjecutivoRep no existe o su GetEjecutivos falla, la lista estará vacía (manejado en ctor)
+
             this.cbEjecutivo.ItemsSource = ejecutivos;
             this.cbEjecutivo.DisplayMemberPath = "nombre";
         }
@@ -355,7 +353,7 @@ namespace Seguros_Broker
 
         private async void btnActualizar_Click(object sender, RoutedEventArgs e)
         {
-            // Validaciones (mismas que en Guardar)
+
             var errores = new List<string>();
 
             if (cbTipoIdentificacion.SelectedItem == null ||
@@ -429,13 +427,11 @@ namespace Seguros_Broker
 
         private void DataGrid_SelectionChanged_Holding(object sender, SelectionChangedEventArgs e)
         {
-            // Obtener el holding seleccionado del DataGrid (si hay uno)
+            // obtener el holding seleccionado del grid 
             if (dataGridHolding.SelectedItem is Holding holdingSeleccionado)
             {
-                // Cargar datos del holding en el formulario de holdings
-                txtNombreHolding.Text = holdingSeleccionado.Nombre;
 
-                // También sincronizar el ComboBox de holdings para que refleje la selección actual
+                txtNombreHolding.Text = holdingSeleccionado.Nombre;
                 if (holdings != null && holdings.Count > 0)
                 {
                     var encontrado = holdings.Find(h => h.ID == holdingSeleccionado.ID);
@@ -447,7 +443,7 @@ namespace Seguros_Broker
             }
             else
             {
-                // Si no hay selección, limpiar el formulario de holdings (opcional)
+
                 txtNombreHolding.Clear();
             }
         }

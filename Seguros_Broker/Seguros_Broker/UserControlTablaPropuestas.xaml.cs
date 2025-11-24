@@ -17,9 +17,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for UserControlTablaPropuestas.xaml
-    /// </summary>
+
     public partial class UserControlTablaPropuestas : UserControl
     {
         private PropuestaRep propuestaRep = new PropuestaRep();

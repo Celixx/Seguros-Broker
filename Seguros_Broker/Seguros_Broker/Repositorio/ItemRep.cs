@@ -2,29 +2,26 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Microsoft.Extensions.Configuration; // <-- NUEVO USING
-using System.IO; // <-- NUEVO USING
+using Microsoft.Extensions.Configuration; 
+using System.IO; 
 
 namespace Seguros_Broker.Repositorio
 {
 
     public class ItemRep
     {
-        // 1. Cambia la constante por una variable de solo lectura (readonly)
         private readonly string ConnectionString;
 
-        // 2. Agrega un constructor para inicializar la ConnectionString
         public ItemRep()
         {
-            // Construye la configuración
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()) // Busca appsettings en el directorio de ejecución
+                .SetBasePath(Directory.GetCurrentDirectory()) 
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             IConfigurationRoot configuration = builder.Build();
 
-            // Lee la cadena de conexión desde la sección "Settings"
-            // Nota: El 'connectionString' de aquí debe coincidir con el del JSON
+
             ConnectionString = configuration.GetSection("Settings:connectionString").Value;
 
             if (string.IsNullOrEmpty(ConnectionString))
@@ -33,8 +30,7 @@ namespace Seguros_Broker.Repositorio
             }
         }
 
-        // 3. Modifica tu método GetItemsByRut para que no sea estático si es que lo es,
-        //    y utiliza la variable de instancia (ya la tienes bien definida).
+
         public List<Item> GetItemsByRut(string rut)
         {
             var items = new List<Item>();
@@ -86,10 +82,10 @@ namespace Seguros_Broker.Repositorio
 
             return items;
         }
-        // Agrega esto dentro de la clase ItemRep
+        // agrega esto dentro de la clase ItemRep
         public bool AgregarItem(Item item)
         {
-            // Asegúrate de que los nombres de las columnas coincidan EXACTAMENTE con tu base de datos
+
             string sql = @"INSERT INTO Item (
                         RutCliente, MateriaAsegurada, Anno, Patente, MinutaItem, 
                         Carroceria, Propietario, Tipo, NumeroMotor, Color, 
@@ -105,7 +101,7 @@ namespace Seguros_Broker.Repositorio
             using (var conn = new SqlConnection(ConnectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                // Manejo de nulos: si el string es null, enviamos DBNull.Value
+
                 cmd.Parameters.AddWithValue("@RutCliente", item.RutCliente ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@MateriaAsegurada", item.MateriaAsegurada ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Anno", item.Anno ?? (object)DBNull.Value);
@@ -121,8 +117,6 @@ namespace Seguros_Broker.Repositorio
                 cmd.Parameters.AddWithValue("@Modelo", item.Modelo ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@NumeroChasis", item.NumeroChasis ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Uso", item.Uso ?? (object)DBNull.Value);
-
-                // Fechas
                 cmd.Parameters.AddWithValue("@FechaDesde", item.FechaDesde ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaHasta", item.FechaHasta ?? (object)DBNull.Value);
 
@@ -134,7 +128,6 @@ namespace Seguros_Broker.Repositorio
                 }
                 catch (Exception ex)
                 {
-                    // Aquí podrías loguear el error
                     throw new Exception("Error al guardar el item: " + ex.Message);
                 }
             }

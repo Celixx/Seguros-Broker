@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for Login.xaml
-    /// </summary>
+
     public partial class Login : Window
     {
         public Login()

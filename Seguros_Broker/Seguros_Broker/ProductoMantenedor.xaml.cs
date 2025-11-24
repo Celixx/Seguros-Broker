@@ -9,9 +9,7 @@ using System.Windows.Controls;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for ProductoMantenedor.xaml
-    /// </summary>
+
     public partial class ProductoMantenedor : Window
     {
         private List<Ramo> ramos;
@@ -73,14 +71,13 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Obtener los objetos seleccionados
             var selectedRamo = cbRamo.SelectedItem as Ramo;
             var selectedCompania = cbCompania.SelectedItem as Compania;
             string nombreIngresado = txtCodigo.Text.Trim();
 
             // validacion de duplicados
             bool existeDuplicado = productos.Any(p =>
-                p.nombre.Equals(nombreIngresado, StringComparison.OrdinalIgnoreCase) && // compara nombre del prodcuto
+                p.nombre.Equals(nombreIngresado, StringComparison.OrdinalIgnoreCase) && 
                 p.ramoID == selectedRamo.ID &&
                 p.companiaID == selectedCompania.ID
             );
@@ -89,7 +86,7 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Ya existe un producto registrado con este Nombre, Ramo y Compañía.",
                                 "Producto Duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return; // Detenemos el proceso de guardado
+                return; 
             }
 
             var nuevoProducto = new Producto
@@ -159,7 +156,7 @@ namespace Seguros_Broker
             ventana.Owner = this;
             ventana.ShowDialog();
 
-            //Recargar el dataGrid con los datos nuevos
+            //recargar el grid con los datos nuevos
             var rows = productoRep.GetProductoCoberturas(selectedProductId);
             dataGridCoberturas.ItemsSource = rows;
         }

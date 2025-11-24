@@ -14,10 +14,8 @@ namespace Seguros_Broker
         {
             InitializeComponent();
 
-            // Pre-llenamos el cuadro de texto
+ 
             txtRutCliente.Text = rutClientePrellenado;
-
-            // Fechas por defecto
             dpDesde.SelectedDate = DateTime.Now;
             dpHasta.SelectedDate = DateTime.Now.AddYears(1);
         }
@@ -29,7 +27,7 @@ namespace Seguros_Broker
 
         private void BtaAceptarItem(object sender, RoutedEventArgs e)
         {
-            // 1. Validaciones
+
             if (string.IsNullOrWhiteSpace(txtRutCliente.Text))
             {
                 MessageBox.Show("El RUT del Cliente es obligatorio.", "Falta información", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -51,10 +49,10 @@ namespace Seguros_Broker
 
 
 
-            // 2. Crear Objeto Item leyendo los TextBox
+
             Item nuevoItem = new Item
             {
-                // AQUI EL CAMBIO: Leemos del TextBox
+
                 RutCliente = txtRutCliente.Text,
 
                 Carroceria = txtCarroceria.Text,
@@ -78,7 +76,7 @@ namespace Seguros_Broker
                 FechaHasta = dpHasta.SelectedDate
             };
 
-            // 3. Guardar en BD
+
             try
             {
                 bool guardado = itemRep.AgregarItem(nuevoItem);

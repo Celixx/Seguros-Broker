@@ -8,19 +8,15 @@ using System.Runtime.CompilerServices;
 
 namespace Seguros_Broker.Modelo
 {
-    // 1. Implementar la interfaz
     public class Cobertura : INotifyPropertyChanged
     {
-        // 2. Evento requerido por la interfaz
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // 3. Método pomocniczy do wywoływania zdarzenia
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        // --- Propiedades que notifican cambios ---
 
         private bool _isSelected;
         public bool IsSelected
@@ -31,13 +27,11 @@ namespace Seguros_Broker.Modelo
                 if (_isSelected != value)
                 {
                     _isSelected = value;
-                    OnPropertyChanged(); // <-- Notificar a la UI
+                    OnPropertyChanged(); 
                 }
             }
         }
 
-        // (Opcional, pero buena práctica)
-        // Hacemos que todas las propiedades que se ven en la UI notifiquen
         private string _codigo;
         public string codigo
         {
@@ -66,7 +60,6 @@ namespace Seguros_Broker.Modelo
             }
         }
 
-        // --- Resto de propiedades (pueden ser simples) ---
         public string afectaExtenta { get; set; }
         public string sumaMonto { get; set; }
         public int monto { get; set; }

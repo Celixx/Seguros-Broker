@@ -22,7 +22,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     connection.Open();
 
-                    // Trae datos de CLIENTE, JOIN con HOLDING y EJECUTIVO para nombres desplegables
+                    // datos de cliente y join con holdig y ejecutivo 
                     string sql = @"SELECT C.TipoIdentificacion, C.ID AS ClienteID, C.Nombre, C.ApellidoPaterno, C.ApellidoMaterno,
                                           C.HoldingID, H.Nombre AS HoldingNombre,
                                           C.EjecutivoID, E.Nombre AS EjecutivoNombre,

@@ -8,15 +8,12 @@ namespace Seguros_Broker.Modelo
 {
     public class ItemCobertura
     {
-        // Campos de la clave primaria (PK) y Foráneas (FK)
         public int IdItemCobertura { get; set; }
-        public int IdPropuesta { get; set; }        // FK a PROPUESTA(ID)
-        public int IdItem { get; set; }             // FK a Item(IdItem)
-        public string CodCobertura { get; set; }    // FK a COBERTURA(Codigo)
-
-        // Campos Económicos y de Configuración
-        public string AfectaExenta { get; set; }    // Corresponde a afectaExenta (VARCHAR)
-        public string SumaAlMonto { get; set; }     // Corresponde a SumaAlMonto (VARCHAR)
+        public int IdPropuesta { get; set; }       
+        public int IdItem { get; set; }            
+        public string CodCobertura { get; set; }   
+        public string AfectaExenta { get; set; }    
+        public string SumaAlMonto { get; set; }     
         public decimal Monto { get; set; }
         public decimal Prima { get; set; }
     }

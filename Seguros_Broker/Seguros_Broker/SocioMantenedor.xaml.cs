@@ -17,9 +17,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for SocioMantenedor.xaml
-    /// </summary>
+
     public partial class SocioMantenedor : Window
     {
         private SocioRep socioRep = new SocioRep();
@@ -149,15 +147,15 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Socio guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Refrescar la grilla
+
                 ReadSocio();
 
-                // Limpiar formulario
+
                 LimpiarFormulario();
             }
             else
             {
-                // Msj de error proveniente del repositorio
+ 
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -234,15 +232,14 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Socio actualizada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Refrescar Grid
                 ReadSocio();
 
-                //Limpiar Form
+
                 LimpiarFormulario();
             }
             else
             {
-                //Mostrar mensaje de error del repo
+              
                 MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

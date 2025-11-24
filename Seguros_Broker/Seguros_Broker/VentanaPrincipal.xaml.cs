@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for VentanaPrincipal.xaml
-    /// </summary>
+
     public partial class VentanaPrincipal
     {
         private PropuestaRep propuestaRep = new PropuestaRep();

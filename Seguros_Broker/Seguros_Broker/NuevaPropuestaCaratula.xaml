@@ -401,11 +401,7 @@
         <TabItem x:Name="TabItems" Header="Items" IsEnabled="False">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
-                <!-- Grid Principal que divide la ventana en 3 secciones:
-             Fila 0: Detalle del Item
-             Fila 1: Coberturas
-             Fila 2: Pie de página con totales
-        -->
+
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -413,14 +409,14 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- SECCIÓN 1: ITEMS Y DETALLE DEL ITEM (Grid.Row="0") -->
+                    <!-- ITEMS Y DETALLE DEL ITEM  -->
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" MinWidth="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Columna 0: Lista de Items -->
+
                         <StackPanel Grid.Column="0" Margin="0,0,10,0">
                             <ToolBar Height="28">
                                 <Button Content="Agregar" Click="BtnAgregarItem"/>
@@ -435,24 +431,24 @@
                             </DataGrid>
                         </StackPanel>
 
-                        <!-- Columna 1: Detalle del Item -->
+                        <!-- Detalle del Item -->
                         <GroupBox Grid.Column="1" Header="Detalle del Item" Padding="10">
                             <StackPanel>
-                                <!-- Grid para el formulario principal de detalles -->
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
-                                        <!-- Label -->
+                                       
                                         <ColumnDefinition Width="*"/>
-                                        <!-- Input -->
+                                      
                                         <ColumnDefinition Width="Auto"/>
-                                        <!-- Label -->
+                                       
                                         <ColumnDefinition Width="*"/>
-                                        <!-- Input -->
+                                      
                                         <ColumnDefinition Width="Auto"/>
-                                        <!-- Label -->
+                                     
                                         <ColumnDefinition Width="*"/>
-                                        <!-- Input -->
+                                    
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -465,7 +461,7 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <!-- Fila 0 -->
+                                  
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Número Item:" VerticalAlignment="Center" Margin="5"/>
                                     <ComboBox Grid.Row="0" Grid.Column="1" Margin="10,5,10,5" 
                                       x:Name="CbIdItem"
@@ -477,7 +473,7 @@
                                     <TextBlock Grid.Row="0" Grid.Column="4" Text="Chasis:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="0" Grid.Column="5" Margin="5" x:Name="TxtChasis"/>
 
-                                    <!-- Fila 1 -->
+                                  
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Materia Asegurada:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="1" Grid.Column="1" Margin="5" x:Name="TxtMateriaAsegurada1"/>
 
@@ -487,7 +483,7 @@
                                     <TextBlock Grid.Row="1" Grid.Column="4" Text="Valor Comercial:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="1" Grid.Column="5" Margin="5" x:Name="TxtValorComercial"/>
 
-                                    <!-- Fila 2 -->
+                                    
                                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Año:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="2" Grid.Column="1" Margin="5" x:Name="TxtAnno"/>
 
@@ -497,7 +493,7 @@
                                     <TextBlock Grid.Row="2" Grid.Column="4" Text="Modelo:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="2" Grid.Column="5" Margin="5" x:Name="TxtModelo"/>
 
-                                    <!-- Fila 3 -->
+                                   
                                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Patente:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="3" Grid.Column="1" Margin="5" x:Name="TxtPatente"/>
 
@@ -507,7 +503,7 @@
                                     <TextBlock Grid.Row="3" Grid.Column="4" Text="Número Chasis:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="3" Grid.Column="5" Margin="5" x:Name="TxtNumeroChasis"/>
 
-                                    <!-- Fila 4 -->
+                                   
                                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Minuta de Item:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="4" Grid.Column="1" Margin="5" x:Name="TxtMinutaItem"/>
 
@@ -517,7 +513,7 @@
                                     <TextBlock Grid.Row="4" Grid.Column="4" Text="Uso:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox Grid.Row="4" Grid.Column="5" Margin="5" x:Name="TxtUso"/>
 
-                                    <!-- Fila 5 -->
+                               
                                     <TextBlock Grid.Row="5" Grid.Column="0" Text="A favor de:" VerticalAlignment="Center" Margin="5"/>
 
 
@@ -527,12 +523,12 @@
                                         <TextBlock Text="🔍" />
                                     </Button>
 
-                                    <!-- Fila 6 -->
+                                   
                                 </Grid>
 
                                 <Separator Margin="0,10,0,10"/>
 
-                                <!-- Grid para la Vigencia -->
+                                <!-- Grid para la vigencia -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>

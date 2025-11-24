@@ -18,9 +18,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Seguros_Broker
 {
-    /// <summary>
-    /// Interaction logic for CompaniaMantenedor.xaml
-    /// </summary>
+
     public partial class CompaniaMantenedor : Window
     {
         private List<Grupo> grupos;
@@ -49,7 +47,7 @@ namespace Seguros_Broker
 
         private async void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            // Validaciones
+
             var errores = new System.Collections.Generic.List<string>();
 
             if (cbTipoIdentificacion.SelectedItem == null ||
@@ -62,9 +60,6 @@ namespace Seguros_Broker
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 errores.Add("Nombre (obligatorio).");
 
-            //if (cbGrupo.SelectedItem == null ||
-            //    ((ComboBoxItem)cbTipoIdentificacion.SelectedItem).Content.ToString().ToUpper().Contains("SELECCIONE"))
-            //    errores.Add("Tipo identificación (obligatorio).");
 
             if (errores.Any())
             {
@@ -72,7 +67,6 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Mapeo
 
             var selectedGrupo = cbGrupo.SelectedItem as Grupo;
 
@@ -99,15 +93,15 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Compañía guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);               
 
-                //Refrescar Grid
+
                 ReadCompania();
 
-                //Limpiar Form
+
                 LimpiarFormulario();
             }
             else
             {
-                //Mostrar mensaje de error del repo
+
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -187,7 +181,7 @@ namespace Seguros_Broker
 
             if (companiaSleccionado != null)
             {
-                // 3. ¡Llamar al mismo método helper!
+
                 CargarDatosCompaniaEnFormulario(companiaSleccionado);
             }
         }
@@ -215,7 +209,7 @@ namespace Seguros_Broker
                 return;
             }
 
-            // Mapeo
+
             var nuevoGrupo = new Grupo
             {
                 ID = 0,
@@ -230,10 +224,9 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Grupo guardado correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Refrescar Grid
+
                 ReadGrupo();
 
-                //Limpiar Form
                 LimpiarFormulario();
 
                 grupos.Clear();
@@ -242,7 +235,7 @@ namespace Seguros_Broker
             }
             else
             {
-                //Mostrar mensaje de error del repo
+
                 MessageBox.Show("No se pudo guardar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -261,11 +254,7 @@ namespace Seguros_Broker
         {
             int idBuscado = int.Parse(txtSearch_Grupo.Text);
 
-            //if (string.IsNullOrWhiteSpace(idBuscado))
-            //{
-            //    MessageBox.Show("Por favor, ingrese un ID para buscar.", "Entrada Requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
+
 
             GrupoRep repository = new GrupoRep();
             Grupo? grupoEncontrado = repository.GetGrupo(idBuscado);
@@ -303,7 +292,7 @@ namespace Seguros_Broker
 
             if (companiaSleccionado != null)
             {
-                // 3. ¡Llamar al mismo método helper!
+
                 CargarDatosCompaniaEnFormulario(companiaSleccionado);
             }
 
@@ -369,15 +358,15 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Compañía actualizada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Refrescar Grid
+
                 ReadCompania();
 
-                //Limpiar Form
+ 
                 LimpiarFormulario();
             }
             else
             {
-                //Mostrar mensaje de error del repo
+ 
                 MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -409,16 +398,16 @@ namespace Seguros_Broker
             {
                 MessageBox.Show("Grupo actualizado correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Refrescar Grid
+
                 grupos = grupoRep.GetGrupos();
                 ReadGrupo();
 
-                //Limpiar Form
+ 
                 LimpiarFomularioGrupo();
             }
             else
             {
-                //Mostrar mensaje de error del repo
+
                 MessageBox.Show("No se pudo actualizar: " + (result.errorMessage ?? "Error desconocido"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

@@ -117,7 +117,7 @@ namespace Seguros_Broker.Repositorio
                 {
                     await connection.OpenAsync();
 
-                    // Verificar existencia por codigo o ID
+                    // verificar existencia por codigo o ID
                     const string checkSql = "SELECT COUNT(1) FROM SOCIO WHERE ID = @ID";
                     using (var checkCmd = new SqlCommand(checkSql, connection))
                     {
@@ -138,7 +138,6 @@ namespace Seguros_Broker.Repositorio
 
                         using (var cmd = new SqlCommand(insertSql, connection, tran))
                         {
-                            // Parámetros con tipos 
                             cmd.Parameters.Add("@TipoID", System.Data.SqlDbType.NVarChar, 15).Value = (object)socio.tipoId ?? DBNull.Value;
                             cmd.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = socio.ID;
                             cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 25).Value = (object)socio.nombre?? DBNull.Value;
