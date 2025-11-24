@@ -280,6 +280,65 @@ namespace Seguros_Broker
 
                 btnLimpiar.IsEnabled = true;
                 btnGuardar.IsEnabled = true;
+
+                try
+                {
+
+                    var pagos = pagosRep.GetPagosByPropuestaID(propuestaSeleccionada.ID);
+
+                    if (pagos != null && pagos.Count > 0)
+                    {
+
+                        var lines = new List<string>();
+                        foreach (var p in pagos)
+                        {
+
+                            lines.Add($"Cuota {p.CuotaNro}: {p.Monto:N2}");
+                        }
+
+                        txtPlanPago.IsEnabled = true;
+                        txtPlanPago.Text = string.Join(Environment.NewLine, lines);
+
+                    }
+
+                    else
+                    {
+                        txtPlanPago.Text = "";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    System.Windows.MessageBox.Show("No se pudo cargar el Plan de Pago: " + ex.Message, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                try
+                {
+
+                    var items = itemRep.GetItemsByRut(clienteBuscado.ID);
+
+                    if (items != null && items.Count > 0)
+                    {
+
+
+                        var listaPatentes = items
+                                            .Select(i => i.Patente)
+                                            .Where(p => !string.IsNullOrWhiteSpace(p))
+                                            .Distinct();
+
+                        txtPatente.Text = string.Join(", ", listaPatentes);
+                    }
+                    else
+                    {
+                        txtPatente.Text = "S/N";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    txtPatente.Text = "";
+                    System.Windows.MessageBox.Show("No se pudo cargar la Patente: " + ex.Message, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
     }
