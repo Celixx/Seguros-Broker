@@ -72,13 +72,6 @@ namespace Seguros_Broker
             cbFormaCompromiso.Items.Add("PAC");
             cbFormaCompromiso.SelectedIndex = 0;
 
-            //BORRAR
-            TabItems.IsEnabled = true;
-            TabPlan.IsEnabled = true;
-            TabMinuta.IsEnabled = true;
-            TabBitacora.IsEnabled = true;
-            TabDocumentos.IsEnabled = true;
-
             // grid vacío
             dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
 
@@ -225,6 +218,8 @@ namespace Seguros_Broker
             if (result.success)
             {
                 MessageBox.Show("Propuesta guardada correctramente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                TabItems.IsEnabled = true;
+                TabPlan.IsEnabled = true;
             }
             else
             {
