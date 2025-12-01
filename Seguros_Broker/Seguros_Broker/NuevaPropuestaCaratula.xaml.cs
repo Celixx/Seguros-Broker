@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 
 
@@ -54,9 +55,7 @@ namespace Seguros_Broker
             this.ItemsConCobertura = new ObservableCollection<ItemResumenCobertura>();
 
             
-            this.DataContext = this; 
-
-            
+            this.DataContext = this;             
 
             cbMonedas.ItemsSource = monedas;
 
@@ -69,7 +68,48 @@ namespace Seguros_Broker
             // grid vacío
             dataGridPlanPagos.ItemsSource = new List<PlanPagoRow>();
 
+            //tabs test
+            TabItems.IsEnabled = true;
+            TabPlan.IsEnabled = true;
 
+            //Valores DEMO
+            DtFechaRecepcion.SelectedDate = DateTime.Now.Date;
+            TxtNumeroPoliza.Text = "3000";
+            TxtRenuevaPoliza.Text = "3000";
+            //DpFechaIngreso.SelectedDate = DateTime.Now.Date;
+            //DpTermino.SelectedDate = DateTime.Now.Date;
+            TxtCodigoRamo.Text = "1";
+            //BtnBuscarRamo_Click(null, null);
+            TxtCodigoEjecutivo.Text = "1001";
+            //BtnBuscarEjecutivoCuenta_Click(null, null);
+            TxtCodigoEjecutivoResponsable.Text = "1001";
+            //BtnBuscarEjecutivoResponsable_Click(null, null);
+            TxtAreaNegocio.Text = "1";
+            //BtnBuscarArea_Click(null, null);
+            DpFechaCreacion.SelectedDate = DateTime.Now.Date;
+            DpDesde.SelectedDate = DateTime.Now.Date;
+            cbMonedas.SelectedIndex = 1;
+            TxtComisionAfectaPorcentaje.Text = "12";
+            //BtnBuscarMoneda_Click(null, null);
+            TxtRutCliente1.Text = "76.123.456-K";
+            TxtRutContratante.Text = "76.123.456-K";
+            TxtRutAsegurado.Text = "76.123.456-K";
+            TxtRutAFavorDe.Text = "76.123.456-K";
+            //BtnBuscarRutFacturar_Click(null, null);
+            //BtnBuscarRutContratante_Click(null, null);
+            //BtnBuscarRutAsegurado_Click(null, null);
+            //BtnBuscarRutAFavorDe_Click(null, null);
+            TxtRutSocio.Text = "1";
+            //BtnBuscarRutSocio_Click(null, null);
+            TxtRutGestor.Text = "1";
+            //BtnBuscarRutGestor_Click(null, null);
+            TxtRutCompania.Text = "995880601";
+            //BtnBuscarRutCompania_Click(null, null);
+            cbEjecutivosCompania.SelectedIndex = 2;
+            TxtMateriaAsegurada.Text = "Vehículo";
+            TxtObservacion.Text = "Ninguna";
+
+            TxtRutItem.Text = "76.123.456-K";
         }
 
         private List<Modelo.EjecutivoM> GetEjecutivo()

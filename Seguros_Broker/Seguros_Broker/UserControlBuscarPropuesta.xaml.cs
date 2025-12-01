@@ -63,7 +63,8 @@ namespace Seguros_Broker
             this.gestores = gestorRep.GetGestores();
             cbGestor.ItemsSource = gestores;
 
-            
+            //Valores DEMO
+            txtNroPoliza.Text = "3000";
         }
 
         private void btnBuscarNumeroPoliza_Click(object sender, RoutedEventArgs e)

@@ -17,12 +17,32 @@ namespace Seguros_Broker
  
             txtRutCliente.Text = rutClientePrellenado;
             dpDesde.SelectedDate = DateTime.Now;
-            dpHasta.SelectedDate = DateTime.Now.AddYears(1);
+            dpHasta.SelectedDate = DateTime.Now.AddYears(1);            
         }
 
         public VentanaAgregarNuevoItem()
         {
             InitializeComponent();
+
+            //Valores Demo
+            txtRutCliente.Text = "76.123.456-K";
+            txtCarroceria.Text = "Sedán";
+            txtMateriaAsegurada.Text = "Automóvil";
+            txtValorComercial.Text = "15.000.000";
+            txtTipo.Text = "Particular";
+            txtAnno.Text = "2015";
+            txtNumeroChasis.Text = "1";
+            txtColor.Text = "Amarillo";
+            txtMinutaItem.Text = "Minuta Auto Nuevo";
+            txtChasis.Text = "CN1NJ13";
+            txtPropietario.Text = "Rony Perez Carbone";
+            txtMarca.Text = "Audi";
+            txtModelo.Text = "R8";
+            txtNumeroMotor.Text = "M-134664891";
+            txtPatente.Text = "SV-15-31";
+            txtUso.Text = "Particular";
+            dpDesde.SelectedDate = DateTime.Now;
+            dpHasta.SelectedDate = DateTime.Now.AddMonths(6);
         }
 
         private void BtaAceptarItem(object sender, RoutedEventArgs e)
